@@ -5,7 +5,6 @@
 #include "ofxOpenNI2Recorder.h"
 #include "ofxOpenCv.h"
 #include "ofxXmlSettings.h"
-#include "PopMessage.h"
 
 class ofApp : public ofBaseApp {
 
@@ -57,7 +56,6 @@ class ofApp : public ofBaseApp {
 		ofxCvContourFinder contourFinder;
 
 		ofTrueTypeFont	verdana48;
-		PopMessage statusMessage;
 
 		vector<int> bins;
 		int binCount;

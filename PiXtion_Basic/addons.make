@@ -2,6 +2,4 @@
 # uncomment a line below to include the addon
 
 ofxXmlSettings
-#ofxNetwork
-#ofxOsc
 ofxOpenCv

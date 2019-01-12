@@ -4,16 +4,8 @@
 void ofApp::setup() {
 	ofBackground(0, 0, 0, 128);
 	ofTrueTypeFont::setGlobalDpi(72);
-
-	message = "loading settings.xml";
     
-    if(XML.loadFile("settings.xml")) {
-		message = "settings.xml loaded!";
-	} else {
-		message = "unable to load settings.xml check data/ folder";
-	}
-	statusMessage.showMessage(6000, message);
-	//cout << message << endl;
+    XML.loadFile("settings.xml");
 
 	settings.width 	= XML.getValue("settings:width",320);
 	settings.height = XML.getValue("settings:height",240);
@@ -106,8 +98,6 @@ void ofApp::update() {
             bins[i] = floor( grayImage.countNonZeroInRegion(i*binWidth,0,binWidth,settings.height) / binWidth);
         }
     }
-
-    statusMessage.update();
 }
 
 //--------------------------------------------------------------
@@ -192,8 +182,6 @@ void ofApp::draw() {
 	
 	ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate()) + " fps", 20, 300, ofColor(0, 0, 0, 128), ofColor::yellow);
 	ofDrawBitmapStringHighlight(reportStream.str(), 20, 320, ofColor(0, 0, 0, 128), ofColor::yellow);
-
-	statusMessage.draw();
 }
 
 //--------------------------------------------------------------
@@ -218,134 +206,13 @@ void ofApp::exit() {
 	
 }
 //--------------------------------------------------------------
-void ofApp::keyPressed(int key) {
-	// if (key == 'r')
-	// {
-	// 	recorder.startRecording();
-	// }
-	// if (key == ' ')
-	// {
-	// 	recorder.stopRecording();
-	// }
-
-	switch (key) {
-		case 's':
-			//if(ofGetKeyPressed(OF_KEY_LEFT_CONTROL)) {
-				message = "Saving settings";
-				statusMessage.showMessage(4000, message);
-				cout << "saving settings" << endl;
-				saveXMLSettings();
-			//}	
-			break;
-		case 'r':
-			drawColor = !drawColor;
-			break;
-
-		case 't':
-			drawThresholded = !drawThresholded;
-			break;
-		
-		case 'm':
-			mirrorThreshold = !mirrorThreshold;
-			break;
-
-		case 'c':
-			findContours = !findContours;
-			break;
-
-		case 'y':
-			useLowResValues = !useLowResValues;
-			break;
-
-		case 'd':
-			thresholdWithOpenCV = !thresholdWithOpenCV;
-			break;
-
-        case 'a':
-            calculateActivity = !calculateActivity;
-			break;
-
-		case '>':
-			farClip +=10;
-			if (farClip > 4000) farClip = 4000;
-			oniGrabber.depthSource.setDepthClipping(nearClip,farClip);
-			break;
-		case '.':
-			farClip ++;
-			if (farClip > 4000) farClip = 4000;
-			oniGrabber.depthSource.setDepthClipping(nearClip,farClip);
-			break;
-
-		case '<':
-			farClip -=10;
-			if (farClip < 0) farClip = 0;
-			oniGrabber.depthSource.setDepthClipping(nearClip,farClip);
-			break;
-		case ',':
-			farClip --;
-			if (farClip < 0) farClip = 0;
-			oniGrabber.depthSource.setDepthClipping(nearClip,farClip);
-			break;
-
-		case '+':
-			nearClip +=10;
-			if (nearClip > farClip) nearClip = farClip;
-			if (nearClip > 4000) nearClip = 4000;
-			oniGrabber.depthSource.setDepthClipping(nearClip,farClip);
-			break;
-		case '=':
-			nearClip ++;
-			if (nearClip > farClip) nearClip = farClip;
-			if (nearClip > 4000) nearClip = 4000;
-			oniGrabber.depthSource.setDepthClipping(nearClip,farClip);
-			break;
-
-		case '-':
-			nearClip --;
-			if (nearClip < 0) nearClip = 0;
-			oniGrabber.depthSource.setDepthClipping(nearClip,farClip);
-			break;
-
-		case '_':
-			nearClip -=10;
-			if (nearClip < 0) nearClip = 0;
-			oniGrabber.depthSource.setDepthClipping(nearClip,farClip);
-			break;
-
-		case 'f':
-			farThreshold++;
-			if (farThreshold > 255) farThreshold = 255;
-			break;
-
-		case 'F':
-			farThreshold--;
-			if (farThreshold < 0) farThreshold = 0;
-			break;
-
-		case 'n':
-			nearThreshold++;
-			if (nearThreshold > 255) nearThreshold = 255;
-			break;
-
-		case 'N':
-			nearThreshold--;
-			if (nearThreshold < 0) nearThreshold = 0;
-			break;
-	}
-}
-
+void ofApp::keyPressed(int key) {}
 //--------------------------------------------------------------
-void ofApp::keyReleased(int key) {
-
-}
-
+void ofApp::keyReleased(int key) {}
 //--------------------------------------------------------------
-void ofApp::mouseDragged(int x, int y, int button) {
-}
+void ofApp::mouseDragged(int x, int y, int button) {}
 //--------------------------------------------------------------
-void ofApp::mouseReleased(int x, int y, int button) {
-}
-
+void ofApp::mouseReleased(int x, int y, int button) {}
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y) {}
 //--------------------------------------------------------------
