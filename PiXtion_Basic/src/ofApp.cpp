@@ -55,12 +55,12 @@ void ofApp::draw() {
 
 		if (settings.doColor && drawColor) {
 			ofTexture& color = oniGrabber.getRGBTextureReference();
-			color.draw(640, 0);
+			color.draw(grayImage.getWidth(), 0);
 		}
 
 		if (settings.doIr && drawIr) {
 			ofTexture& ir = oniGrabber.getIRTextureReference();
-			ir.draw(640, 0);
+			ir.draw(grayImage.getWidth(), 0);
 		}
 	}
 }
