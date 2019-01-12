@@ -14,18 +14,17 @@ void ofApp::setup() {
 	settings.doRawDepth = ofToBool(XML.getValue("settings:doRawDepth", "false")) ;
 	settings.doColor = ofToBool(XML.getValue("settings:doColor", "false")) ;
 	settings.doIr = ofToBool(XML.getValue("settings:doIr", "false")) ;
+	settings.doRegisterDepthToColor = ofToBool(XML.getValue("settings:registered", "false"));
 
 	settings.depthPixelFormat = PIXEL_FORMAT_DEPTH_1_MM;
 	settings.colorPixelFormat = PIXEL_FORMAT_RGB888;
 	settings.irPixelFormat = PIXEL_FORMAT_GRAY16;
-	settings.doRegisterDepthToColor = false;
-
 	settings.useOniFile = false;
 	settings.oniFilePath = "UNDEFINED";
 
-	mirrorThreshold = ofToBool(XML.getValue("settings:mirror", "false"));
+	mirror = ofToBool(XML.getValue("settings:mirror", "false"));
 	drawColor = ofToBool(XML.getValue("settings:drawColor", "false"));
-	drawOni	= ofToBool(XML.getValue("settings:drawOni", "false"));
+	drawOni	= ofToBool(XML.getValue("settings:drawOni", "true"));
 
 	grayImage.allocate(settings.width,settings.height);
 
@@ -37,7 +36,7 @@ void ofApp::update() {
 	if (isReady) {
 		oniGrabber.update();
 		grayImage.setFromPixels(oniGrabber.depthSource.noAlphaPixels->getPixels(), settings.width, settings.height);
-		grayImage.mirror(false,mirrorThreshold);
+		grayImage.mirror(false, mirror);
 
 		grayImage.flagImageChanged();
 	}

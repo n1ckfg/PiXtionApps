@@ -4,22 +4,10 @@
     <fps>30</fps>
     <doColor>false</doColor>
     <doDepth>true</doDepth>
-    <doRawDepth>true</doRawDepth>
+    <doRawDepth>false</doRawDepth>
     <doIr>false</doIr>
-    <findContours>true</findContours>
-    <drawThresholded>true</drawThresholded>
-    <drawColor>true</drawColor>
-    <drawOni>false</drawOni>
-    <calculateActivity>true</calculateActivity>
-    <nearClip>530</nearClip>
-    <farClip>1940</farClip>
-    <nearThreshold>255</nearThreshold>
-    <farThreshold>20</farThreshold>
-    <thresholdWithOpenCV>TRUE</thresholdWithOpenCV>
+    <drawColor>false</drawColor>
+    <drawOni>true</drawOni>
     <mirror>false</mirror>
-    <pwmFrequency>200</pwmFrequency>
-    <doPWM>false</doPWM>
-    <useLowResValues>false</useLowResValues>
-    <enableRecorder>false</enableRecorder>
-    <useLowResValue>false</useLowResValue>
+    <registered>true</registered>
 </settings>
