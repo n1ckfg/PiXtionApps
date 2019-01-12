@@ -93,11 +93,7 @@ OPENNI2_LIBS = $(PROJECT_ROOT)/addons/ofxOpenNI2Grabber/libs/openni2/libs/rpi
 OpenNI2_STATIC=$(OPENNI2_LIBS)/libOpenNI2.a
 XN_STATIC_LIB = $(OPENNI2_LIBS)/libXnLib.a
 
-WIRINGPI_DIR = $(PROJECT_ROOT)/addons/ofxWiringPi/libs/wiringPi
-WIRING_PI_LIB_DIR = $(WIRINGPI_DIR)/libs
-WIRING_PI_LIB = $(WIRING_PI_LIB_DIR)/libwiringPi.a
-
-PROJECT_LDFLAGS=-L$(OPENNI2_LIBS) $(OpenNI2_STATIC) $(XN_STATIC_LIB) -Wl,-rpath=./libs -L$(WIRING_PI_LIB_DIR) $(WIRING_PI_LIB)
+PROJECT_LDFLAGS=-L$(OPENNI2_LIBS) $(OpenNI2_STATIC) $(XN_STATIC_LIB) -Wl,-rpath=./libs 
 
 ################################################################################
 # PROJECT DEFINES
