@@ -16,7 +16,7 @@ class ofApp : public ofBaseApp {
 
 		bool isReady;
 
-		bool mirrorThreshold;
+		bool mirror;
 		bool drawColor;
 		bool drawOni;
 
