@@ -49,7 +49,7 @@ void ofApp::draw() {
 
 	if (isReady) {
 		if (drawOni) {
-			oniGrabber.draw();
+			grayImage.draw(0, 0);
 		}
 
 		if (settings.doColor && drawColor) {
