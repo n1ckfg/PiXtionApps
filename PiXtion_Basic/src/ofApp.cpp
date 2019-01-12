@@ -24,7 +24,8 @@ void ofApp::setup() {
 
 	mirror = ofToBool(XML.getValue("settings:mirror", "false"));
 	drawColor = ofToBool(XML.getValue("settings:drawColor", "false"));
-	drawOni	= ofToBool(XML.getValue("settings:drawOni", "true"));
+	drawDepth = ofToBool(XML.getValue("settings:drawDepth", "true"));
+	drawIr = ofToBool(XML.getValue("settings:drawIr", "false"));
 
 	grayImage.allocate(settings.width,settings.height);
 
@@ -48,18 +49,18 @@ void ofApp::draw() {
     ofBackground(0,0,0);
 
 	if (isReady) {
-		if (drawOni) {
+		if (settings.doDepth && drawDepth) {
 			grayImage.draw(0, 0);
 		}
 
 		if (settings.doColor && drawColor) {
 			ofTexture& color = oniGrabber.getRGBTextureReference();
-			color.draw(color.getWidth(), 0);
+			color.draw(settings.width, 0);
 		}
 
-		if (settings.doIr) {
+		if (settings.doIr && drawIr) {
 			ofTexture& ir = oniGrabber.getIRTextureReference();
-			ir.draw(settings.width + ir.getWidth(), 0);
+			ir.draw(settings.width, 0);
 		}
 	}
 }
