@@ -37,8 +37,8 @@ void ofApp::setup() {
 
 	videoQuality = 3;
 	videoColor = false;
-	host = "Allosaurus.local"
-	port = 7110
+	host = "Allosaurus.local";
+	port = 7110;
 	compname = "RPi";
     sender.setup(host, port);
     
