@@ -32,6 +32,7 @@ class ofApp : public ofBaseApp {
         string xmlStructure;
         string message;
 
+		ofFile file;
         string compname;
 		string host; // hostname;
 		int port; // default 7110;
