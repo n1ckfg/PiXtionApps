@@ -1,5 +1,9 @@
 #include "ofApp.h"
 #include "ofConstants.h"
+
+using namespace cv;
+using namespace ofxCv;
+
 //--------------------------------------------------------------
 void ofApp::setup() {
 	ofBackground(0, 0, 0, 128);
@@ -30,6 +34,29 @@ void ofApp::setup() {
 	grayImage.allocate(settings.width,settings.height);
 
 	isReady = oniGrabber.setup(settings);
+
+	videoQuality = 3;
+	videoColor = false;
+	host = "Allosaurus.local"
+	port = 7110
+	compname = "RPi";
+    sender.setup(host, port);
+    
+    file.open(ofToDataPath("compname.txt"), ofFile::ReadWrite, false);
+    ofBuffer buff;
+    if (file) {
+        buff = file.readToBuffer();
+        compname = buff.getText();
+    } else {
+        compname += "_" + ofGetTimestampString("%y-%m-%d-%H-%M-%S-%i");
+        ofStringReplace(compname, "-", "");
+        ofStringReplace(compname, "\n", "");
+        ofStringReplace(compname, "\r", "");
+        buff.set(compname.c_str(), compname.size());
+        ofBufferToFile("compname.txt", buff);
+    }
+    cout << compname;
+
 }
 
 //--------------------------------------------------------------
