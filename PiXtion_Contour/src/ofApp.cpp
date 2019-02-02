@@ -1,5 +1,9 @@
 #include "ofApp.h"
 #include "ofConstants.h"
+
+using namespace cv;
+using namespace ofxCv;
+
 //--------------------------------------------------------------
 void ofApp::setup() {
 	ofBackground(0, 0, 0, 128);
@@ -27,9 +31,32 @@ void ofApp::setup() {
 	drawDepth = ofToBool(XML.getValue("settings:drawDepth", "true"));
 	drawIr = ofToBool(XML.getValue("settings:drawIr", "false"));
 
-	grayImage.allocate(settings.width,settings.height);
+	grayImage.allocate(settings.width, settings.height);
+    gray.allocate(settings.width, settings.height, OF_IMAGE_GRAYSCALE);        
 
 	isReady = oniGrabber.setup(settings);
+
+	videoQuality = 3;
+	host = "Allosaurus.local";
+	port = 7110;
+	compname = "RPi";
+    sender.setup(host, port);
+    
+    file.open(ofToDataPath("compname.txt"), ofFile::ReadWrite, false);
+    ofBuffer buff;
+    if (file) {
+        buff = file.readToBuffer();
+        compname = buff.getText();
+    } else {
+        compname += "_" + ofGetTimestampString("%y-%m-%d-%H-%M-%S-%i");
+        ofStringReplace(compname, "-", "");
+        ofStringReplace(compname, "\n", "");
+        ofStringReplace(compname, "\r", "");
+        buff.set(compname.c_str(), compname.size());
+        ofBufferToFile("compname.txt", buff);
+    }
+    cout << compname;
+
 }
 
 //--------------------------------------------------------------
@@ -39,7 +66,30 @@ void ofApp::update() {
 		grayImage.setFromPixels(oniGrabber.depthSource.noAlphaPixels->getPixels(), settings.width, settings.height);
 		grayImage.mirror(false, mirror);
 
-		grayImage.flagImageChanged();
+		//cv::Mat cvimg = grayImage.getCvImage();
+		toOf(grayImage.getCvImage(), gray.getPixelsRef());
+
+    	//if (video) {
+        switch(videoQuality) {
+            case 5:
+                ofSaveImage(gray, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_BEST);
+                break;
+            case 4:
+                ofSaveImage(gray, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_HIGH);
+                break;
+            case 3:
+                ofSaveImage(gray, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_MEDIUM);
+                break;
+            case 2:
+                ofSaveImage(gray, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_LOW);
+                break;
+            case 1:
+                ofSaveImage(gray, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_WORST);
+                break;
+        }
+       	//}
+
+		//grayImage.flagImageChanged();
 	}
 }
 
@@ -49,6 +99,10 @@ void ofApp::draw() {
     ofBackground(0,0,0);
 
 	if (isReady) {
+		sendOscVideo();
+
+       	// ~ ~ ~ ~ ~
+
 		if (settings.doDepth && drawDepth) {
 			grayImage.draw(0, 0);
 		}
@@ -74,3 +128,12 @@ void ofApp::exit() {
 	}
 }
 //--------------------------------------------------------------
+void ofApp::sendOscVideo() {
+    ofxOscMessage m;
+    m.setAddress("/video");
+    m.addStringArg(compname);    
+    
+    m.addBlobArg(videoBuffer);
+    
+    sender.sendMessage(m);
+}
