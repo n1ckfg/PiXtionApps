@@ -88,7 +88,7 @@ void ofApp::update() {
         }
        	//}
 
-		grayImage.flagImageChanged();
+		//grayImage.flagImageChanged();
 	}
 }
 
