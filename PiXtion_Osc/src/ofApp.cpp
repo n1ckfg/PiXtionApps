@@ -31,7 +31,7 @@ void ofApp::setup() {
 	drawDepth = ofToBool(XML.getValue("settings:drawDepth", "true"));
 	drawIr = ofToBool(XML.getValue("settings:drawIr", "false"));
 
-	grayImage.allocate(settings.width,settings.height);
+	grayImage.allocate(settings.width, settings.height);
 
 	isReady = oniGrabber.setup(settings);
 
@@ -66,27 +66,27 @@ void ofApp::update() {
 		grayImage.setFromPixels(oniGrabber.depthSource.noAlphaPixels->getPixels(), settings.width, settings.height);
 		grayImage.mirror(false, mirror);
 
-		toOf(grayImage, gray.getPixelsRef());
+		//toOf(grayImage, gray.getPixelsRef());
 
-    	if (video) {
-            switch(videoQuality) {
-                case 5:
-                    ofSaveImage(gray, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_BEST);
-                    break;
-                case 4:
-                    ofSaveImage(gray, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_HIGH);
-                    break;
-                case 3:
-                    ofSaveImage(gray, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_MEDIUM);
-                    break;
-                case 2:
-                    ofSaveImage(gray, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_LOW);
-                    break;
-                case 1:
-                    ofSaveImage(gray, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_WORST);
-                    break;
-            }
-       	}
+    	//if (video) {
+        switch(videoQuality) {
+            case 5:
+                ofSaveImage(grayImage, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_BEST);
+                break;
+            case 4:
+                ofSaveImage(grayImage, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_HIGH);
+                break;
+            case 3:
+                ofSaveImage(grayImage, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_MEDIUM);
+                break;
+            case 2:
+                ofSaveImage(grayImage, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_LOW);
+                break;
+            case 1:
+                ofSaveImage(grayImage, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_WORST);
+                break;
+        }
+       	//}
 
 		grayImage.flagImageChanged();
 	}
