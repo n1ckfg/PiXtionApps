@@ -27,7 +27,8 @@ class ofApp : public ofBaseApp {
 		ofxOpenNI2GrabberSettings settings;
 
 		//ofxCvGrayscaleImage grayImage; // grayscale depth image
-		ofImage grayImage;
+		cv::Mat grayImage;
+		ofImage gray;
 
         ofxXmlSettings XML;
         string xmlStructure;
@@ -38,7 +39,7 @@ class ofApp : public ofBaseApp {
 		string host; // hostname;
 		int port; // default 7110;
 		int videoQuality; // 5 best to 1 worst, default 3 medium
-		bool videoColor;
+		//bool videoColor;
 		ofBuffer videoBuffer;
 		ofxOscSender sender;
 		void sendOscVideo();

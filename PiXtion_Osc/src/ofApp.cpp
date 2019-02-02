@@ -32,6 +32,7 @@ void ofApp::setup() {
 	drawIr = ofToBool(XML.getValue("settings:drawIr", "false"));
 
 	grayImage.allocate(settings.width, settings.height);
+	gray.allocate(settings.width, settings.height, OF_IMAGE_GRAYSCALE);   
 
 	isReady = oniGrabber.setup(settings);
 
@@ -66,24 +67,24 @@ void ofApp::update() {
 		grayImage.setFromPixels(oniGrabber.depthSource.noAlphaPixels->getPixels(), settings.width, settings.height);
 		grayImage.mirror(false, mirror);
 
-		//toOf(grayImage, gray.getPixelsRef());
+		toOf(grayImage, gray.getPixelsRef());
 
     	//if (video) {
         switch(videoQuality) {
             case 5:
-                ofSaveImage(grayImage, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_BEST);
+                ofSaveImage(gray, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_BEST);
                 break;
             case 4:
-                ofSaveImage(grayImage, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_HIGH);
+                ofSaveImage(gray, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_HIGH);
                 break;
             case 3:
-                ofSaveImage(grayImage, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_MEDIUM);
+                ofSaveImage(gray, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_MEDIUM);
                 break;
             case 2:
-                ofSaveImage(grayImage, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_LOW);
+                ofSaveImage(gray, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_LOW);
                 break;
             case 1:
-                ofSaveImage(grayImage, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_WORST);
+                ofSaveImage(gray, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_WORST);
                 break;
         }
        	//}
