@@ -32,12 +32,17 @@ void ofApp::setup() {
 	drawIr = ofToBool(XML.getValue("settings:drawIr", "false"));
 
 	grayImage.allocate(settings.width, settings.height);
-	gray.allocate(settings.width, settings.height, OF_IMAGE_GRAYSCALE);   
 
 	isReady = oniGrabber.setup(settings);
 
 	videoQuality = 3;
 	videoColor = false;
+    if (videoColor) {
+        gray.allocate(settings.width, settings.height, OF_IMAGE_COLOR);
+    } else {
+        gray.allocate(settings.width, settings.height, OF_IMAGE_GRAYSCALE);        
+    }
+    
 	host = "Allosaurus.local";
 	port = 7110;
 	compname = "RPi";

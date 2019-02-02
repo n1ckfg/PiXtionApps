@@ -38,7 +38,7 @@ class ofApp : public ofBaseApp {
 		string host; // hostname;
 		int port; // default 7110;
 		int videoQuality; // 5 best to 1 worst, default 3 medium
-		//bool videoColor;
+		bool videoColor;
 		ofBuffer videoBuffer;
 		ofxOscSender sender;
 		void sendOscVideo();
