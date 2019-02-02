@@ -66,8 +66,8 @@ void ofApp::update() {
 		grayImage.setFromPixels(oniGrabber.depthSource.noAlphaPixels->getPixels(), settings.width, settings.height);
 		grayImage.mirror(false, mirror);
 
-		cv::Mat cvimg = grayImage.getCvImage();
-		toOf(cvimg, gray.getPixelsRef());
+		//cv::Mat cvimg = grayImage.getCvImage();
+		toOf(grayImage.getCvImage(), gray.getPixelsRef());
 
     	//if (video) {
         switch(videoQuality) {
