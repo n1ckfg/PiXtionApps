@@ -44,7 +44,7 @@ void ofApp::setup() {
 	compname = "RPi";
     sender.setup(host, port);
     
-    contourSlices = settings.getValue("settings:contour_slices", 10); 
+    contourSlices = 10;
     contourThreshold = 2.0;
     contourMinAreaRadius = 1.0;
     contourMaxAreaRadius = 250.0;
