@@ -73,9 +73,12 @@ void ofApp::update() {
 		oniGrabber.update();
 		grayImage.setFromPixels(oniGrabber.depthSource.noAlphaPixels->getPixels(), settings.width, settings.height);
 		grayImage.mirror(false, mirror);
-
-		//cv::Mat cvimg = grayImage.getCvImage();
 		toOf(grayImage.getCvImage(), gray.getPixelsRef());
+
+		colorImage.setFromPixels(oniGrabber.getRGBTextureReference(), settings.width, settings.height);
+		colorImage.mirror(false, mirror);
+		toOf(colorImage.getCvImage(), color.getPixelsRef());
+
 
     	//if (video) {
         /*
@@ -120,7 +123,7 @@ void ofApp::draw() {
 
         for (int h=0; h<255; h += int(255/contourSlices)) {
             contourFinder.setThreshold(h);
-            contourFinder.findContours(oniGrabber.getRGBTextureReference());
+            contourFinder.findContours(color);
             contourFinder.draw();            
 
             int n = contourFinder.size();
