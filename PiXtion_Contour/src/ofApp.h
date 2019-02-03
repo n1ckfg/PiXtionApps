@@ -27,7 +27,7 @@ class ofApp : public ofBaseApp {
 		ofxOpenNI2GrabberSettings settings;
 
 		ofxCvGrayscaleImage grayImage; // grayscale depth image
-		ofxCvColorImage colorImage; // color cam image
+		ofxCvShortImage colorImage; // color cam image
 		ofImage gray;
 		ofImage color;
 
