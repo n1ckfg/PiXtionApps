@@ -32,7 +32,9 @@ void ofApp::setup() {
 	drawIr = ofToBool(XML.getValue("settings:drawIr", "false"));
 
 	grayImage.allocate(settings.width, settings.height);
+	colorImage.allocate(settings.width, settings.height);
     gray.allocate(settings.width, settings.height, OF_IMAGE_GRAYSCALE);        
+    color.allocate(settings.width, settings.height, OF_IMAGE_COLOR);        
 
 	isReady = oniGrabber.setup(settings);
 
