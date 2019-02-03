@@ -40,7 +40,17 @@ class ofApp : public ofBaseApp {
 		int videoQuality; // 5 best to 1 worst, default 3 medium
 		bool videoColor;
 		ofBuffer videoBuffer;
+		
+		ofBuffer contourColorBuffer;
+		ofBuffer contourPointsBuffer;
+	    ofxCv::ContourFinder contourFinder;
+		float contourThreshold;  // default 127
+		float contourMinAreaRadius; // default 10
+		float contourMaxAreaRadius; // default 150
+		int contourSlices; // default 20
+		ofxCv::TrackingColorMode trackingColorMode; // RGB, HSV, H, HS; default RGB
+
 		ofxOscSender sender;
-		void sendOscVideo();
+		void sendOscContours(int index);
 
 };

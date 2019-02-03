@@ -42,6 +42,14 @@ void ofApp::setup() {
 	compname = "RPi";
     sender.setup(host, port);
     
+    contourSlices = settings.getValue("settings:contour_slices", 10); 
+    contourThreshold = 2.0;
+    contourMinAreaRadius = 1.0;
+    contourMaxAreaRadius = 250.0;
+    contourFinder.setMinAreaRadius(contourMinAreaRadius);
+    contourFinder.setMaxAreaRadius(contourMaxAreaRadius);
+    trackingColorMode = TRACK_COLOR_RGB;
+
     file.open(ofToDataPath("compname.txt"), ofFile::ReadWrite, false);
     ofBuffer buff;
     if (file) {
@@ -99,6 +107,51 @@ void ofApp::draw() {
     ofBackground(0,0,0);
 
 	if (isReady) {
+	    //if (debug) {
+        ofSetLineWidth(2);
+        ofNoFill();
+        //}
+
+        int contourCounter = 0;
+        unsigned char * pixels = gray.getPixels();
+        int gw = gray.getWidth();
+
+        for (int h=0; h<255; h += int(255/contourSlices)) {
+            contourFinder.setThreshold(h);
+            contourFinder.findContours(frame);
+            contourFinder.draw();            
+
+            int n = contourFinder.size();
+            for (int i = 0; i < n; i++) {
+                ofPolyline line = contourFinder.getPolyline(i);
+                vector<ofPoint> cvPoints = line.getVertices();
+
+                int x = int(cvPoints[0].x);
+                int y = int(cvPoints[0].y);
+                ofColor col = pixels[x + y * gw];
+                float colorData[3]; 
+                colorData[0] = col.r;
+                colorData[1] = col.g;
+                colorData[2] = col.b;
+                char const * pColor = reinterpret_cast<char const *>(colorData);
+                std::string colorString(pColor, pColor + sizeof colorData);
+                contourColorBuffer.set(colorString); 
+
+                float pointsData[cvPoints.size() * 2]; 
+                for (int j=0; j<cvPoints.size(); j++) {
+                    int index = j * 2;
+                    pointsData[index] = cvPoints[j].x;
+                    pointsData[index+1] = cvPoints[j].y;
+                }
+                char const * pPoints = reinterpret_cast<char const *>(pointsData);
+                std::string pointsString(pPoints, pPoints + sizeof pointsData);
+                contourPointsBuffer.set(pointsString); 
+
+                sendOscContours(contourCounter);
+                contourCounter++;
+            }        
+        }
+
 		sendOscVideo();
 
        	// ~ ~ ~ ~ ~
@@ -128,12 +181,14 @@ void ofApp::exit() {
 	}
 }
 //--------------------------------------------------------------
-void ofApp::sendOscVideo() {
+void ofApp::sendOscContours(int index) {
     ofxOscMessage m;
-    m.setAddress("/video");
-    m.addStringArg(compname);    
+    m.setAddress("/contour");
+    m.addStringArg(compname);
     
-    m.addBlobArg(videoBuffer);
-    
+    m.addIntArg(index);
+    m.addBlobArg(contourColorBuffer);
+    m.addBlobArg(contourPointsBuffer);
+
     sender.sendMessage(m);
 }

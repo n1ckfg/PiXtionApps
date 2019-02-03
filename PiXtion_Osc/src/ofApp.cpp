@@ -103,6 +103,7 @@ void ofApp::draw() {
 
        	// ~ ~ ~ ~ ~
 
+		/*
 		if (settings.doDepth && drawDepth) {
 			grayImage.draw(0, 0);
 		}
@@ -116,6 +117,7 @@ void ofApp::draw() {
 			ofTexture& ir = oniGrabber.getIRTextureReference();
 			ir.draw(grayImage.getWidth(), 0);
 		}
+		*/
 	}
 }
 
