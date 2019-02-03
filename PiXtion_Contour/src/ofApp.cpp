@@ -78,6 +78,7 @@ void ofApp::update() {
 		toOf(grayImage.getCvImage(), gray.getPixelsRef());
 
     	//if (video) {
+        /*
         switch(videoQuality) {
             case 5:
                 ofSaveImage(gray, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_BEST);
@@ -95,6 +96,7 @@ void ofApp::update() {
                 ofSaveImage(gray, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_WORST);
                 break;
         }
+        */
        	//}
 
 		//grayImage.flagImageChanged();
@@ -118,7 +120,7 @@ void ofApp::draw() {
 
         for (int h=0; h<255; h += int(255/contourSlices)) {
             contourFinder.setThreshold(h);
-            contourFinder.findContours(frame);
+            contourFinder.findContours(oniGrabber.getRGBTextureReference());
             contourFinder.draw();            
 
             int n = contourFinder.size();
@@ -152,10 +154,9 @@ void ofApp::draw() {
             }        
         }
 
-		sendOscVideo();
-
        	// ~ ~ ~ ~ ~
 
+		/*
 		if (settings.doDepth && drawDepth) {
 			grayImage.draw(0, 0);
 		}
@@ -169,6 +170,7 @@ void ofApp::draw() {
 			ofTexture& ir = oniGrabber.getIRTextureReference();
 			ir.draw(grayImage.getWidth(), 0);
 		}
+		*/
 	}
 }
 
