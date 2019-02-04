@@ -119,6 +119,7 @@ void ofApp::draw() {
                 int y = int(cvPoints[0].y);
                 int loc = (x + y * gw) * 3;
                 ofColor col = ofColor(pixels[loc], pixels[loc + 1], pixels[loc + 2]);
+                cout << col;
                 
                 for (int j=0; j<cvPoints.size(); j++) {
                     int xg = int(cvPoints[j].x);
