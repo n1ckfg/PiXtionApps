@@ -80,11 +80,7 @@ void ofApp::update() {
 
         colorImage.setFromPixels(oniGrabber.rgbSource.currentPixels->getPixels(), settings.width, settings.height);
         colorImage.mirror(false, mirror);
-
-        color.setFromPixels(oniGrabber.rgbSource.currentPixels->getPixels(), settings.width, settings.height);
-        color.mirror(false, mirror);
-
-        //toOf(colorImage.getCvImage(), color.getPixelsRef());
+        toOf(colorImage.getCvImage(), color.getPixelsRef());
 	}
 }
 
@@ -100,7 +96,7 @@ void ofApp::draw() {
         //}
 
         int contourCounter = 0;
-        ofPixels * pixels = color.getPixels();
+        unsigned char * pixels = color.getPixels();
         unsigned char * pixelsGray = gray.getPixels();
         int gw = color.getWidth();
         int gwGray = gray.getWidth();
@@ -117,8 +113,8 @@ void ofApp::draw() {
                 vector<float> cvPointsZ;
 
                 int middle = int(cvPoints.size()/2);
-                int x = int(cvPoints[middle].x);
-                int y = int(cvPoints[middle].y);
+                int x = int(cvPoints[middle].x) * 3;
+                int y = int(cvPoints[middle].y) * 3;
                 ofColor col = pixels[x + y * gw];
                 
                 for (int j=0; j<cvPoints.size(); j++) {
