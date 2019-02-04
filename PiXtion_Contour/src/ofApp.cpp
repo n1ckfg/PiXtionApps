@@ -81,33 +81,6 @@ void ofApp::update() {
         colorImage.setFromPixels(oniGrabber.rgbSource.currentPixels->getPixels(), settings.width, settings.height);
         colorImage.mirror(false, mirror);
         toOf(colorImage.getCvImage(), color.getPixelsRef());
-
-		//toOf(colorImage.getCvImage(), color.getPixelsRef());
-
-
-    	//if (video) {
-        /*
-        switch(videoQuality) {
-            case 5:
-                ofSaveImage(gray, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_BEST);
-                break;
-            case 4:
-                ofSaveImage(gray, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_HIGH);
-                break;
-            case 3:
-                ofSaveImage(gray, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_MEDIUM);
-                break;
-            case 2:
-                ofSaveImage(gray, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_LOW);
-                break;
-            case 1:
-                ofSaveImage(gray, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_WORST);
-                break;
-        }
-        */
-       	//}
-
-		//grayImage.flagImageChanged();
 	}
 }
 
@@ -118,8 +91,8 @@ void ofApp::draw() {
 
 	if (isReady) {
 	    //if (debug) {
-        ofSetLineWidth(2);
-        ofNoFill();
+        //ofSetLineWidth(2);
+        //ofNoFill();
         //}
 
         int contourCounter = 0;
@@ -130,7 +103,7 @@ void ofApp::draw() {
 
         for (int h=0; h<255; h += int(255/contourSlices)) {
             contourFinder.setThreshold(h);
-            contourFinder.findContours(color);
+            contourFinder.findContours(colorImage);
             contourFinder.draw();            
 
             int n = contourFinder.size();
@@ -139,8 +112,9 @@ void ofApp::draw() {
                 vector<ofPoint> cvPoints = line.getVertices();
                 vector<float> cvPointsZ;
 
-                int x = int(cvPoints[0].x);
-                int y = int(cvPoints[0].y);
+                int middle = int(cvPoints.size()/2);
+                int x = int(cvPoints[middle].x);
+                int y = int(cvPoints[middle].y);
                 ofColor col = pixels[x + y * gw];
                 
                 for (int j=0; j<cvPoints.size(); j++) {
