@@ -1,5 +1,0 @@
-ofxCv
-ofxKinectProjectorToolkit
-ofxOpenCv
-ofxOpenNI
-ofxSecondWindow
