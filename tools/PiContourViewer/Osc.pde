@@ -43,20 +43,20 @@ void oscEvent(OscMessage msg) {
     }
  
     ArrayList<PVector> points = new ArrayList<PVector>();
-    for (int i = 0; i < readPointsBytes.length; i += 8) { //+=16) { 
+    for (int i = 0; i < readPointsBytes.length; i += 12) { //+=16) { 
       byte[] bytesX = { readPointsBytes[i], readPointsBytes[i+1], readPointsBytes[i+2], readPointsBytes[i+3] };
       byte[] bytesY = { readPointsBytes[i+4], readPointsBytes[i+5], readPointsBytes[i+6], readPointsBytes[i+7] };
-      //byte[] bytesZ = { readPointsBytes[i+8], readPointsBytes[i+9], readPointsBytes[i+10], readPointsBytes[i+11] };
+      byte[] bytesZ = { readPointsBytes[i+8], readPointsBytes[i+9], readPointsBytes[i+10], readPointsBytes[i+11] };
       //byte[] bytesW = { readPointsBytes[i+12], readPointsBytes[i+13], readPointsBytes[i+14], readPointsBytes[i+15] };
 
       float x = asFloat(bytesX);
       float y = asFloat(bytesY);
-      //float z = asFloat(bytesZ);
+      float z = asFloat(bytesZ);
       //float w = asFloat(bytesW);
       if (!Float.isNaN(x) && !Float.isNaN(y)) { // && !Float.isNaN(z)) {
-        PVector p = new PVector(x, y);
+        PVector p = new PVector(x, y, z);
         points.add(p);
-        println(p.x + " " + p.y);
+        println(p.x + ", " + p.y + ", " + p.z);
       }
     }
     

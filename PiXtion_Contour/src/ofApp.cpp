@@ -134,10 +134,19 @@ void ofApp::draw() {
             for (int i = 0; i < n; i++) {
                 ofPolyline line = contourFinder.getPolyline(i);
                 vector<ofPoint> cvPoints = line.getVertices();
+                vector<float> cvPointsZ;
 
                 int x = int(cvPoints[0].x);
                 int y = int(cvPoints[0].y);
                 ofColor col = pixels[x + y * gw];
+                
+                for (int j=0; j<cvPoints.size(); j++) {
+                    int xg = int(cvPoints[j].x);
+                    int yg = int(cvPoints[j].y);
+                    ofColor colGray = pixelsGray[xg + yg * gwGray];
+                    cvPointsZ.push_back(colGray.r);
+                }
+
                 float colorData[3]; 
                 colorData[0] = col.r;
                 colorData[1] = col.g;
@@ -146,11 +155,12 @@ void ofApp::draw() {
                 std::string colorString(pColor, pColor + sizeof colorData);
                 contourColorBuffer.set(colorString); 
 
-                float pointsData[cvPoints.size() * 2]; 
+                float pointsData[cvPoints.size() * 3]; 
                 for (int j=0; j<cvPoints.size(); j++) {
-                    int index = j * 2;
+                    int index = j * 3;
                     pointsData[index] = cvPoints[j].x;
                     pointsData[index+1] = cvPoints[j].y;
+                    pointsData[index+2] = cvPointsZ[j];
                 }
                 char const * pPoints = reinterpret_cast<char const *>(pointsData);
                 std::string pointsString(pPoints, pPoints + sizeof pointsData);
