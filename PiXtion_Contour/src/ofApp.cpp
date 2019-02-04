@@ -80,7 +80,11 @@ void ofApp::update() {
 
         colorImage.setFromPixels(oniGrabber.rgbSource.currentPixels->getPixels(), settings.width, settings.height);
         colorImage.mirror(false, mirror);
-        toOf(colorImage.getCvImage(), color.getPixelsRef());
+
+        color.setFromPixels(oniGrabber.rgbSource.currentPixels->getPixels(), settings.width, settings.height);
+        color.mirror(false, mirror);
+
+        //toOf(colorImage.getCvImage(), color.getPixelsRef());
 	}
 }
 
@@ -96,7 +100,7 @@ void ofApp::draw() {
         //}
 
         int contourCounter = 0;
-        unsigned char * pixels = color.getPixels();
+        ofPixels * pixels = color.getPixels();
         unsigned char * pixelsGray = gray.getPixels();
         int gw = color.getWidth();
         int gwGray = gray.getWidth();
