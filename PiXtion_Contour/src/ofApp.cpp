@@ -76,10 +76,12 @@ void ofApp::update() {
 		
         grayImage.setFromPixels(oniGrabber.depthSource.noAlphaPixels->getPixels(), settings.width, settings.height);
 		grayImage.mirror(false, mirror);
+        grayImage.flagImageChanged();
 		toOf(grayImage.getCvImage(), gray.getPixelsRef());
 
         colorImage.setFromPixels(oniGrabber.rgbSource.currentPixels->getPixels(), settings.width, settings.height);
         colorImage.mirror(false, mirror);
+        colorImage.flagImageChanged();
         toOf(colorImage.getCvImage(), color.getPixelsRef());
 	}
 }

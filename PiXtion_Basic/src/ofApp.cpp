@@ -36,9 +36,9 @@ void ofApp::setup() {
 void ofApp::update() {
 	if (isReady) {
 		oniGrabber.update();
+
 		grayImage.setFromPixels(oniGrabber.depthSource.noAlphaPixels->getPixels(), settings.width, settings.height);
 		grayImage.mirror(false, mirror);
-
 		grayImage.flagImageChanged();
 	}
 }

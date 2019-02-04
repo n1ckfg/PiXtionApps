@@ -63,13 +63,12 @@ void ofApp::setup() {
 void ofApp::update() {
 	if (isReady) {
 		oniGrabber.update();
+
 		grayImage.setFromPixels(oniGrabber.depthSource.noAlphaPixels->getPixels(), settings.width, settings.height);
 		grayImage.mirror(false, mirror);
-
-		//cv::Mat cvimg = grayImage.getCvImage();
+		grayImage.flagImageChanged();
 		toOf(grayImage.getCvImage(), gray.getPixelsRef());
 
-    	//if (video) {
         switch(videoQuality) {
             case 5:
                 ofSaveImage(gray, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_BEST);
@@ -87,9 +86,6 @@ void ofApp::update() {
                 ofSaveImage(gray, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_WORST);
                 break;
         }
-       	//}
-
-		//grayImage.flagImageChanged();
 	}
 }
 
