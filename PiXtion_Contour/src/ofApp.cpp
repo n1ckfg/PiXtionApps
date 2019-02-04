@@ -78,7 +78,7 @@ void ofApp::update() {
 		toOf(grayImage.getCvImage(), gray.getPixelsRef());
 
 		color.setFromPixels(oniGrabber.getRGBPixels());
-		//colorImage.mirror(false, mirror);
+		color.mirror(false, mirror);
 		//toOf(colorImage.getCvImage(), color.getPixelsRef());
 
 
@@ -120,12 +120,14 @@ void ofApp::draw() {
         //}
 
         int contourCounter = 0;
-        unsigned char * pixels = gray.getPixels();
-        int gw = gray.getWidth();
+        unsigned char * pixels = color.getPixels();
+        unsigned char * pixelsGray = gray.getPixels();
+        int gw = color.getWidth();
+        int gwGray = gray.getWidth();
 
         for (int h=0; h<255; h += int(255/contourSlices)) {
             contourFinder.setThreshold(h);
-            contourFinder.findContours(gray);
+            contourFinder.findContours(color);
             contourFinder.draw();            
 
             int n = contourFinder.size();
