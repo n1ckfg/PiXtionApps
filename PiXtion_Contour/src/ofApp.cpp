@@ -16,9 +16,9 @@ void ofApp::setup() {
 
 	settings.doDepth = ofToBool(XML.getValue("settings:doDepth", "true"));
 	settings.doRawDepth = ofToBool(XML.getValue("settings:doRawDepth", "false")) ;
-	settings.doColor = ofToBool(XML.getValue("settings:doColor", "false")) ;
+	settings.doColor = ofToBool(XML.getValue("settings:doColor", "true")) ;
 	settings.doIr = ofToBool(XML.getValue("settings:doIr", "false")) ;
-	settings.doRegisterDepthToColor = ofToBool(XML.getValue("settings:registered", "false"));
+	settings.doRegisterDepthToColor = ofToBool(XML.getValue("settings:registered", "true"));
 
 	settings.depthPixelFormat = PIXEL_FORMAT_DEPTH_1_MM;
 	settings.colorPixelFormat = PIXEL_FORMAT_RGB888;
@@ -27,14 +27,13 @@ void ofApp::setup() {
 	settings.oniFilePath = "UNDEFINED";
 
 	mirror = ofToBool(XML.getValue("settings:mirror", "false"));
-	drawColor = ofToBool(XML.getValue("settings:drawColor", "false"));
+	drawColor = ofToBool(XML.getValue("settings:drawColor", "true"));
 	drawDepth = ofToBool(XML.getValue("settings:drawDepth", "true"));
 	drawIr = ofToBool(XML.getValue("settings:drawIr", "false"));
 
 	grayImage.allocate(settings.width, settings.height);
     gray.allocate(settings.width, settings.height, OF_IMAGE_GRAYSCALE);        
     color.allocate(settings.width, settings.height, OF_IMAGE_COLOR);        
-    color2.allocate(settings.width, settings.height, OF_IMAGE_COLOR);        
 
 	isReady = oniGrabber.setup(settings);
 
@@ -79,8 +78,6 @@ void ofApp::update() {
 
         color.setFromPixels(oniGrabber.getRGBPixels());
         color.mirror(false, mirror);
-        color2.setFromPixels(oniGrabber.getRGBPixels());
-		color2.mirror(false, mirror);
 		//toOf(colorImage.getCvImage(), color.getPixelsRef());
 
 
@@ -122,14 +119,14 @@ void ofApp::draw() {
         //}
 
         int contourCounter = 0;
-        unsigned char * pixels = color2.getPixels();
+        unsigned char * pixels = color.getPixels();
         unsigned char * pixelsGray = gray.getPixels();
         int gw = color.getWidth();
         int gwGray = gray.getWidth();
 
         for (int h=0; h<255; h += int(255/contourSlices)) {
             contourFinder.setThreshold(h);
-            contourFinder.findContours(color);
+            contourFinder.findContours(gray);
             contourFinder.draw();            
 
             int n = contourFinder.size();

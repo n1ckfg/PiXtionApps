@@ -29,7 +29,6 @@ class ofApp : public ofBaseApp {
 		ofxCvGrayscaleImage grayImage; // grayscale depth image
 		ofImage gray;
 		ofImage color;
-		ofImage color2;
 
         ofxXmlSettings XML;
         string xmlStructure;
