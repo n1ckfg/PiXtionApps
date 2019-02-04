@@ -77,7 +77,7 @@ void ofApp::update() {
 		grayImage.mirror(false, mirror);
 		toOf(grayImage.getCvImage(), gray.getPixelsRef());
 
-		color.pixels = oniGrabber.getRGBPixels();
+		color.setFromPixels(oniGrabber.getRGBPixels(), settings.width, settings.height);
 		//colorImage.mirror(false, mirror);
 		//toOf(colorImage.getCvImage(), color.getPixelsRef());
 
