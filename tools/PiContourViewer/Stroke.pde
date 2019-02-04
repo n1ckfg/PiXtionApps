@@ -40,7 +40,7 @@ class Stroke {
     strokeWeight(4);
     beginShape();
     for (PVector p : points) {
-      vertex(p.x, p.y, p.z);
+      vertex(p.x, p.y, 0);
     }
     endShape();
   }

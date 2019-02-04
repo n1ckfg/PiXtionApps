@@ -144,7 +144,7 @@ void ofApp::draw() {
                     int xg = int(cvPoints[j].x);
                     int yg = int(cvPoints[j].y);
                     ofColor colGray = pixelsGray[xg + yg * gwGray];
-                    cvPointsZ.push_back(colGray.r);
+                    cvPointsZ.push_back(0.0);//colGray.r);
                 }
 
                 float colorData[3]; 
