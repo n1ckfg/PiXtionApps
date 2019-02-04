@@ -112,10 +112,10 @@ void ofApp::draw() {
                 vector<ofPoint> cvPoints = line.getVertices();
                 vector<float> cvPointsZ;
 
-                int middle = int(cvPoints.size()/2);
-                int x = int(cvPoints[middle].x) * 3;
-                int y = int(cvPoints[middle].y) * 3;
-                ofColor col = pixels[x + y * gw];
+                int x = int(cvPoints[0].x);
+                int y = int(cvPoints[0].y);
+                int loc = x + y * gw;
+                ofColor col = pixels[loc * 3];
                 
                 for (int j=0; j<cvPoints.size(); j++) {
                     int xg = int(cvPoints[j].x);
