@@ -126,7 +126,7 @@ void ofApp::draw() {
 
         for (int h=0; h<255; h += int(255/contourSlices)) {
             contourFinder.setThreshold(h);
-            contourFinder.findContours(gray);
+            contourFinder.findContours(color);
             contourFinder.draw();            
 
             int n = contourFinder.size();
