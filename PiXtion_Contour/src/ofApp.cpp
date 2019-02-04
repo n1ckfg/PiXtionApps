@@ -32,9 +32,9 @@ void ofApp::setup() {
 	drawIr = ofToBool(XML.getValue("settings:drawIr", "false"));
 
 	grayImage.allocate(settings.width, settings.height);
-	colorImage.allocate(settings.width, settings.height);
     gray.allocate(settings.width, settings.height, OF_IMAGE_GRAYSCALE);        
     color.allocate(settings.width, settings.height, OF_IMAGE_COLOR);        
+    color2.allocate(settings.width, settings.height, OF_IMAGE_COLOR);        
 
 	isReady = oniGrabber.setup(settings);
 
@@ -77,8 +77,10 @@ void ofApp::update() {
 		grayImage.mirror(false, mirror);
 		toOf(grayImage.getCvImage(), gray.getPixelsRef());
 
-		color.setFromPixels(oniGrabber.getRGBPixels());
-		color.mirror(false, mirror);
+        color.setFromPixels(oniGrabber.getRGBPixels());
+        color.mirror(false, mirror);
+        color2.setFromPixels(oniGrabber.getRGBPixels());
+		color2.mirror(false, mirror);
 		//toOf(colorImage.getCvImage(), color.getPixelsRef());
 
 
@@ -120,7 +122,7 @@ void ofApp::draw() {
         //}
 
         int contourCounter = 0;
-        unsigned char * pixels = color.getPixels();
+        unsigned char * pixels = color2.getPixels();
         unsigned char * pixelsGray = gray.getPixels();
         int gw = color.getWidth();
         int gwGray = gray.getWidth();
