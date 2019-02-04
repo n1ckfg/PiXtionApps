@@ -72,10 +72,14 @@ void ofApp::setup() {
 void ofApp::update() {
 	if (isReady) {
 		oniGrabber.update();
-		grayImage.setFromPixels(oniGrabber.depthSource.noAlphaPixels->getPixels(), settings.width, settings.height);
+		
+        grayImage.setFromPixels(oniGrabber.depthSource.noAlphaPixels->getPixels(), settings.width, settings.height);
 		grayImage.mirror(false, mirror);
 		toOf(grayImage.getCvImage(), gray.getPixelsRef());
 
+        colorImage.setFromPixels(oniGrabber.rgbSource.currentPixels->getPixels(), settings.width, settings.height);
+        colorImage.mirror(false, mirror);
+        toOf(colorImage.getCvImage(), color.getPixelsRef());
 
 		//toOf(colorImage.getCvImage(), color.getPixelsRef());
 
@@ -116,9 +120,6 @@ void ofApp::draw() {
         ofSetLineWidth(2);
         ofNoFill();
         //}
-
-        color.setFromPixels(oniGrabber.getRGBPixels());
-        color.mirror(false, mirror);
 
         int contourCounter = 0;
         unsigned char * pixels = color.getPixels();
