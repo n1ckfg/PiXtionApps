@@ -39,7 +39,8 @@ void oscEvent(OscMessage msg) {
     float b = asFloat(bytesB);
     color c = color(255);
     if (!Float.isNaN(r) && !Float.isNaN(g) && !Float.isNaN(b)) {
-      c = color(r,g,b);
+      println("COLOR: " + r + " " + g + " " + b);
+      c = color(r, g, b);
     }
  
     ArrayList<PVector> points = new ArrayList<PVector>();
