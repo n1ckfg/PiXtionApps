@@ -33,6 +33,7 @@ void ofApp::setup() {
 
 	grayImage.allocate(settings.width, settings.height);
     gray.allocate(settings.width, settings.height, OF_IMAGE_GRAYSCALE);        
+    colorImage.allocate(settings.width, settings.height);
     color.allocate(settings.width, settings.height, OF_IMAGE_COLOR);        
 
 	isReady = oniGrabber.setup(settings);
