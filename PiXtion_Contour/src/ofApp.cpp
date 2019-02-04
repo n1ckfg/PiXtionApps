@@ -80,7 +80,10 @@ void ofApp::update() {
 
         colorImage.setFromPixels(oniGrabber.rgbSource.currentPixels->getPixels(), settings.width, settings.height);
         colorImage.mirror(false, mirror);
-        toOf(colorImage.getCvImage(), color.getPixelsRef());
+        //toOf(colorImage.getCvImage(), color.getPixelsRef());
+
+        color.setFromPixels(oniGrabber.rgbSource.currentPixels->getPixels(), settings.width, settings.height);
+        color.mirror(false, mirror);
 	}
 }
 
