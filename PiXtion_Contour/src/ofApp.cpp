@@ -76,8 +76,7 @@ void ofApp::update() {
 		grayImage.mirror(false, mirror);
 		toOf(grayImage.getCvImage(), gray.getPixelsRef());
 
-        color.setFromPixels(oniGrabber.getRGBPixels());
-        color.mirror(false, mirror);
+
 		//toOf(colorImage.getCvImage(), color.getPixelsRef());
 
 
@@ -117,6 +116,9 @@ void ofApp::draw() {
         ofSetLineWidth(2);
         ofNoFill();
         //}
+
+        color.setFromPixels(oniGrabber.getRGBPixels());
+        color.mirror(false, mirror);
 
         int contourCounter = 0;
         unsigned char * pixels = color.getPixels();
