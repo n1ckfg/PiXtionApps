@@ -51,6 +51,7 @@ void ofApp::setup() {
     contourFinder.setMinAreaRadius(contourMinAreaRadius);
     contourFinder.setMaxAreaRadius(contourMaxAreaRadius);
     trackingColorMode = TRACK_COLOR_RGB;
+    minZ = 0.21;
 
     file.open(ofToDataPath("compname.txt"), ofFile::ReadWrite, false);
     ofBuffer buff;
@@ -74,10 +75,12 @@ void ofApp::update() {
 	if (isReady) {
 		oniGrabber.update();
 		
+        /*
         grayImage.setFromPixels(oniGrabber.depthSource.noAlphaPixels->getPixels(), settings.width, settings.height);
 		grayImage.mirror(false, mirror);
         grayImage.flagImageChanged();
 		toOf(grayImage.getCvImage(), gray.getPixelsRef());
+        */
 
         colorImage.setFromPixels(oniGrabber.rgbSource.currentPixels->getPixels(), settings.width, settings.height);
         colorImage.mirror(false, mirror);
@@ -99,9 +102,9 @@ void ofApp::draw() {
 
         int contourCounter = 0;
         unsigned char * pixels = color.getPixels();
-        unsigned char * pixelsGray = gray.getPixels();
+        //unsigned char * pixelsGray = gray.getPixels();
         int gw = color.getWidth();
-        int gwGray = gray.getWidth();
+        //int gwGray = gray.getWidth();
 
         for (int h=0; h<255; h += int(255/contourSlices)) {
             contourFinder.setThreshold(h);
@@ -112,7 +115,8 @@ void ofApp::draw() {
             for (int i = 0; i < n; i++) {
                 ofPolyline line = contourFinder.getPolyline(i);
                 vector<ofPoint> cvPoints = line.getVertices();
-                vector<float> cvPointsZ;
+                //vector<float> cvPointsZ;
+                vector<ofVec3f> cvCleanPoints;
 
                 int middle = int(cvPoints.size()/2);
                 int x = int(cvPoints[middle].x);
@@ -121,12 +125,14 @@ void ofApp::draw() {
                 ofColor col = ofColor(pixels[loc], pixels[loc + 1], pixels[loc + 2]);
                 //cout << col;
                 
+                /*
                 for (int j=0; j<cvPoints.size(); j++) {
                     int xg = int(cvPoints[j].x);
                     int yg = int(cvPoints[j].y);
                     ofColor colGray = pixelsGray[xg + yg * gwGray];
                     cvPointsZ.push_back(colGray.r);
                 }
+                */
 
                 float colorData[3]; 
                 colorData[0] = col.r;
@@ -136,14 +142,18 @@ void ofApp::draw() {
                 std::string colorString(pColor, pColor + sizeof colorData);
                 contourColorBuffer.set(colorString); 
 
-                float pointsData[cvPoints.size() * 3]; 
                 for (int j=0; j<cvPoints.size(); j++) {
-                    int index = j * 3;
                     ofVec3f v;
                     v = oniGrabber.convertDepthToWorld((int) cvPoints[j].x, (int) cvPoints[j].y);
-                    pointsData[index] = v.x; //cvPoints[j].x;
-                    pointsData[index+1] = v.y;//cvPoints[j].y;
-                    pointsData[index+2] = v.z;//cvPointsZ[j];
+                    if (v.z > minZ) cvCleanPoints.push_back(v);
+                }
+
+                float pointsData[cvCleanPoints.size() * 3]; 
+                for (int j=0; j<cvCleanPoints.size(); j++) {
+                    int index = j * 3;
+                    pointsData[index] = cvCleanPoints[j].x;
+                    pointsData[index+1] = cvCleanPoints[j].y;
+                    pointsData[index+2] = cvCleanPoints[j].z;
                 }
                 char const * pPoints = reinterpret_cast<char const *>(pointsData);
                 std::string pointsString(pPoints, pPoints + sizeof pointsData);

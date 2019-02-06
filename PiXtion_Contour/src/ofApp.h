@@ -51,6 +51,7 @@ class ofApp : public ofBaseApp {
 		float contourMaxAreaRadius; // default 150
 		int contourSlices; // default 20
 		ofxCv::TrackingColorMode trackingColorMode; // RGB, HSV, H, HS; default RGB
+		float minZ;
 
 		ofxOscSender sender;
 		void sendOscContours(int index);
