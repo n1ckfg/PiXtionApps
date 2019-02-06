@@ -8,7 +8,7 @@
     <!-- * -->
     <doColor>true</doColor>
     <doDepth>true</doDepth>
-    <doRawDepth>false</doRawDepth>
+    <doRawDepth>true</doRawDepth>
     <doIr>false</doIr>
     <drawColor>true</drawColor>
     <drawDepth>true</drawDepth>

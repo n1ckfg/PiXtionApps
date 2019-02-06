@@ -15,7 +15,7 @@ void ofApp::setup() {
 	settings.fps = XML.getValue("settings:fps",30);;
 
 	settings.doDepth = ofToBool(XML.getValue("settings:doDepth", "true"));
-	settings.doRawDepth = ofToBool(XML.getValue("settings:doRawDepth", "false")) ;
+	settings.doRawDepth = ofToBool(XML.getValue("settings:doRawDepth", "true")) ;
 	settings.doColor = ofToBool(XML.getValue("settings:doColor", "true")) ;
 	settings.doIr = ofToBool(XML.getValue("settings:doIr", "false")) ;
 	settings.doRegisterDepthToColor = ofToBool(XML.getValue("settings:registered", "true"));
@@ -139,7 +139,8 @@ void ofApp::draw() {
                 float pointsData[cvPoints.size() * 3]; 
                 for (int j=0; j<cvPoints.size(); j++) {
                     int index = j * 3;
-                    ofVec3f v = oniGrabber.convertDepthToWorld((int) cvPoints[j].x, (int) cvPoints[j].y);
+                    ofVec3f v;
+                    v = oniGrabber.convertDepthToWorld((int) cvPoints[j].x, (int) cvPoints[j].y);
                     pointsData[index] = v.x; //cvPoints[j].x;
                     pointsData[index+1] = v.y;//cvPoints[j].y;
                     pointsData[index+2] = v.z;//cvPointsZ[j];
@@ -192,4 +193,11 @@ void ofApp::sendOscContours(int index) {
     m.addBlobArg(contourPointsBuffer);
 
     sender.sendMessage(m);
+}
+
+float ofApp::rawDepthToMeters(int depthValue) {
+  if (depthValue < 2047) {
+    return (float)(1.0 / ((double)(depthValue) * -0.0030711016 + 3.3309495161));
+  }
+  return 0.0;
 }
