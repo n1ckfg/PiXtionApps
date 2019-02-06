@@ -3,7 +3,7 @@
     <height>480</height>
     <fps>30</fps>
     <!-- * -->
-    <host>Allosaurus.local</host>
+    <host>Vivarium.local</host>
     <port>7110</port>
     <!-- * -->
     <doColor>true</doColor>
