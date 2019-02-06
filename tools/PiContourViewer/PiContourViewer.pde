@@ -18,6 +18,11 @@ void setup() {
   frame = new Frame(strokesBuffer);
   oscSetup();
   fps = int((1.0/float(fps)) * 1000);
+  
+  float fov = PI/3.0;
+  float cameraZ = (height/2.0) / tan(fov/2.0);
+  perspective(fov, float(width)/float(height), cameraZ/100.0, cameraZ*100.0);
+
 }
 
 void draw() {
