@@ -2,6 +2,10 @@
     <width>640</width>
     <height>480</height>
     <fps>30</fps>
+    <!-- * -->
+    <host>Allosaurus.local</host>
+    <port>7110</port>
+    <!-- * -->
     <doColor>true</doColor>
     <doDepth>true</doDepth>
     <doRawDepth>false</doRawDepth>

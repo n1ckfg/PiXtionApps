@@ -39,8 +39,8 @@ void ofApp::setup() {
 	isReady = oniGrabber.setup(settings);
 
 	videoQuality = 3;
-	host = "Allosaurus.local";
-	port = 7110;
+	host = XML.getValue("settings:host", "Allosaurus.local");
+	port = XML.getValue("settings:port", 7110);
 	compname = "RPi";
     sender.setup(host, port);
     
@@ -139,9 +139,10 @@ void ofApp::draw() {
                 float pointsData[cvPoints.size() * 3]; 
                 for (int j=0; j<cvPoints.size(); j++) {
                     int index = j * 3;
-                    pointsData[index] = cvPoints[j].x;
-                    pointsData[index+1] = cvPoints[j].y;
-                    pointsData[index+2] = cvPointsZ[j];
+                    ofVec3f v = convertDepthToWorld((int) cvPoints[j].x, (int) cvPoints[j].y);
+                    pointsData[index] = v.x; //cvPoints[j].x;
+                    pointsData[index+1] = v.y;//cvPoints[j].y;
+                    pointsData[index+2] = v.z;//cvPointsZ[j];
                 }
                 char const * pPoints = reinterpret_cast<char const *>(pointsData);
                 std::string pointsString(pPoints, pPoints + sizeof pointsData);
