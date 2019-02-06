@@ -139,7 +139,7 @@ void ofApp::draw() {
                 float pointsData[cvPoints.size() * 3]; 
                 for (int j=0; j<cvPoints.size(); j++) {
                     int index = j * 3;
-                    ofVec3f v = convertDepthToWorld((int) cvPoints[j].x, (int) cvPoints[j].y);
+                    ofVec3f v = oniGrabber.convertDepthToWorld((int) cvPoints[j].x, (int) cvPoints[j].y);
                     pointsData[index] = v.x; //cvPoints[j].x;
                     pointsData[index+1] = v.y;//cvPoints[j].y;
                     pointsData[index+2] = v.z;//cvPointsZ[j];
