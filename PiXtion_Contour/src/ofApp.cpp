@@ -52,7 +52,8 @@ void ofApp::setup() {
     contourFinder.setMaxAreaRadius(contourMaxAreaRadius);
     trackingColorMode = TRACK_COLOR_RGB;
     minZ = 0.21;
-    simplify = XML.getValue("settings:simplify",0.5)
+    simplify = XML.getValue("settings:simplify", 0.5)
+    smooth = XML.getValue("settings:smooth", 2)
 
     file.open(ofToDataPath("compname.txt"), ofFile::ReadWrite, false);
     ofBuffer buff;
@@ -114,9 +115,10 @@ void ofApp::draw() {
 
             int n = contourFinder.size();
             for (int i = 0; i < n; i++) {
-                ofPolyline lineOrig = contourFinder.getPolyline(i);
-                lineOrig.simplify(simplify);
-                ofPolyline line = lineOrig.getSmoothed();
+                ofPolyline line = contourFinder.getPolyline(i);
+                line.simplify(simplify);
+                line = line.getResampledBySpacing(1);
+                line = line.getSmoothed(smooth);
                 vector<ofPoint> cvPoints = line.getVertices();
                 //vector<float> cvPointsZ;
                 vector<ofVec3f> cvCleanPoints;

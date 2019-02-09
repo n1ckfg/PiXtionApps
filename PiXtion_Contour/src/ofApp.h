@@ -53,6 +53,7 @@ class ofApp : public ofBaseApp {
 		ofxCv::TrackingColorMode trackingColorMode; // RGB, HSV, H, HS; default RGB
 		float minZ;
 		float simplify;
+		int smooth;
 
 		ofxOscSender sender;
 		void sendOscContours(int index);

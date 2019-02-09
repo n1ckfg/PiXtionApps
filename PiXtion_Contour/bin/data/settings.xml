@@ -3,7 +3,7 @@
     <height>240</height>
     <fps>30</fps>
     <!-- * -->
-    <host>Vivarium.local</host>
+    <host>BrazilV.local</host>
     <port>7110</port>
     <!-- * -->
     <doColor>true</doColor>
@@ -16,4 +16,5 @@
     <mirror>false</mirror>
     <registered>true</registered>
     <simplify>0.9</simplify>
+    <smooth>3</smooth>
 </settings>
