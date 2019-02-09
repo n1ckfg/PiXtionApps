@@ -1,6 +1,6 @@
 <settings>
-    <width>640</width>
-    <height>480</height>
+    <width>320</width>
+    <height>240</height>
     <fps>30</fps>
     <!-- * -->
     <host>Vivarium.local</host>
@@ -15,4 +15,5 @@
     <drawIr>false</drawIr>
     <mirror>false</mirror>
     <registered>true</registered>
+    <simplify>0.5</simplify>
 </settings>
