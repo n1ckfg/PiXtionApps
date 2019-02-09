@@ -15,5 +15,5 @@
     <drawIr>false</drawIr>
     <mirror>false</mirror>
     <registered>true</registered>
-    <simplify>0.5</simplify>
+    <simplify>0.9</simplify>
 </settings>

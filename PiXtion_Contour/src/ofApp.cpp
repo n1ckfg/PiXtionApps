@@ -114,8 +114,9 @@ void ofApp::draw() {
 
             int n = contourFinder.size();
             for (int i = 0; i < n; i++) {
-                ofPolyline line = contourFinder.getPolyline(i);
-                line.simplify(simplify);
+                ofPolyline lineOrig = contourFinder.getPolyline(i);
+                lineOrig.simplify(simplify);
+                ofPolyline line = lineOrig.getSmoothed();
                 vector<ofPoint> cvPoints = line.getVertices();
                 //vector<float> cvPointsZ;
                 vector<ofVec3f> cvCleanPoints;
