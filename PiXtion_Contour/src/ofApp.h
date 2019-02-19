@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include "ofUtils.h"
 #include "ofxOpenNI2Grabber.h"
 #include "ofxOpenNI2Recorder.h"
 #include "ofxOpenCv.h"
