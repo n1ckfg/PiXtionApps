@@ -52,8 +52,8 @@ void ofApp::setup() {
     contourFinder.setMaxAreaRadius(contourMaxAreaRadius);
     trackingColorMode = TRACK_COLOR_RGB;
     minZ = 0.21;
-    simplify = XML.getValue("settings:simplify", 0.5)
-    smooth = XML.getValue("settings:smooth", 2)
+    simplify = XML.getValue("settings:simplify", 0.5);
+    smooth = XML.getValue("settings:smooth", 2);
 
     file.open(ofToDataPath("compname.txt"), ofFile::ReadWrite, false);
     ofBuffer buff;
@@ -219,13 +219,13 @@ float ofApp::rawDepthToMeters(int depthValue) {
 }
 
 string ofApp::uniqueId(int len) {
-   srand(time(0));
-   string str = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-   string newstr;
-   int pos;
-   while(newstr.size() != len) {
-    pos = ((rand() % (str.size() - 1)));
-    newstr += str.substr(pos,1);
-   }
-   return newstr;
+	srand(time(0));
+	string str = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+	string newstr;
+	int pos;
+	while(newstr.size() != len) {
+	   pos = ((rand() % (str.size() - 1)));
+	   newstr += str.substr(pos,1);
+	}
+	return newstr;
 }
