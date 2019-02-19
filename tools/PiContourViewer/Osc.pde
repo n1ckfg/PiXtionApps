@@ -24,7 +24,7 @@ void oscSetup() {
 
 // Receive message example
 void oscEvent(OscMessage msg) {
-  if (msg.checkAddrPattern("/contour") && msg.checkTypetag("sibb")) {    
+  if (msg.checkAddrPattern("/contour") && msg.checkTypetag("ssibb")) {    
     String hostname = msg.get(0).stringValue();
     int index = msg.get(1).intValue();
     byte[] readColorBytes = msg.get(2).blobValue();
