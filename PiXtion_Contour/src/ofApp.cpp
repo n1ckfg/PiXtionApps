@@ -220,7 +220,7 @@ float ofApp::rawDepthToMeters(int depthValue) {
 
 string ofApp::uniqueId(int len) {
 	long seed = long(ofRandom(0, 1000000));
-	cout << seed; 
+	cout << seed << "   "; 
 	srand(seed);
 	string str = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 	string newstr;
@@ -229,5 +229,7 @@ string ofApp::uniqueId(int len) {
 	   pos = ((rand() % (str.size() - 1)));
 	   newstr += str.substr(pos,1);
 	}
+
+	cout << newstr << "\n";
 	return newstr;
 }
