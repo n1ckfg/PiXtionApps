@@ -202,7 +202,7 @@ void ofApp::sendOscContours(int index) {
     ofxOscMessage m;
     m.setAddress("/contour");
     m.addStringArg(compname);
-    m.addStringArg(uniqueId(36));
+    m.addStringArg(uniqueId(36, index));
 
     m.addIntArg(index);
     m.addBlobArg(contourColorBuffer);
@@ -218,8 +218,8 @@ float ofApp::rawDepthToMeters(int depthValue) {
   return 0.0;
 }
 
-string ofApp::uniqueId(int len) {
-	srand(time(0));
+string ofApp::uniqueId(int len, int seed) {
+	srand(time(seed));
 	string str = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 	string newstr;
 	int pos;
