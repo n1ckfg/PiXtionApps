@@ -219,9 +219,7 @@ float ofApp::rawDepthToMeters(int depthValue) {
 }
 
 string ofApp::uniqueId(int len) {
-	long sysTime = time(0);
-	long sysTimeMs = sysTime * 1000;
-	srand(sysTimeMs);
+	srand(int(ofRandom(0, 1000000)));
 	string str = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 	string newstr;
 	int pos;
