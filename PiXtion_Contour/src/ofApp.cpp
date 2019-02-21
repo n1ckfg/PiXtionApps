@@ -202,7 +202,7 @@ void ofApp::sendOscContours(int index) {
     ofxOscMessage m;
     m.setAddress("/contour");
     m.addStringArg(compname);
-    m.addStringArg(uniqueId(36));
+    //m.addStringArg(uniqueId(36));
 
     m.addIntArg(index);
     m.addBlobArg(contourColorBuffer);
