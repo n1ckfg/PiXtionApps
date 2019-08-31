@@ -5,4 +5,3 @@ ofxXmlSettings
 ofxOpenCv
 ofxCv
 ofxOsc
-ofxKinectProjectorToolkit

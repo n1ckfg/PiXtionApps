@@ -18,7 +18,7 @@ void ofApp::setup() {
 	settings.doRawDepth = ofToBool(XML.getValue("settings:doRawDepth", "false")) ;
 	settings.doColor = ofToBool(XML.getValue("settings:doColor", "false")) ;
 	settings.doIr = ofToBool(XML.getValue("settings:doIr", "false")) ;
-	settings.doRegisterDepthToColor = ofToBool(XML.getValue("settings:registered", "true"));
+	settings.doRegisterDepthToColor = ofToBool(XML.getValue("settings:registered", "false"));
 
 	settings.depthPixelFormat = PIXEL_FORMAT_DEPTH_1_MM;
 	settings.colorPixelFormat = PIXEL_FORMAT_RGB888;
@@ -42,14 +42,6 @@ void ofApp::setup() {
 	compname = "RPi";
     sender.setup(host, port);
     
-    contourSlices = 10;
-    contourThreshold = 2.0;
-    contourMinAreaRadius = 1.0;
-    contourMaxAreaRadius = 250.0;
-    contourFinder.setMinAreaRadius(contourMinAreaRadius);
-    contourFinder.setMaxAreaRadius(contourMaxAreaRadius);
-    trackingColorMode = TRACK_COLOR_RGB;
-
     file.open(ofToDataPath("compname.txt"), ofFile::ReadWrite, false);
     ofBuffer buff;
     if (file) {
@@ -74,8 +66,26 @@ void ofApp::update() {
 
 		grayImage.setFromPixels(oniGrabber.depthSource.noAlphaPixels->getPixels(), settings.width, settings.height);
 		grayImage.mirror(false, mirror);
-        grayImage.flagImageChanged();
+		grayImage.flagImageChanged();
 		toOf(grayImage.getCvImage(), gray.getPixelsRef());
+
+        switch(videoQuality) {
+            case 5:
+                ofSaveImage(gray, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_BEST);
+                break;
+            case 4:
+                ofSaveImage(gray, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_HIGH);
+                break;
+            case 3:
+                ofSaveImage(gray, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_MEDIUM);
+                break;
+            case 2:
+                ofSaveImage(gray, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_LOW);
+                break;
+            case 1:
+                ofSaveImage(gray, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_WORST);
+                break;
+        }
 	}
 }
 
@@ -85,48 +95,25 @@ void ofApp::draw() {
     ofBackground(0,0,0);
 
 	if (isReady) {
-	    //if (debug) {
-        //ofSetLineWidth(2);
-        //ofNoFill();
-        //}
+		sendOscVideo();
 
-        int contourCounter = 0;
-        unsigned char * pixels = gray.getPixels();
-        int gw = gray.getWidth();
+       	// ~ ~ ~ ~ ~
 
-        contourFinder.setThreshold(contourThreshold);
-        contourFinder.findContours(gray);
-        contourFinder.draw();            
+		/*
+		if (settings.doDepth && drawDepth) {
+			grayImage.draw(0, 0);
+		}
 
-        int n = contourFinder.size();
-        for (int i = 0; i < n; i++) {
-            ofPolyline line = contourFinder.getPolyline(i);
-            vector<ofPoint> cvPoints = line.getVertices();
+		if (settings.doColor && drawColor) {
+			ofTexture& color = oniGrabber.getRGBTextureReference();
+			color.draw(grayImage.getWidth(), 0);
+		}
 
-            int x = int(cvPoints[0].x);
-            int y = int(cvPoints[0].y);
-            ofColor col = pixels[x + y * gw];
-            float colorData[3]; 
-            colorData[0] = col.r;
-            colorData[1] = col.g;
-            colorData[2] = col.b;
-            char const * pColor = reinterpret_cast<char const *>(colorData);
-            std::string colorString(pColor, pColor + sizeof colorData);
-            contourColorBuffer.set(colorString); 
-
-            float pointsData[cvPoints.size() * 2]; 
-            for (int j=0; j<cvPoints.size(); j++) {
-                int index = j * 2;
-                pointsData[index] = cvPoints[j].x;
-                pointsData[index+1] = cvPoints[j].y;
-            }
-            char const * pPoints = reinterpret_cast<char const *>(pointsData);
-            std::string pointsString(pPoints, pPoints + sizeof pointsData);
-            contourPointsBuffer.set(pointsString); 
-
-            sendOscContours(contourCounter);
-            contourCounter++;
-        }        
+		if (settings.doIr && drawIr) {
+			ofTexture& ir = oniGrabber.getIRTextureReference();
+			ir.draw(grayImage.getWidth(), 0);
+		}
+		*/
 	}
 }
 
@@ -139,14 +126,12 @@ void ofApp::exit() {
 	}
 }
 //--------------------------------------------------------------
-void ofApp::sendOscContours(int index) {
+void ofApp::sendOscVideo() {
     ofxOscMessage m;
-    m.setAddress("/contour");
-    m.addStringArg(compname);
+    m.setAddress("/video");
+    m.addStringArg(compname);    
     
-    m.addIntArg(index);
-    m.addBlobArg(contourColorBuffer);
-    m.addBlobArg(contourPointsBuffer);
-
+    m.addBlobArg(videoBuffer);
+    
     sender.sendMessage(m);
 }
