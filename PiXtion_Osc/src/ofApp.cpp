@@ -87,7 +87,7 @@ void ofApp::update() {
 
 		ofPixels fboPixels;
 		fbo.readToPixels(fboPixels);
-		finalIamge.setFromPixels(fboPixels);
+		finalImage.setFromPixels(fboPixels);
 
 
         switch(videoQuality) {
