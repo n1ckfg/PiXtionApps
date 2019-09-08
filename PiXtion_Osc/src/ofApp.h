@@ -3,8 +3,6 @@
 #include "ofMain.h"
 #include "ofxOpenNI2Grabber.h"
 #include "ofxOpenNI2Recorder.h"
-#include "ofxOpenCv.h"
-#include "ofxCv.h"
 #include "ofxOsc.h"
 #include "ofxXmlSettings.h"
 
@@ -19,17 +17,12 @@ class ofApp : public ofBaseApp {
 		bool isReady;
 
 		bool mirror;
-		bool drawColor;
-		bool drawDepth;
-		bool drawIr;
+		bool doColor;
+		bool doDepth;
 
 		ofxOpenNI2Grabber oniGrabber;
 		ofxOpenNI2GrabberSettings settings;
 
-		ofxCvGrayscaleImage grayImage; // grayscale depth image
-		ofImage gray;
-		ofxCvColorImage rgbImage; // grayscale depth image
-		ofImage rgb;
 		ofFbo fbo;
 		ofImage finalImage;
 
@@ -45,6 +38,8 @@ class ofApp : public ofBaseApp {
 		bool videoColor;
 		ofBuffer videoBuffer;
 		ofxOscSender sender;
+		
 		void sendOscVideo();
+		void imageToBuffer(ofImage img);
 
 };
