@@ -31,6 +31,7 @@ class ofApp : public ofBaseApp {
 		ofxCvColorImage rgbImage; // grayscale depth image
 		ofImage rgb;
 		ofFbo fbo;
+		ofImage finalImage;
 
         ofxXmlSettings XML;
         string xmlStructure;

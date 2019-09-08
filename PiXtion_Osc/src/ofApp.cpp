@@ -38,6 +38,7 @@ void ofApp::setup() {
     rgb.allocate(settings.width, settings.height, OF_IMAGE_COLOR);  
 
     fbo.allocate(2 * settings.width, settings.height, GL_RGBA); 
+    finalImage.allocate(2 * settings.width, settings.height, OF_IMAGE_COLOR); 
 
 	isReady = oniGrabber.setup(settings);
 
@@ -86,23 +87,24 @@ void ofApp::update() {
 
 		ofPixels fboPixels;
 		fbo.readToPixels(fboPixels);
+		finalIamge.setFromPixels(fboPixels);
 
 
         switch(videoQuality) {
             case 5:
-                ofSaveImage(fboPixels, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_BEST);
+                ofSaveImage(finalImage, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_BEST);
                 break;
             case 4:
-                ofSaveImage(fboPixels, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_HIGH);
+                ofSaveImage(finalImage, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_HIGH);
                 break;
             case 3:
-                ofSaveImage(fboPixels, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_MEDIUM);
+                ofSaveImage(finalImage, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_MEDIUM);
                 break;
             case 2:
-                ofSaveImage(fboPixels, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_LOW);
+                ofSaveImage(finalImage, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_LOW);
                 break;
             case 1:
-                ofSaveImage(fboPixels, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_WORST);
+                ofSaveImage(finalImage, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_WORST);
                 break;
         }
 	}
