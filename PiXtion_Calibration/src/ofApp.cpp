@@ -10,9 +10,9 @@ void ofApp::setup() {
     
     XML.loadFile("settings.xml");
 
-	settings.width = XML.getValue("settings:width",320);
-	settings.height = XML.getValue("settings:height",240);
-	settings.fps = XML.getValue("settings:fps",30);;
+	settings.width = XML.getValue("settings:width", 320);
+	settings.height = XML.getValue("settings:height", 240);
+	settings.fps = XML.getValue("settings:fps", 30);;
 
 	settings.doDepth = ofToBool(XML.getValue("settings:doDepth", "true"));
 	settings.doRawDepth = ofToBool(XML.getValue("settings:doRawDepth", "false")) ;
@@ -36,9 +36,9 @@ void ofApp::setup() {
 
 	isReady = oniGrabber.setup(settings);
 
-	videoQuality = 3;
-	host = "Allosaurus.local";
-	port = 7110;
+	videoQuality = XML.getValue("settings:videoQuality", 3);
+	host = XML.getValue("settings:host", "127.0.0.1");
+	port = XML.getValue("settings:port", 7110);
 	compname = "RPi";
     sender.setup(host, port);
     

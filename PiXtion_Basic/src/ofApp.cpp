@@ -6,9 +6,9 @@ void ofApp::setup() {
     
     XML.loadFile("settings.xml");
 
-	settings.width = XML.getValue("settings:width",320);
-	settings.height = XML.getValue("settings:height",240);
-	settings.fps = XML.getValue("settings:fps",30);;
+	settings.width = XML.getValue("settings:width", 320);
+	settings.height = XML.getValue("settings:height", 240);
+	settings.fps = XML.getValue("settings:fps", 30);;
 
 	settings.doDepth = ofToBool(XML.getValue("settings:doDepth", "true"));
 	settings.doRawDepth = ofToBool(XML.getValue("settings:doRawDepth", "false")) ;

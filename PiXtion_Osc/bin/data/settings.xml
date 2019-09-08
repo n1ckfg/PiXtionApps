@@ -2,6 +2,11 @@
     <width>640</width>
     <height>480</height>
     <fps>30</fps>
+    <!-- * -->
+    <host>BrazilV.local</host>
+    <port>7110</port>
+    <videoQuality>3</videoQuality>
+    <!-- * -->
     <doColor>true</doColor>
     <doDepth>true</doDepth>
     <doRawDepth>false</doRawDepth>
