@@ -5,11 +5,6 @@
     <!-- * -->
     <doColor>true</doColor>
     <doDepth>true</doDepth>
-    <doRawDepth>false</doRawDepth>
-    <doIr>true</doIr>
-    <drawColor>true</drawColor>
-    <drawDepth>true</drawDepth>
-    <drawIr>true</drawIr>
-    <mirror>false</mirror>
+    <doIr>false</doIr>
     <registered>true</registered>
 </settings>

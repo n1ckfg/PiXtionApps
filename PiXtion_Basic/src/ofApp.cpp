@@ -11,21 +11,15 @@ void ofApp::setup() {
 	settings.fps = XML.getValue("settings:fps", 30);;
 
 	settings.doDepth = ofToBool(XML.getValue("settings:doDepth", "true"));
-	settings.doRawDepth = ofToBool(XML.getValue("settings:doRawDepth", "false")) ;
-	settings.doColor = ofToBool(XML.getValue("settings:doColor", "false")) ;
+	settings.doColor = ofToBool(XML.getValue("settings:doColor", "true")) ;
 	settings.doIr = ofToBool(XML.getValue("settings:doIr", "false")) ;
-	settings.doRegisterDepthToColor = ofToBool(XML.getValue("settings:registered", "false"));
+	settings.doRegisterDepthToColor = ofToBool(XML.getValue("settings:registered", "true"));
 
 	settings.depthPixelFormat = PIXEL_FORMAT_DEPTH_1_MM;
 	settings.colorPixelFormat = PIXEL_FORMAT_RGB888;
 	settings.irPixelFormat = PIXEL_FORMAT_GRAY16;
 	settings.useOniFile = false;
 	settings.oniFilePath = "UNDEFINED";
-
-	mirror = ofToBool(XML.getValue("settings:mirror", "false"));
-	drawDepth = ofToBool(XML.getValue("settings:drawDepth", "true"));
-	drawColor = ofToBool(XML.getValue("settings:drawColor", "false"));
-	drawIr = ofToBool(XML.getValue("settings:drawIr", "false"));
 
 	isReady = oniGrabber.setup(settings);
 }
@@ -39,26 +33,22 @@ void ofApp::update() {
 
 //--------------------------------------------------------------
 void ofApp::draw() {
-    ofSetColor(255,255,255);
+    ofSetColor(255);
     ofBackground(0,0,0);
 
 	if (isReady) {
-		if (settings.doDepth && drawDepth) {
+		if (settings.doDepth) {
 			ofTexture& depth = oniGrabber.getDepthTextureReference();
-			depth.mirror(false, mirror);
 			depth.draw(0, 0);
 		}
 
-		if (settings.doColor && drawColor) {
+		// can't do color and IR togther
+		if (settings.doColor) {
 			ofTexture& rgb = oniGrabber.getRGBTextureReference();
-			rgb.mirror(false, mirror);
 			rgb.draw(settings.width, 0);
-		}
-
-		if (settings.doIr && drawIr) {
+		} else if (settings.doIr) {
 			ofTexture& ir = oniGrabber.getIRTextureReference();
-			ir.mirror(false, mirror);
-			ir.draw(settings.width*2, 0);
+			ir.draw(settings.width, 0);
 		}
 	}
 }
