@@ -33,6 +33,7 @@ void ofApp::setup() {
 
 	grayImage.allocate(settings.width, settings.height);
     gray.allocate(settings.width, settings.height, OF_IMAGE_GRAYSCALE);        
+	
 	rgbImage.allocate(settings.width, settings.height);
     rgb.allocate(settings.width, settings.height, OF_IMAGE_COLOR);  
 

@@ -28,7 +28,7 @@ class ofApp : public ofBaseApp {
 
 		ofxCvGrayscaleImage grayImage; // grayscale depth image
 		ofImage gray;
-		ofxCvImage rgbImage; // grayscale depth image
+		ofxCvColorImage rgbImage; // grayscale depth image
 		ofImage rgb;
 		ofFbo fbo;
 
