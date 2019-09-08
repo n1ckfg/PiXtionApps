@@ -24,9 +24,11 @@ void ofApp::setup() {
 
     if (settings.doColor) {
     	fbo.allocate(2 * settings.width, settings.height, GL_RGBA); 
+    	fboPixels.allocate(2 * settings.width, settings.height, OF_IMAGE_COLOR)
     	finalImage.allocate(2 * settings.width, settings.height, OF_IMAGE_COLOR); 
 	} else {
     	fbo.allocate(settings.width, settings.height, GL_RGBA); 
+    	fboPixels.allocate(settings.width, settings.height, OF_IMAGE_COLOR)
     	finalImage.allocate(settings.width, settings.height, OF_IMAGE_COLOR); 		
 	}
 
@@ -70,12 +72,10 @@ void ofApp::update() {
 		}
 		fbo.end();
 
-		ofPixels fboPixels;
 		fbo.readToPixels(fboPixels);
 		finalImage.setFromPixels(fboPixels);
 
-
-		imageToBuffer(finalImage);
+		imageToBuffer(fboPixels);
 	}
 }
 
