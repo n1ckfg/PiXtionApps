@@ -92,19 +92,19 @@ void ofApp::update() {
 
         switch(videoQuality) {
             case 5:
-                ofSaveImage(rgbImage, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_BEST);
+                ofSaveImage(rgb, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_BEST);
                 break;
             case 4:
-                ofSaveImage(rgbImage, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_HIGH);
+                ofSaveImage(rgb, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_HIGH);
                 break;
             case 3:
-                ofSaveImage(rgbImage, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_MEDIUM);
+                ofSaveImage(rgb, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_MEDIUM);
                 break;
             case 2:
-                ofSaveImage(rgbImage, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_LOW);
+                ofSaveImage(rgb, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_LOW);
                 break;
             case 1:
-                ofSaveImage(rgbImage, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_WORST);
+                ofSaveImage(rgb, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_WORST);
                 break;
         }
 	}
