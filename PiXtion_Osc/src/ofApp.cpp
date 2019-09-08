@@ -73,11 +73,14 @@ void ofApp::update() {
 		grayImage.flagImageChanged();
 		toOf(grayImage.getCvImage(), gray.getPixelsRef());
 
-		rgbImage.setFromPixels(oniGrabber.getRGBTextureReference().getPixels());
+		rgbImage.setFromPixels(oniGrabber.rgbSource.noAlphaPixels->getPixels(), settings.width, settings.height);
+		rgbImage.mirror(false, mirror);
+		rgbImage.flagImageChanged();
+		toOf(rgbImage.getCvImage(), rgb.getPixelsRef());
 
 		fbo.begin();
 		gray.draw(0,0);
-		rgbImage.draw(settings.width, 0);
+		rgb.draw(settings.width, 0);
 		fbo.end();
 
 		ofPixels fboPixels;
