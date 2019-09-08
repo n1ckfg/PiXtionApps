@@ -29,5 +29,6 @@ void oscEvent(OscMessage msg) {
     
     String hostname = msg.get(0).stringValue();
     videoBytes = msg.get(1).blobValue();
-  }
+    if (videoBytes != null) img = fromJpeg(videoBytes);
+   }
 }
