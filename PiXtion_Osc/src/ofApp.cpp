@@ -61,7 +61,6 @@ void ofApp::update() {
 		oniGrabber.update();
 
 		fbo.begin();
-		fbo.clear();
 		ofTexture& depth = oniGrabber.getDepthTextureReference();
 		depth.draw(0, 0);
 
