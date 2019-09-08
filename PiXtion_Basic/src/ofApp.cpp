@@ -23,11 +23,9 @@ void ofApp::setup() {
 	settings.oniFilePath = "UNDEFINED";
 
 	mirror = ofToBool(XML.getValue("settings:mirror", "false"));
-	drawColor = ofToBool(XML.getValue("settings:drawColor", "false"));
 	drawDepth = ofToBool(XML.getValue("settings:drawDepth", "true"));
+	drawColor = ofToBool(XML.getValue("settings:drawColor", "false"));
 	drawIr = ofToBool(XML.getValue("settings:drawIr", "false"));
-
-	grayImage.allocate(settings.width,settings.height);
 
 	isReady = oniGrabber.setup(settings);
 }
@@ -36,10 +34,6 @@ void ofApp::setup() {
 void ofApp::update() {
 	if (isReady) {
 		oniGrabber.update();
-
-		grayImage.setFromPixels(oniGrabber.depthSource.noAlphaPixels->getPixels(), settings.width, settings.height);
-		grayImage.mirror(false, mirror);
-		grayImage.flagImageChanged();
 	}
 }
 
@@ -50,17 +44,18 @@ void ofApp::draw() {
 
 	if (isReady) {
 		if (settings.doDepth && drawDepth) {
-			grayImage.draw(0, 0);
+			ofTexture& gray = oniGrabber.getDepthTextureReference();
+			gray.draw(0, 0);
 		}
 
 		if (settings.doColor && drawColor) {
 			ofTexture& color = oniGrabber.getRGBTextureReference();
-			color.draw(grayImage.getWidth(), 0);
+			color.draw(settings.width, 0);
 		}
 
 		if (settings.doIr && drawIr) {
 			ofTexture& ir = oniGrabber.getIRTextureReference();
-			ir.draw(grayImage.getWidth(), 0);
+			ir.draw(settings.width*2, 0);
 		}
 	}
 }

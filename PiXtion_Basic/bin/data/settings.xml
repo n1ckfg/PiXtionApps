@@ -6,10 +6,10 @@
     <doColor>true</doColor>
     <doDepth>true</doDepth>
     <doRawDepth>false</doRawDepth>
-    <doIr>false</doIr>
+    <doIr>true</doIr>
     <drawColor>true</drawColor>
     <drawDepth>true</drawDepth>
-    <drawIr>false</drawIr>
+    <drawIr>true</drawIr>
     <mirror>false</mirror>
     <registered>true</registered>
 </settings>
