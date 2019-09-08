@@ -73,7 +73,7 @@ void ofApp::update() {
 		grayImage.flagImageChanged();
 		toOf(grayImage.getCvImage(), gray.getPixelsRef());
 
-		rgbImage.setFromPixels(oniGrabber.rgbSource.noAlphaPixels->getPixels(), settings.width, settings.height);
+		rgbImage.setFromPixels(oniGrabber.rgbSource.currentPixels->getPixels(), settings.width, settings.height);
 		rgbImage.mirror(false, mirror);
 		rgbImage.flagImageChanged();
 		toOf(rgbImage.getCvImage(), rgb.getPixelsRef());
