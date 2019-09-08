@@ -44,17 +44,20 @@ void ofApp::draw() {
 
 	if (isReady) {
 		if (settings.doDepth && drawDepth) {
-			ofTexture& gray = oniGrabber.getDepthTextureReference();
-			gray.draw(0, 0);
+			ofTexture& depth = oniGrabber.getDepthTextureReference();
+			depth.mirror(false, mirror);
+			depth.draw(0, 0);
 		}
 
 		if (settings.doColor && drawColor) {
-			ofTexture& color = oniGrabber.getRGBTextureReference();
-			color.draw(settings.width, 0);
+			ofTexture& rgb = oniGrabber.getRGBTextureReference();
+			rgb.mirror(false, mirror);
+			rgb.draw(settings.width, 0);
 		}
 
 		if (settings.doIr && drawIr) {
 			ofTexture& ir = oniGrabber.getIRTextureReference();
+			ir.mirror(false, mirror);
 			ir.draw(settings.width*2, 0);
 		}
 	}
