@@ -1,9 +1,6 @@
 #include "ofApp.h"
 #include "ofConstants.h"
 
-using namespace cv;
-using namespace ofxCv;
-
 //--------------------------------------------------------------
 void ofApp::setup() {
 	ofBackground(0, 0, 0, 128);
