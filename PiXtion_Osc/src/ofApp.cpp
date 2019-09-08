@@ -33,6 +33,10 @@ void ofApp::setup() {
 
 	grayImage.allocate(settings.width, settings.height);
     gray.allocate(settings.width, settings.height, OF_IMAGE_GRAYSCALE);        
+	rgbImage.allocate(settings.width, settings.height);
+    rgb.allocate(settings.width, settings.height, OF_IMAGE_COLOR);  
+
+    fbo.allocate(2 * settings.width, settings.height, GL_RGBA); 
 
 	isReady = oniGrabber.setup(settings);
 
@@ -69,21 +73,29 @@ void ofApp::update() {
 		grayImage.flagImageChanged();
 		toOf(grayImage.getCvImage(), gray.getPixelsRef());
 
+		rgbImage.setFromPixels(oniGrabber.getRGBTextureReference().getPixels());
+
+		fbo.begin();
+		gray.draw(0,0);
+		rgbImage.draw(settings.width, 0);
+		fbo.end();
+
+
         switch(videoQuality) {
             case 5:
-                ofSaveImage(gray, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_BEST);
+                ofSaveImage(fbo, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_BEST);
                 break;
             case 4:
-                ofSaveImage(gray, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_HIGH);
+                ofSaveImage(fbo, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_HIGH);
                 break;
             case 3:
-                ofSaveImage(gray, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_MEDIUM);
+                ofSaveImage(fbo, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_MEDIUM);
                 break;
             case 2:
-                ofSaveImage(gray, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_LOW);
+                ofSaveImage(fbo, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_LOW);
                 break;
             case 1:
-                ofSaveImage(gray, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_WORST);
+                ofSaveImage(fbo, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_WORST);
                 break;
         }
 	}
