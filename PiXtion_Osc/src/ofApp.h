@@ -24,7 +24,6 @@ class ofApp : public ofBaseApp {
 		ofxOpenNI2GrabberSettings settings;
 
 		ofFbo fbo;
-		ofPixels fboPixels;
 		ofImage finalImage;
 
         ofxXmlSettings XML;
