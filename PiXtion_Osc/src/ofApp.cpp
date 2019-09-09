@@ -71,30 +71,10 @@ void ofApp::update() {
 		fbo.end();
 
 		fbo.readToPixels(pixels);
-		finalImage.setFromPixels(pixels);
+		//finalImage.setFromPixels(pixels);
 
-		imageToBuffer(finalImage);
+		imageToBuffer(pixels); //finalImage);
 	}
-}
-
-void ofApp::imageToBuffer(ofImage img) {
-        switch(videoQuality) {
-            case 5:
-                ofSaveImage(img, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_BEST);
-                break;
-            case 4:
-                ofSaveImage(img, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_HIGH);
-                break;
-            case 3:
-                ofSaveImage(img, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_MEDIUM);
-                break;
-            case 2:
-                ofSaveImage(img, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_LOW);
-                break;
-            case 1:
-                ofSaveImage(img, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_WORST);
-                break;
-        }
 }
 
 //--------------------------------------------------------------
@@ -124,4 +104,44 @@ void ofApp::sendOscVideo() {
     m.addBlobArg(videoBuffer);
     
     sender.sendMessage(m);
+}
+
+void ofApp::imageToBuffer(ofImage img) {
+        switch(videoQuality) {
+            case 5:
+                ofSaveImage(img, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_BEST);
+                break;
+            case 4:
+                ofSaveImage(img, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_HIGH);
+                break;
+            case 3:
+                ofSaveImage(img, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_MEDIUM);
+                break;
+            case 2:
+                ofSaveImage(img, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_LOW);
+                break;
+            case 1:
+                ofSaveImage(img, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_WORST);
+                break;
+        }
+}
+
+void ofApp::pixelsToBuffer(ofPixels pix) {
+        switch(videoQuality) {
+            case 5:
+                ofSaveImage(pix, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_BEST);
+                break;
+            case 4:
+                ofSaveImage(pix, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_HIGH);
+                break;
+            case 3:
+                ofSaveImage(pix, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_MEDIUM);
+                break;
+            case 2:
+                ofSaveImage(pix, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_LOW);
+                break;
+            case 1:
+                ofSaveImage(pix, videoBuffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_WORST);
+                break;
+        }
 }

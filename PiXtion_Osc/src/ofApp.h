@@ -42,5 +42,6 @@ class ofApp : public ofBaseApp {
 		
 		void sendOscVideo();
 		void imageToBuffer(ofImage img);
-
+		void pixelsToBuffer(ofPixels pix);
+		
 };
