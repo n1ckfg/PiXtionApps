@@ -27,7 +27,9 @@ class ofApp : public ofBaseApp {
 		ofxOpenNI2GrabberSettings settings;
 
 		ofxCvGrayscaleImage grayImage; // grayscale depth image
+		ofxCvColorImage colorImage; // rgb cam image
 		ofImage gray;
+		ofImage color;
 
         ofxXmlSettings XML;
         string xmlStructure;
@@ -40,7 +42,21 @@ class ofApp : public ofBaseApp {
 		int videoQuality; // 5 best to 1 worst, default 3 medium
 		bool videoColor;
 		ofBuffer videoBuffer;
-		ofxOscSender sender;
-		void sendOscVideo();
+		
+		ofBuffer contourColorBuffer;
+		ofBuffer contourPointsBuffer;
+	    ofxCv::ContourFinder contourFinder;
+		float contourThreshold;  // default 127
+		float contourMinAreaRadius; // default 10
+		float contourMaxAreaRadius; // default 150
+		int contourSlices; // default 20
+		ofxCv::TrackingColorMode trackingColorMode; // RGB, HSV, H, HS; default RGB
+		float minZ;
+		float simplify;
+		int smooth;
 
+		ofxOscSender sender;
+		void sendOscContours(int index);
+		float rawDepthToMeters(int depthValue);
+		string uniqueId(int len);
 };
