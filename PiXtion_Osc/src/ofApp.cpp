@@ -88,7 +88,7 @@ void ofApp::sendOscVideo() {
     sender.sendMessage(m);
 }
 
-void ofApp::pixelsToBuffer(ofPixels& _pix, ofBuffer& _buffer, int _quality) {
+void ofApp::pixelsToBuffer(ofPixels _pix, ofBuffer& _buffer, int _quality) {
         switch(_quality) {
             case 5:
                 ofSaveImage(_pix, _buffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_BEST);
@@ -108,11 +108,11 @@ void ofApp::pixelsToBuffer(ofPixels& _pix, ofBuffer& _buffer, int _quality) {
         }
 }
 
-void ofApp::imageToBuffer(ofImage& _img, ofBuffer& _buffer, int _quality) {
+void ofApp::imageToBuffer(ofImage _img, ofBuffer& _buffer, int _quality) {
     pixelsToBuffer(_img.getPixels(), _buffer, _quality);
 }
 
-void ofApp::fboToBuffer(ofFbo& _fbo, ofBuffer& _buffer, int _quality) {
+void ofApp::fboToBuffer(ofFbo _fbo, ofBuffer& _buffer, int _quality) {
     // jpegs have no alpha, so fbo must be initialized with GL_RGB, not GL_RGBA!
     ofPixels fboPixels;
     _fbo.readToPixels(fboPixels);
