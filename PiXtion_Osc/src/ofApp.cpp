@@ -57,10 +57,10 @@ void ofApp::update() {
 	if (isReady) {
 		oniGrabber.update();
 
-        depth.setFromPixels(oniGrabber.depthSource.currentPixels->getPixels());
+        depth.setFromPixels(oniGrabber.depthSource.currentPixels->getPixels(), settings.width, settings.height);
         imageToBuffer(depth, depthVideoBuffer, depthVideoQuality);
         if (doColor) {
-            rgb.setFromPixels(oniGrabber.rgbSource.currentPixels->getPixels());
+            rgb.setFromPixels(oniGrabber.rgbSource.currentPixels->getPixels(), settings.width, settings.height);
             imageToBuffer(rgb, rgbVideoBuffer, rgbVideoQuality);
         }
 	}
@@ -97,27 +97,43 @@ void ofApp::sendOscVideo() {
 }
 
 void ofApp::pixelsToBuffer(ofPixels _pix, ofBuffer& _buffer, int _quality) {
-        switch(_quality) {
-            case 5:
-                ofSaveImage(_pix, _buffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_BEST);
-                break;
-            case 4:
-                ofSaveImage(_pix, _buffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_HIGH);
-                break;
-            case 3:
-                ofSaveImage(_pix, _buffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_MEDIUM);
-                break;
-            case 2:
-                ofSaveImage(_pix, _buffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_LOW);
-                break;
-            case 1:
-                ofSaveImage(_pix, _buffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_WORST);
-                break;
-        }
+    switch(_quality) {
+        case 5:
+            ofSaveImage(_pix, _buffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_BEST);
+            break;
+        case 4:
+            ofSaveImage(_pix, _buffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_HIGH);
+            break;
+        case 3:
+            ofSaveImage(_pix, _buffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_MEDIUM);
+            break;
+        case 2:
+            ofSaveImage(_pix, _buffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_LOW);
+            break;
+        case 1:
+            ofSaveImage(_pix, _buffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_WORST);
+            break;
+    }
 }
 
 void ofApp::imageToBuffer(ofImage _img, ofBuffer& _buffer, int _quality) {
-    pixelsToBuffer(_img.getPixels(), _buffer, _quality);
+    switch(_quality) {
+        case 5:
+            ofSaveImage(_img, _buffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_BEST);
+            break;
+        case 4:
+            ofSaveImage(_img, _buffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_HIGH);
+            break;
+        case 3:
+            ofSaveImage(_img, _buffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_MEDIUM);
+            break;
+        case 2:
+            ofSaveImage(_img, _buffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_LOW);
+            break;
+        case 1:
+            ofSaveImage(_img, _buffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_WORST);
+            break;
+    }
 }
 
 void ofApp::fboToBuffer(ofFbo _fbo, ofBuffer& _buffer, int _quality) {
