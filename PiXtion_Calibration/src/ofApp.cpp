@@ -27,9 +27,6 @@ void ofApp::setup() {
     settings.oniFilePath = "UNDEFINED";
 
     mirror = ofToBool(XML.getValue("settings:mirror", "false"));
-    drawColor = ofToBool(XML.getValue("settings:drawColor", "true"));
-    drawDepth = ofToBool(XML.getValue("settings:drawDepth", "true"));
-    drawIr = ofToBool(XML.getValue("settings:drawIr", "false"));
 
     grayImage.allocate(settings.width, settings.height);
     gray.allocate(settings.width, settings.height, OF_IMAGE_GRAYSCALE);        

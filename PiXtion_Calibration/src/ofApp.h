@@ -19,9 +19,9 @@ class ofApp : public ofBaseApp {
 		bool isReady;
 
 		bool mirror;
-		bool drawColor;
-		bool drawDepth;
-		bool drawIr;
+		bool doColor;
+		bool doDepth;
+		bool doIr;
 
 		ofxOpenNI2Grabber oniGrabber;
 		ofxOpenNI2GrabberSettings settings;
