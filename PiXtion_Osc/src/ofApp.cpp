@@ -71,9 +71,9 @@ void ofApp::update() {
 		fbo.end();
 
 		fbo.readToPixels(pixels);
-		//finalImage.setFromPixels(pixels);
+		finalImage.setFromPixels(pixels);
 
-		imageToBuffer(pixels); //finalImage);
+		imageToBuffer(finalImage);
 	}
 }
 
