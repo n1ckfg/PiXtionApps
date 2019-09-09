@@ -58,10 +58,10 @@ void ofApp::update() {
 		oniGrabber.update();
 
         depth.setFromPixels(oniGrabber.depthSource.currentPixels->getPixels());
-        imageToBuffer(depth, depthVideoBuffer, depthVideoQuality);
+        //imageToBuffer(depth, depthVideoBuffer, depthVideoQuality);
         if (doColor) {
             rgb.setFromPixels(oniGrabber.rgbSource.currentPixels->getPixels());
-            imageToBuffer(rgb, rgbVideoBuffer, rgbVideoQuality);
+            //imageToBuffer(rgb, rgbVideoBuffer, rgbVideoQuality);
         }
 	}
 }
@@ -118,7 +118,7 @@ void ofApp::imageToBuffer(ofImage _img, ofBuffer& _buffer, int _quality) {
 
 void ofApp::pixelsToBuffer(ofPixels _pix, ofBuffer& _buffer, int _quality) {
     ofImage img;
-    img.readFromPixels(_pix);
+    img.setFromPixels(_pix);
     imageToBuffer(img, _buffer, _quality);
 }
 
