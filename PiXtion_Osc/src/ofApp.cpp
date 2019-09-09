@@ -1,6 +1,9 @@
 #include "ofApp.h"
 #include "ofConstants.h"
 
+using namespace cv;
+using namespace ofxCv;
+
 //--------------------------------------------------------------
 void ofApp::setup() {
 	ofBackground(0, 0, 0, 128);
@@ -24,9 +27,11 @@ void ofApp::setup() {
 
     if (settings.doColor) {
     	fbo.allocate(2 * settings.width, settings.height, GL_RGBA); 
+    	finalCvImage.allocate(2 * settings.width, settings.height); 
     	finalImage.allocate(2 * settings.width, settings.height, OF_IMAGE_COLOR); 
 	} else {
     	fbo.allocate(settings.width, settings.height, GL_RGBA); 
+    	finalCvImage.allocate(settings.width, settings.height); 		
     	finalImage.allocate(settings.width, settings.height, OF_IMAGE_COLOR); 		
 	}
 
@@ -70,20 +75,9 @@ void ofApp::update() {
 		}
 		fbo.end();
 
-		ofPixels fboPixels;  
-		fbo.readToPixels(fboPixels);  
-		
-		int w = settings.width;
-		int h = settings.height;
-
-		ofPixels temp[int(w*h*3)];  
-		for (int t = 0; t < w*h; t++){  
-			temp[t*3+0] = fboPixels[t*4+0];  
-			temp[t*3+1] = fboPixels[t*4+1];  
-			temp[t*3+2] = fboPixels[t*4+2];  
-		}  
-
-		finalImage.setFromPixels(temp);
+		fbo.readToPixels(finalCvImage);
+        finalCvImage.flagImageChanged();
+        toOf(finalCvImage.getCvImage(), finalImage.getPixelsRef());
 
 		imageToBuffer(finalImage);
 	}
