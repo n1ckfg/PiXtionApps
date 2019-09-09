@@ -2,6 +2,6 @@
 #include "ofApp.h"
 
 int main() {
-	ofSetupOpenGL(1280, 480, OF_WINDOW);
+	ofSetupOpenGL(50, 50, OF_WINDOW);
 	ofRunApp(new ofApp());
 }
