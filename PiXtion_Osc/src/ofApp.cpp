@@ -57,10 +57,10 @@ void ofApp::update() {
 	if (isReady) {
 		oniGrabber.update();
 
-        depth.setFromPixels(oniGrabber.depthSource.currentPixels->getPixels(), settings.width, settings.height);
+        depth.setFromPixels(oniGrabber.depthSource.currentPixels->getPixels());
         imageToBuffer(depth, depthVideoBuffer, depthVideoQuality);
         if (doColor) {
-            rgb.setFromPixels(oniGrabber.rgbSource.currentPixels->getPixels(), settings.width, settings.height);
+            rgb.setFromPixels(oniGrabber.rgbSource.currentPixels->getPixels());
             imageToBuffer(rgb, rgbVideoBuffer, rgbVideoQuality);
         }
 	}
@@ -96,33 +96,37 @@ void ofApp::sendOscVideo() {
     sender.sendMessage(msg);
 }
 
-void ofApp::pixelsToBuffer(ofPixels* _pix, ofBuffer& _buffer, int _quality) {
+void ofApp::imageToBuffer(ofImage _img, ofBuffer& _buffer, int _quality) {
     switch(_quality) {
         case 5:
-            ofSaveImage(_pix, _buffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_BEST);
+            ofSaveImage(_img, _buffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_BEST);
             break;
         case 4:
-            ofSaveImage(_pix, _buffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_HIGH);
+            ofSaveImage(_img, _buffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_HIGH);
             break;
         case 3:
-            ofSaveImage(_pix, _buffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_MEDIUM);
+            ofSaveImage(_img, _buffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_MEDIUM);
             break;
         case 2:
-            ofSaveImage(_pix, _buffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_LOW);
+            ofSaveImage(_img, _buffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_LOW);
             break;
         case 1:
-            ofSaveImage(_pix, _buffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_WORST);
+            ofSaveImage(_img, _buffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_WORST);
             break;
     }
 }
 
-void ofApp::imageToBuffer(ofImage _img, ofBuffer& _buffer, int _quality) {
-    pixelsToBuffer(_img.getPixels(), _buffer, _quality);
+void ofApp::pixelsToBuffer(ofPixels _pix, ofBuffer& _buffer, int _quality) {
+    ofImage img;
+    img.readFromPixels(_pix);
+    imageToBuffer(img, _buffer, _quality);
 }
 
 void ofApp::fboToBuffer(ofFbo _fbo, ofBuffer& _buffer, int _quality) {
     // jpegs have no alpha, so fbo must be initialized with GL_RGB, not GL_RGBA!
-    ofPixels fboPixels;
-    _fbo.readToPixels(fboPixels);
-    pixelsToBuffer(fboPixels, _buffer, _quality);
+    ofPixels pixels;
+    ofImage img;
+    _fbo.readToPixels(pixels);
+    img.setFromPixels(pixels);
+    imageToBuffer(img, _buffer, _quality);
 }
