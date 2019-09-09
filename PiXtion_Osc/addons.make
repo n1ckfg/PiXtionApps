@@ -3,5 +3,3 @@
 
 ofxXmlSettings
 ofxOsc
-ofxOpenCv
-ofxCv
