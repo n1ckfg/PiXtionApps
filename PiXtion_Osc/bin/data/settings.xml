@@ -1,7 +1,7 @@
 <settings>
     <width>320</width>
     <height>240</height>
-    <fps>60</fps>
+    <fps>30</fps>
     <!-- * -->
     <host>BrazilV.local</host>
     <port>7110</port>
