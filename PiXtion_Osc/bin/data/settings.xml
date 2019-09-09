@@ -5,9 +5,10 @@
     <!-- * -->
     <host>BrazilV.local</host>
     <port>7110</port>
-    <videoQuality>2</videoQuality>
+    <depth_video_quality>3</depth_video_quality>
+    <rgb_video_quality>1</rgb_video_quality>
     <!-- * -->
-    <doColor>true</doColor>
+    <do_color>true</do_color>
     <mirror>false</mirror>
     <registered>true</registered>
 </settings>

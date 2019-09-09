@@ -1,7 +1,7 @@
 import oscP5.*;
 import netP5.*;
 
-byte[] videoBytes;
+byte[] depthVideoBytes, rgbVideoBytes;
 ArrayList<String> hostList;
 int numHosts = 2;
 
@@ -25,10 +25,16 @@ void oscSetup() {
 
 // Receive message example
 void oscEvent(OscMessage msg) {
-  if (msg.checkAddrPattern("/video") && msg.checkTypetag("sb")) {
+  if (msg.checkAddrPattern("/video")) {
+    if (msg.checkTypetag("sb") || msg.checkTypetag("sbb")) {   
+      String hostname = msg.get(0).stringValue();
+      depthVideoBytes = msg.get(1).blobValue();
+      if (depthVideoBytes != null) depth = fromJpeg(depthVideoBytes);
+    }
     
-    String hostname = msg.get(0).stringValue();
-    videoBytes = msg.get(1).blobValue();
-    if (videoBytes != null) img = fromJpeg(videoBytes);
-   }
+    if (msg.checkTypetag("sbb")) {
+      rgbVideoBytes = msg.get(2).blobValue();
+      if (rgbVideoBytes != null) rgb = fromJpeg(rgbVideoBytes);
+    }
+  }
 }
