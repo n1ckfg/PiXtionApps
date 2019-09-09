@@ -26,7 +26,7 @@ class ofApp : public ofBaseApp {
 		ofxOpenNI2GrabberSettings settings;
 
 		ofFbo fbo;
-		ofCvColorImage finalCvImage;
+		ofxCvColorImage finalCvImage;
 		ofImage finalImage;
 
         ofxXmlSettings XML;
