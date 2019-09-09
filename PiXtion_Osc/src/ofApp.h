@@ -16,29 +16,22 @@ class ofApp : public ofBaseApp {
 
 		bool isReady;
 
-		bool mirror;
-		bool doColor;
-		bool doDepth;
+		bool mirror, doColor, doDepth;
 
 		ofxOpenNI2Grabber oniGrabber;
 		ofxOpenNI2GrabberSettings settings;
 
-		ofImage depth;
-		ofImage rgb;
+		ofImage depth, rgb;
 
         ofxXmlSettings XML;
-        string xmlStructure;
-        string message;
+        string xmlStructure, message;
 
 		ofFile file;
-        string compname;
-		string host; // hostname;
+        string compname, host; // hostname;
 		int port; // default 7110;
 		
-		int depthVideoQuality; // 5 best to 1 worst, default 3 medium
-		int rgbVideoQuality; // 5 best to 1 worst, default 3 medium
-		ofBuffer depthVideoBuffer;
-		ofBuffer rgbVideoBuffer;
+		int depthVideoQuality, rgbVideoQuality; // 5 best to 1 worst, default 3 medium
+		ofBuffer depthVideoBuffer, rgbVideoBuffer;
 		
 		ofxOscSender sender;
 		

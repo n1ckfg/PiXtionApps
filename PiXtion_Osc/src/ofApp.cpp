@@ -24,9 +24,13 @@ void ofApp::setup() {
 
 	isReady = oniGrabber.setup(settings);
 
+    depth.allocate(settings.width, settings.height, OF_IMAGE_COLOR);
+    rgb.allocate(settings.width, settings.height, OF_IMAGE_COLOR);
+
     depthVideoQuality = XML.getValue("settings:depth_video_quality", 3);
     rgbVideoQuality = XML.getValue("settings:rgb_video_quality", 3);
-	host = XML.getValue("settings:host", "127.0.0.1");
+	
+    host = XML.getValue("settings:host", "127.0.0.1");
 	port = XML.getValue("settings:port", 7110);
 	compname = "RPi";
     sender.setup(host, port);
@@ -53,8 +57,12 @@ void ofApp::update() {
 	if (isReady) {
 		oniGrabber.update();
 
-        pixelsToBuffer(oniGrabber.depthSource.currentPixels->getPixels(), depthVideoBuffer, depthVideoQuality);
-        if (doColor) pixelsToBuffer(oniGrabber.rgbSource.currentPixels->getPixels(), rgbVideoBuffer, rgbVideoQuality);
+        depth.setFromPixels(oniGrabber.depthSource.currentPixels->getPixels());
+        imageToBuffer(depth, depthVideoBuffer, depthVideoQuality);
+        if (doColor) {
+            rgb.setFromPixels(oniGrabber.rgbSource.currentPixels->getPixels());
+            imageToBuffer(rgb, rgbVideoBuffer, rgbVideoQuality);
+        }
 	}
 }
 
@@ -78,14 +86,14 @@ void ofApp::exit() {
 }
 //--------------------------------------------------------------
 void ofApp::sendOscVideo() {
-    ofxOscMessage m;
-    m.setAddress("/video");
-    m.addStringArg(compname);    
+    ofxOscMessage msg;
+    msg.setAddress("/video");
+    msg.addStringArg(compname);    
     
-    m.addBlobArg(depthVideoBuffer);
-    if (doColor) m.addBlobArg(rgbVideoBuffer);
+    msg.addBlobArg(depthVideoBuffer);
+    if (doColor) msg.addBlobArg(rgbVideoBuffer);
     
-    sender.sendMessage(m);
+    sender.sendMessage(msg);
 }
 
 void ofApp::pixelsToBuffer(ofPixels _pix, ofBuffer& _buffer, int _quality) {

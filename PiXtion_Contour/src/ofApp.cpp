@@ -199,16 +199,16 @@ void ofApp::exit() {
 }
 //--------------------------------------------------------------
 void ofApp::sendOscContours(int index) {
-    ofxOscMessage m;
-    m.setAddress("/contour");
-    m.addStringArg(compname);
-    //m.addStringArg(uniqueId(36));
+    ofxOscMessage msg;
+    msg.setAddress("/contour");
+    msg.addStringArg(compname);
+    //msg.addStringArg(uniqueId(36));
 
-    m.addIntArg(index);
-    m.addBlobArg(contourColorBuffer);
-    m.addBlobArg(contourPointsBuffer);
+    msg.addIntArg(index);
+    msg.addBlobArg(contourColorBuffer);
+    msg.addBlobArg(contourPointsBuffer);
 
-    sender.sendMessage(m);
+    sender.sendMessage(msg);
 }
 
 float ofApp::rawDepthToMeters(int depthValue) {
