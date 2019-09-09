@@ -26,11 +26,11 @@ void ofApp::setup() {
 	mirror = ofToBool(XML.getValue("settings:mirror", "false"));
 
     if (settings.doColor) {
-    	fbo.allocate(2 * settings.width, settings.height, GL_RGBA); 
+    	fbo.allocate(2 * settings.width, settings.height, GL_RGB); 
     	finalCvImage.allocate(2 * settings.width, settings.height); 
     	finalImage.allocate(2 * settings.width, settings.height, OF_IMAGE_COLOR); 
 	} else {
-    	fbo.allocate(settings.width, settings.height, GL_RGBA); 
+    	fbo.allocate(settings.width, settings.height, GL_RGB); 
     	finalCvImage.allocate(settings.width, settings.height); 		
     	finalImage.allocate(settings.width, settings.height, OF_IMAGE_COLOR); 		
 	}
@@ -75,9 +75,9 @@ void ofApp::update() {
 		}
 		fbo.end();
 
-		fbo.readToPixels(finalCvImage);
-        finalCvImage.flagImageChanged();
-        toOf(finalCvImage.getCvImage(), finalImage.getPixelsRef());
+		ofPixels pixels;
+		fbo.readToPixels(pixels);
+		finalImage.setFromPixels(pixels);
 
 		imageToBuffer(finalImage);
 	}
