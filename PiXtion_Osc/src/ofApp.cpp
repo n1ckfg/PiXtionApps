@@ -70,9 +70,22 @@ void ofApp::update() {
 		}
 		fbo.end();
 
-		finalImage.setFromPixels(fbo.getPixelsRef());
+		unsigned char * fboPixels;  
+		fboPixels =(unsigned char*) fbo.getPixels();  
+		
+		int w = settings.width;
+		int h = settings.height;
 
-		imageToBuffer(fboPixels);
+		unsigned char temp[int(w*h*3)];  
+		for (int t = 0; t < w*h; t++){  
+			temp[t*3+0] = fboPixels[t*4+0];  
+			temp[t*3+1] = fboPixels[t*4+1];  
+			temp[t*3+2] = fboPixels[t*4+2];  
+		}  
+
+		finalImage.setFromPixels(temp, w, h);
+
+		imageToBuffer(finalImage);
 	}
 }
 
