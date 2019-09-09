@@ -99,14 +99,12 @@ void ofApp::imageToBuffer(ofImage img) {
 
 //--------------------------------------------------------------
 void ofApp::draw() {
-    ofSetColor(255,255,255);
-    ofBackground(0,0,0);
+    //ofSetColor(255,255,255);
+    //ofBackground(0,0,0);
 
 	if (isReady) {
 		sendOscVideo();
 	}
-
-	fbo.draw(0,0);
 }
 
 //--------------------------------------------------------------

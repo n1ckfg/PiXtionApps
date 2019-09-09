@@ -5,7 +5,7 @@
     <!-- * -->
     <host>BrazilV.local</host>
     <port>7110</port>
-    <videoQuality>3</videoQuality>
+    <videoQuality>2</videoQuality>
     <!-- * -->
     <doColor>true</doColor>
     <mirror>false</mirror>
