@@ -1,8 +1,10 @@
 #include "ofApp.h"
 #include "ofConstants.h"
+#include "../../common/src/PiXtionUtils.hpp"
 
 using namespace cv;
 using namespace ofxCv;
+using namespace PiXtionUtils;
 
 //--------------------------------------------------------------
 void ofApp::setup() {
