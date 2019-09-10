@@ -86,29 +86,8 @@ void ofApp::update() {
 
 //--------------------------------------------------------------
 void ofApp::draw() {
-    ofSetColor(255,255,255);
-    ofBackground(0,0,0);
-
-    if (isReady) {               
-        for (int j=0; j<cvPoints.size(); j++) {
-            ofVec3f v;
-            v = oniGrabber.convertDepthToWorld((int) cvPoints[j].x, (int) cvPoints[j].y);
-            if (v.z > minZ) cvCleanPoints.push_back(v);
-        }
-
-        float pointsData[cvCleanPoints.size() * 3]; 
-        for (int j=0; j<cvCleanPoints.size(); j++) {
-            int index = j * 3;
-            pointsData[index] = cvCleanPoints[j].x;
-            pointsData[index+1] = cvCleanPoints[j].y;
-            pointsData[index+2] = cvCleanPoints[j].z;
-        }
-        char const * pPoints = reinterpret_cast<char const *>(pointsData);
-        std::string pointsString(pPoints, pPoints + sizeof pointsData);
-        pointsBuffer.set(pointsString); 
-
-        sendOscPoints();
-    }
+    //ofSetColor(255,255,255);
+    //ofBackground(0,0,0);
 }
 
 //--------------------------------------------------------------
