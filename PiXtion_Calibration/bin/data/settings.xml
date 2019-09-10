@@ -9,7 +9,6 @@
     <!-- * -->
     <doColor>true</doColor>
     <doDepth>true</doDepth>
-    <doRawDepth>true</doRawDepth>
     <doIr>false</doIr>
     <mirror>false</mirror>
     <registered>true</registered>

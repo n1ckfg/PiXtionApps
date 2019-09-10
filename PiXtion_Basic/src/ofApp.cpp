@@ -13,6 +13,7 @@ void ofApp::setup() {
 	settings.doDepth = ofToBool(XML.getValue("settings:doDepth", "true"));
 	settings.doColor = ofToBool(XML.getValue("settings:doColor", "true")) ;
 	settings.doIr = ofToBool(XML.getValue("settings:doIr", "false")) ;
+    settings.doRawDepth = false;
 	settings.doRegisterDepthToColor = ofToBool(XML.getValue("settings:registered", "true"));
 
 	settings.depthPixelFormat = PIXEL_FORMAT_DEPTH_1_MM;

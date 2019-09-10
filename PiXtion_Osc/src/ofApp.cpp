@@ -11,7 +11,9 @@ void ofApp::setup() {
 	settings.height = XML.getValue("settings:height", 240);
 	settings.fps = XML.getValue("settings:fps", 30);;
 
-	doColor = ofToBool(XML.getValue("settings:do_color", "true")) ;
+    settings.doColor = ofToBool(XML.getValue("settings:do_color", "true")) ;
+    settings.doColor = ofToBool(XML.getValue("settings:do_color", "true")) ;
+    settings.doRawDepth = false;
 	settings.doRegisterDepthToColor = ofToBool(XML.getValue("settings:registered", "true"));
 
 	settings.depthPixelFormat = PIXEL_FORMAT_DEPTH_1_MM;
