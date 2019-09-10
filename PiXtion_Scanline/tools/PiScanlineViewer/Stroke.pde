@@ -36,9 +36,9 @@ class Stroke {
   
   void draw() {
     noFill();
-    stroke(col);
-    strokeWeight(4);
-    beginShape();
+    stroke(col, 127);
+    strokeWeight(2);
+    beginShape(POINTS);
     for (PVector p : points) {
       vertex(p.x, p.y, p.z);
     }
