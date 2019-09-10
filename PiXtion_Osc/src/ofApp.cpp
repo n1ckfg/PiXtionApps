@@ -11,7 +11,7 @@ void ofApp::setup() {
 	settings.height = XML.getValue("settings:height", 240);
 	settings.fps = XML.getValue("settings:fps", 30);;
 
-	settings.doColor = ofToBool(XML.getValue("settings:do_color", "true")) ;
+	doColor = ofToBool(XML.getValue("settings:do_color", "true")) ;
 	settings.doRegisterDepthToColor = ofToBool(XML.getValue("settings:registered", "true"));
 
 	settings.depthPixelFormat = PIXEL_FORMAT_DEPTH_1_MM;
@@ -24,7 +24,7 @@ void ofApp::setup() {
 
 	isReady = oniGrabber.setup(settings);
 
-    depth.allocate(settings.width, settings.height, OF_IMAGE_COLOR);
+    depth.allocate(settings.width, settings.height, OF_IMAGE_GRAYSCALE);
     rgb.allocate(settings.width, settings.height, OF_IMAGE_COLOR);
 
     depthVideoQuality = XML.getValue("settings:depth_video_quality", 3);
@@ -57,11 +57,12 @@ void ofApp::update() {
 	if (isReady) {
 		oniGrabber.update();
 
-        depth.setFromPixels(oniGrabber.depthSource.currentPixels->getPixels());
-        //imageToBuffer(depth, depthVideoBuffer, depthVideoQuality);
+        depth.setFromPixels(oniGrabber.depthSource.noAlphaPixels->getPixels(), settings.width, settings.height, OF_IMAGE_GRAYSCALE);
+        imageToBuffer(depth, depthVideoBuffer, depthVideoQuality);
+        
         if (doColor) {
-            rgb.setFromPixels(oniGrabber.rgbSource.currentPixels->getPixels());
-            //imageToBuffer(rgb, rgbVideoBuffer, rgbVideoQuality);
+            rgb.setFromPixels(oniGrabber.rgbSource.currentPixels->getPixels(), settings.width, settings.height, OF_IMAGE_COLOR);
+            imageToBuffer(rgb, rgbVideoBuffer, rgbVideoQuality);
         }
 	}
 }
@@ -75,8 +76,8 @@ void ofApp::draw() {
 		sendOscVideo();
 	}
 
-    depth.draw(0,0);
-    rgb.draw(settings.width, 0);
+    //depth.draw(0,0);
+    //rgb.draw(settings.width, 0);
 }
 
 //--------------------------------------------------------------
