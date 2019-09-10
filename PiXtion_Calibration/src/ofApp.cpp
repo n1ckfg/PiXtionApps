@@ -62,10 +62,10 @@ void ofApp::update() {
         rgb.setFromPixels(oniGrabber.rgbSource.currentPixels->getPixels(), settings.width, settings.height, OF_IMAGE_COLOR);
         imageToBuffer(rgb, videoBuffer, videoQuality);
 
-        float pointsData[points.size() * 3];
+        float pointsData[settings.width * settings.height * 3];
         for (int x=0; x<settings.width; x++) {
             for (int y=0; y<settings.height; y++) {
-                int loc = (x + y * width) * 3;
+                int loc = (x + y * settings.width) * 3;
                 ofVec3f v = ofVec3f(0,0,0);
                 //v = oniGrabber.convertDepthToWorld(x, y);  
                 pointsData[loc] = v.x;
