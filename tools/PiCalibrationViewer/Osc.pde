@@ -49,10 +49,10 @@ void oscEvent(OscMessage msg) {
       if (!Float.isNaN(x) && !Float.isNaN(y)) { // && !Float.isNaN(z)) {
         PVector p = new PVector(-x, -y, -z);
         points.add(p);
-        println(p.x + ", " + p.z + ", " + p.y);
+        //println(p.x + ", " + p.z + ", " + p.y);
       }
     }
     
-    frame.init(rgb, points);
+    if (frame.firstRun) frame.init(rgb, points);
   }
 }
