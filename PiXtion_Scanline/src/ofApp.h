@@ -3,8 +3,6 @@
 #include "ofMain.h"
 #include "ofxOpenNI2Grabber.h"
 #include "ofxOpenNI2Recorder.h"
-#include "ofxOpenCv.h"
-#include "ofxCv.h"
 #include "ofxOsc.h"
 #include "ofxXmlSettings.h"
 
