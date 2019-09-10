@@ -3,6 +3,8 @@
 #include "ofMain.h"
 #include "ofxOpenNI2Grabber.h"
 #include "ofxOpenNI2Recorder.h"
+#include "ofxOpenCv.h"
+#include "ofxCv.h"
 #include "ofxOsc.h"
 #include "ofxXmlSettings.h"
 
@@ -33,7 +35,6 @@ class ofApp : public ofBaseApp {
         string xmlStructure;
         string message;
 
-		ofFile file;
         string compname;
 		string host; // hostname;
 		int port; // default 7110;
@@ -54,6 +55,6 @@ class ofApp : public ofBaseApp {
 		int smooth;
 
 		ofxOscSender sender;
-		void sendOscContours(int index);
+		void sendOscScanline(int index);
 
 };
