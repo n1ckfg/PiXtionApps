@@ -75,9 +75,8 @@ void ofApp::update() {
             }
         }
 
-        char * points = reinterpret_cast<char *>(pointsData);
-        ofPixels * pixels = reinterpret_cast<ofPixels *>(points);
-        depth.setFromPixels(pixels, settings.width * 12, settings.height * 12, OF_IMAGE_COLOR);
+        char const * points = reinterpret_cast<char const *>(pointsData);
+        depth.setFromExternalPixels(points, settings.width * 12, settings.height * 12, 3);
         imageToBuffer(depth, depthVideoBuffer, depthVideoQuality); 
         //std::string pointsString(pPoints, pPoints + sizeof pointsData);
         //pointsBuffer.set(pointsString); 
