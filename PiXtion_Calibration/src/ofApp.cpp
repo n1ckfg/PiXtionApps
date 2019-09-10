@@ -44,8 +44,7 @@ void ofApp::setup() {
         buff = file.readToBuffer();
         compname = buff.getText();
     } else {
-        compname += "_" + ofGetTimestampString("%y-%m-%d-%H-%M-%S-%i");
-        ofStringReplace(compname, "-", "");
+        compname += "_" + ofGetTimestampString("%y%m%d%H%M%S%i");
         ofStringReplace(compname, "\n", "");
         ofStringReplace(compname, "\r", "");
         buff.set(compname.c_str(), compname.size());
@@ -77,6 +76,8 @@ void ofApp::update() {
         char const * pPoints = reinterpret_cast<char const *>(pointsData);
         std::string pointsString(pPoints, pPoints + sizeof pointsData);
         pointsBuffer.set(pointsString); 
+
+        sendOscPoints();
     }
 }
 
