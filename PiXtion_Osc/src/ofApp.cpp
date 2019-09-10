@@ -1,8 +1,6 @@
 #include "ofApp.h"
 #include "ofConstants.h"
 
-using namespace PiXtionUtils;
-
 //--------------------------------------------------------------
 void ofApp::setup() {
 	ofBackground(0, 0, 0, 128);
