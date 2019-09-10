@@ -74,6 +74,9 @@ void ofApp::draw() {
 	if (isReady) {
 		sendOscVideo();
 	}
+
+    depth.draw(0,0);
+    rgb.draw(settings.width, 0);
 }
 
 //--------------------------------------------------------------
