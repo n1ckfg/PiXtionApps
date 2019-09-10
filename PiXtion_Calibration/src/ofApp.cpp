@@ -67,7 +67,7 @@ void ofApp::update() {
             for (int y=0; y<settings.height; y++) {
                 int loc = (x + y * settings.width) * 3;
                 ofVec3f v = ofVec3f(0,0,0);
-                if (x % 10 == 0 && y % 10 == 0) v = oniGrabber.convertDepthToWorld(x, y);  
+                if (x == 0 && y == 0) v = oniGrabber.convertDepthToWorld(x, y);  
                 pointsData[loc] = v.x;
                 pointsData[loc+1] = v.y;
                 pointsData[loc+2] = v.z;
