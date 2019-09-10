@@ -62,26 +62,26 @@ void ofApp::update() {
         rgb.setFromPixels(oniGrabber.rgbSource.currentPixels->getPixels(), settings.width, settings.height, OF_IMAGE_COLOR);
         imageToBuffer(rgb, videoBuffer, videoQuality);
 
-        /*
-        float pointsData[settings.width * settings.height * 3];
-        int pointsDataCounter = 0;
-
+        vector<ofVec3f> points;
         for (int x=0; x<settings.width; x++) {
             for (int y=0; y<settings.height; y++) {
                 ofVec3f v;
-                v = oniGrabber.convertDepthToWorld(x, y);
-                
-                pointsData[pointsDataCounter] = v.x;
-                pointsData[pointsDataCounter+1] = v.y;
-                pointsData[pointsDataCounter+2] = v.z;
-                pointsDataCounter += 3;
+                v = oniGrabber.convertDepthToWorld(x, y);  
+                points.push_back(v);
             }
+        }
+
+        float pointsData[points.size() * 3];
+        for (int i=0; i<points.size(); i++) {
+            int index = i * 3;
+            pointsData[index] = points[i].x;
+            pointsData[index+1] = points[i].y;
+            pointsData[index+2] = points[i].z;
         }
 
         char const * pPoints = reinterpret_cast<char const *>(pointsData);
         std::string pointsString(pPoints, pPoints + sizeof pointsData);
         pointsBuffer.set(pointsString); 
-        */
     }
 }
 
@@ -105,7 +105,7 @@ void ofApp::sendOscPoints() {
     msg.setAddress("/points");
     msg.addStringArg(compname);
     msg.addBlobArg(videoBuffer);
-    //msg.addBlobArg(pointsBuffer);
+    msg.addBlobArg(pointsBuffer);
 
     sender.sendMessage(msg);
 }
