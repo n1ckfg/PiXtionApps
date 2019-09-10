@@ -22,7 +22,7 @@ void ofApp::setup() {
 	settings.useOniFile = false;
 	settings.oniFilePath = "UNDEFINED";
 
-	mirror = ofToBool(XML.getValue("settings:mirror", "false"));
+	settings.mirror = ofToBool(XML.getValue("settings:mirror", "false"));
 
 	isReady = oniGrabber.setup(settings);
 
@@ -62,7 +62,7 @@ void ofApp::update() {
         depth.setFromPixels(oniGrabber.depthSource.noAlphaPixels->getPixels(), settings.width, settings.height, OF_IMAGE_GRAYSCALE);
         imageToBuffer(depth, depthVideoBuffer, depthVideoQuality);
         
-        if (doColor) {
+        if (settings.doColor) {
             rgb.setFromPixels(oniGrabber.rgbSource.currentPixels->getPixels(), settings.width, settings.height, OF_IMAGE_COLOR);
             imageToBuffer(rgb, rgbVideoBuffer, rgbVideoQuality);
         }
