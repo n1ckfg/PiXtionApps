@@ -5,7 +5,7 @@
 #include "ofxOpenNI2Recorder.h"
 #include "ofxOsc.h"
 #include "ofxXmlSettings.h"
-#include "../../common/src/PiXtionUtils.hpp"
+#include "../../common/src/PiXtionUtils.h"
 
 class ofApp : public ofBaseApp {
 
