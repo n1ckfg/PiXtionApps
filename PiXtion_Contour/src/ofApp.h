@@ -7,6 +7,7 @@
 #include "ofxCv.h"
 #include "ofxOsc.h"
 #include "ofxXmlSettings.h"
+#include "../../common/src/PiXtionUtils.h"
 
 class ofApp : public ofBaseApp {
 
@@ -57,6 +58,5 @@ class ofApp : public ofBaseApp {
 
 		ofxOscSender sender;
 		void sendOscContours(int index);
-		float rawDepthToMeters(int depthValue);
-		string uniqueId(int len);
+
 };

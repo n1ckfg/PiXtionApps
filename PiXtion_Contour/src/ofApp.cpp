@@ -77,13 +77,6 @@ void ofApp::update() {
 	if (isReady) {
 		oniGrabber.update();
 		
-        /*
-        grayImage.setFromPixels(oniGrabber.depthSource.noAlphaPixels->getPixels(), settings.width, settings.height);
-		grayImage.mirror(false, mirror);
-        grayImage.flagImageChanged();
-		toOf(grayImage.getCvImage(), gray.getPixelsRef());
-        */
-
         colorImage.setFromPixels(oniGrabber.rgbSource.currentPixels->getPixels(), settings.width, settings.height);
         colorImage.mirror(false, mirror);
         colorImage.flagImageChanged();
@@ -97,16 +90,9 @@ void ofApp::draw() {
     ofBackground(0,0,0);
 
 	if (isReady) {
-	    //if (debug) {
-        //ofSetLineWidth(2);
-        //ofNoFill();
-        //}
-
         int contourCounter = 0;
         unsigned char * pixels = color.getPixels();
-        //unsigned char * pixelsGray = gray.getPixels();
         int gw = color.getWidth();
-        //int gwGray = gray.getWidth();
 
         for (int h=0; h<255; h += int(255/contourSlices)) {
             contourFinder.setThreshold(h);
@@ -117,10 +103,8 @@ void ofApp::draw() {
             for (int i = 0; i < n; i++) {
                 ofPolyline line = contourFinder.getPolyline(i);
                 line.simplify(simplify);
-                //line = line.getResampledBySpacing(1);
                 line = line.getSmoothed(smooth, 0.5);
                 vector<ofPoint> cvPoints = line.getVertices();
-                //vector<float> cvPointsZ;
                 vector<ofVec3f> cvCleanPoints;
 
                 int middle = int(cvPoints.size()/2);
@@ -128,16 +112,6 @@ void ofApp::draw() {
                 int y = int(cvPoints[middle].y);
                 int loc = (x + y * gw) * 3;
                 ofColor col = ofColor(pixels[loc], pixels[loc + 1], pixels[loc + 2]);
-                //cout << col;
-                
-                /*
-                for (int j=0; j<cvPoints.size(); j++) {
-                    int xg = int(cvPoints[j].x);
-                    int yg = int(cvPoints[j].y);
-                    ofColor colGray = pixelsGray[xg + yg * gwGray];
-                    cvPointsZ.push_back(colGray.r);
-                }
-                */
 
                 float colorData[3]; 
                 colorData[0] = col.r;
@@ -168,24 +142,6 @@ void ofApp::draw() {
                 contourCounter++;
             }        
         }
-
-       	// ~ ~ ~ ~ ~
-
-		/*
-		if (settings.doDepth && drawDepth) {
-			grayImage.draw(0, 0);
-		}
-
-		if (settings.doColor && drawColor) {
-			ofTexture& color = oniGrabber.getRGBTextureReference();
-			color.draw(grayImage.getWidth(), 0);
-		}
-
-		if (settings.doIr && drawIr) {
-			ofTexture& ir = oniGrabber.getIRTextureReference();
-			ir.draw(grayImage.getWidth(), 0);
-		}
-		*/
 	}
 }
 
@@ -202,7 +158,6 @@ void ofApp::sendOscContours(int index) {
     ofxOscMessage msg;
     msg.setAddress("/contour");
     msg.addStringArg(compname);
-    //msg.addStringArg(uniqueId(36));
 
     msg.addIntArg(index);
     msg.addBlobArg(contourColorBuffer);
@@ -211,25 +166,3 @@ void ofApp::sendOscContours(int index) {
     sender.sendMessage(msg);
 }
 
-float ofApp::rawDepthToMeters(int depthValue) {
-  if (depthValue < 2047) {
-    return (float)(1.0 / ((double)(depthValue) * -0.0030711016 + 3.3309495161));
-  }
-  return 0.0;
-}
-
-string ofApp::uniqueId(int len) {
-	long seed = long(ofRandom(0, 1000000));
-	cout << seed << "   "; 
-	srand(seed);
-	string str = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-	string newstr;
-	int pos;
-	while(newstr.size() != len) {
-	   pos = ((rand() % (str.size() - 1)));
-	   newstr += str.substr(pos,1);
-	}
-
-	cout << newstr << "\n";
-	return newstr;
-}

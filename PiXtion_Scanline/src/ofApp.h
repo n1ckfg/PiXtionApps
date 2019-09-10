@@ -55,6 +55,5 @@ class ofApp : public ofBaseApp {
 
 		ofxOscSender sender;
 		void sendOscContours(int index);
-		float rawDepthToMeters(int depthValue);
-		string uniqueId(int len);
+
 };
