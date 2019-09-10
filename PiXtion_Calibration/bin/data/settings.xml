@@ -8,7 +8,7 @@
     <videoQuality>2</videoQuality>
     <!-- * -->
     <doColor>true</doColor>
-    <doDepth>false</doDepth>
+    <doDepth>true</doDepth>
     <doRawDepth>true</doRawDepth>
     <doIr>false</doIr>
     <mirror>false</mirror>
