@@ -22,7 +22,7 @@ void ofApp::setup() {
 	settings.useOniFile = false;
 	settings.oniFilePath = "UNDEFINED";
 
-	settings.mirror = ofToBool(XML.getValue("settings:mirror", "false"));
+	mirror = ofToBool(XML.getValue("settings:mirror", "false"));
 
 	isReady = oniGrabber.setup(settings);
 

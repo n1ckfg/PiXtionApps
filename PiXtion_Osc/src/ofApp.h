@@ -14,7 +14,7 @@ class ofApp : public ofBaseApp {
 		void draw();
 		void exit();
 
-		bool isReady;
+		bool isReady, mirror;
 
 		ofxOpenNI2Grabber oniGrabber;
 		ofxOpenNI2GrabberSettings settings;
