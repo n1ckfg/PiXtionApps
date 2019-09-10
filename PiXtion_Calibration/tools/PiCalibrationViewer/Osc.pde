@@ -6,7 +6,7 @@ PVector dot2 = new PVector(0,0);
 ArrayList<String> hostList;
 int numHosts = 2;
 
-byte[] rgbVideoBytes, readPointsBytes;
+byte[] rgbVideoBytes, depthVideoBytes;
 
 String ipNumber = "127.0.0.1";
 int sendPort = 9998;
@@ -33,6 +33,7 @@ void oscEvent(OscMessage msg) {
     byte[] rgbVideoBytes = msg.get(1).blobValue();
     PImage rgb = fromJpeg(rgbVideoBytes);
     
+    /*
     byte[] readPointsBytes = msg.get(2).blobValue();
    
     ArrayList<PVector> points = new ArrayList<PVector>();
@@ -54,5 +55,7 @@ void oscEvent(OscMessage msg) {
     }
     
     if (frame.firstRun) frame.init(rgb, points);
+    */
+    image(rgb, 0, 0);
   }
 }

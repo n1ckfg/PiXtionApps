@@ -7,3 +7,5 @@ cd ../PiXtion_Contour
 make
 cd ../PiXtion_Osc
 make
+cd ../PiXtion_Scanline
+make
