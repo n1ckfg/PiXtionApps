@@ -3,6 +3,7 @@
 
 using namespace cv;
 using namespace ofxCv;
+using namespace PiXtionUtils;
 
 //--------------------------------------------------------------
 void ofApp::setup() {
