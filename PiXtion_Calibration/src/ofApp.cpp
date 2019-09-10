@@ -75,10 +75,11 @@ void ofApp::update() {
             }
         }
 
-        char const * points = reinterpret_cast<char const *>(pointsData);
-        ofPixels pixels;
-        pixels.setFromExternalPixels(points, settings.width * 12, settings.height * 12, 3);
-        pixelsToBuffer(pixels, depthVideoBuffer, depthVideoQuality); 
+        unsigned char * points = reinterpret_cast<unsigned char *>(pointsData);
+        //ofPixels pixels;
+        //pixels.setFromExternalPixels(points, settings.width * 12, settings.height * 12, 3);
+        depth.setFromPixels(points, settings.width * 12, settings.height, OF_IMAGE_COLOR);
+        imageToBuffer(depth, depthVideoBuffer, depthVideoQuality); 
         //std::string pointsString(pPoints, pPoints + sizeof pointsData);
         //pointsBuffer.set(pointsString); 
 
