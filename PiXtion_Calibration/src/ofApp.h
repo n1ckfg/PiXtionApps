@@ -26,7 +26,7 @@ class ofApp : public ofBaseApp {
 		ofxOpenNI2Grabber oniGrabber;
 		ofxOpenNI2GrabberSettings settings;
 
-		ofImage rgb;
+		ofImage depth, rgb;
 
         ofxXmlSettings XML;
         string xmlStructure;
@@ -36,9 +36,10 @@ class ofApp : public ofBaseApp {
         string compname;
 		string host; // hostname;
 		int port; // default 7110;
-		int videoQuality; // 5 best to 1 worst, default 3 medium
-		ofBuffer videoBuffer;
-		ofBuffer pointsBuffer;
+		int depthVideoQuality; // 5 best to 1 worst, default 3 medium
+		int rgbVideoQuality; // 5 best to 1 worst, default 3 medium
+		ofBuffer depthVideoBuffer;
+		ofBuffer rgbVideoBuffer;
 		float minZ;
 
 		ofxOscSender sender;

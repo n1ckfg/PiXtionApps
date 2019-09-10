@@ -28,11 +28,13 @@ void ofApp::setup() {
 
     mirror = ofToBool(XML.getValue("settings:mirror", "false"));
 
+    depth.allocate(settings.width * 12, settings.height * 12, OF_IMAGE_COLOR);        
     rgb.allocate(settings.width, settings.height, OF_IMAGE_COLOR);        
 
     isReady = oniGrabber.setup(settings);
 
-    videoQuality = XML.getValue("settings:videoQuality", 3);
+    rgbVideoQuality = XML.getValue("settings:rgb_video_quality", 3);
+    depthVideoQuality = XML.getValue("settings:depth_video_quality", 3);
     host = XML.getValue("settings:host", "127.0.0.1");
     port = XML.getValue("settings:port", 7110);
     compname = "RPi";
@@ -59,7 +61,7 @@ void ofApp::update() {
         oniGrabber.update();
         
         rgb.setFromPixels(oniGrabber.rgbSource.currentPixels->getPixels(), settings.width, settings.height, OF_IMAGE_COLOR);
-        imageToBuffer(rgb, videoBuffer, videoQuality);
+        imageToBuffer(rgb, rgbVideoBuffer, rgbVideoQuality);
 
         float pointsData[settings.width * settings.height * 3];
         for (int x=0; x<settings.width; x++) {
@@ -74,8 +76,10 @@ void ofApp::update() {
         }
 
         char const * pPoints = reinterpret_cast<char const *>(pointsData);
-        std::string pointsString(pPoints, pPoints + sizeof pointsData);
-        pointsBuffer.set(pointsString); 
+        depth.setFromPixels(pPoints, settings.width * 12, settings.height * 12, OF_IMAGE_COLOR);
+        imageToBuffer(depth, depthVideoBuffer, depthVideoQuality); 
+        //std::string pointsString(pPoints, pPoints + sizeof pointsData);
+        //pointsBuffer.set(pointsString); 
 
         sendOscPoints();
     }
@@ -100,8 +104,8 @@ void ofApp::sendOscPoints() {
     ofxOscMessage msg;
     msg.setAddress("/points");
     msg.addStringArg(compname);
-    msg.addBlobArg(videoBuffer);
-    msg.addBlobArg(pointsBuffer);
+    msg.addBlobArg(rgbVideoBuffer);
+    msg.addBlobArg(depthVideoBuffer);
 
     sender.sendMessage(msg);
 }
