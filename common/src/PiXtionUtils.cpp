@@ -1,5 +1,6 @@
 #include "PiXtionUtils.h"
 
+/*
 void PiXtionUtils::imageToBuffer(ofImage _img, ofBuffer& _buffer, int _quality) {
     switch(_quality) {
         case 5:
@@ -19,6 +20,7 @@ void PiXtionUtils::imageToBuffer(ofImage _img, ofBuffer& _buffer, int _quality) 
             break;
     }
 }
+*/
 
 void PiXtionUtils::pixelsToBuffer(ofPixels _pix, ofBuffer& _buffer, int _quality) {
     ofImage img;
