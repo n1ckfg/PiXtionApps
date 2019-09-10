@@ -97,7 +97,7 @@ void ofApp::sendOscVideo() {
     msg.addStringArg(compname);    
     
     msg.addBlobArg(depthVideoBuffer);
-    if (doColor) msg.addBlobArg(rgbVideoBuffer);
+    if (settings.doColor) msg.addBlobArg(rgbVideoBuffer);
     
     sender.sendMessage(msg);
 }
