@@ -4,6 +4,24 @@
 
 namespace PiXtionUtils {
 
+    string createCompName(string compname) {
+        ofFile file;
+        ofBuffer buff;
+        
+        file.open(ofToDataPath("compname.txt"), ofFile::ReadWrite, false);
+        if (file) {
+            buff = file.readToBuffer();
+            compname = buff.getText();
+        } else {
+            compname += "_" + ofGetTimestampString("%y%m%d%H%M%S%i");
+            ofStringReplace(compname, "\n", "");
+            ofStringReplace(compname, "\r", "");
+            buff.set(compname.c_str(), compname.size());
+            ofBufferToFile("compname.txt", buff);
+        }
+        return compname;
+    }
+
     void imageToBuffer(ofImage _img, ofBuffer& _buffer, int _quality) {
         switch(_quality) {
             case 5:
