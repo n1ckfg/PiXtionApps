@@ -1,5 +1,6 @@
 #include "ofApp.h"
 #include "ofConstants.h"
+#include "../../common/src/PiXtionUtils.hpp"
 
 using namespace cv;
 using namespace ofxCv;
