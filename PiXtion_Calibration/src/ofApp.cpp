@@ -75,7 +75,7 @@ void ofApp::update() {
             }
         }
 
-        char const * points = reinterpret_cast<char const *>(pointsData);
+        char * points = reinterpret_cast<char *>(pointsData);
         ofPixels * pixels;
         pixels.setFromPixels(points, settings.width * 12, settings.height * 12, OF_IMAGE_COLOR);
         depth.setFromPixels(pixels, settings.width * 12, settings.height * 12, OF_IMAGE_COLOR);
