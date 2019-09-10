@@ -1,7 +1,5 @@
 #pragma once
 
-#include "ofMain.h"
-
 namespace PiXtionUtils {
 
 	void imageToBuffer(ofImage _img, ofBuffer& _buffer, int _quality) {
