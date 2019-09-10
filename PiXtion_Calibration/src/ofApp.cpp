@@ -28,10 +28,7 @@ void ofApp::setup() {
 
     mirror = ofToBool(XML.getValue("settings:mirror", "false"));
 
-    grayImage.allocate(settings.width, settings.height);
-    gray.allocate(settings.width, settings.height, OF_IMAGE_GRAYSCALE);        
-    colorImage.allocate(settings.width, settings.height);
-    color.allocate(settings.width, settings.height, OF_IMAGE_COLOR);        
+    rgb.allocate(settings.width, settings.height, OF_IMAGE_COLOR);        
 
     isReady = oniGrabber.setup(settings);
 
@@ -41,17 +38,6 @@ void ofApp::setup() {
     compname = "RPi";
     sender.setup(host, port);
     
-    contourSlices = 10;
-    contourThreshold = 2.0;
-    contourMinAreaRadius = 1.0;
-    contourMaxAreaRadius = 250.0;
-    contourFinder.setMinAreaRadius(contourMinAreaRadius);
-    contourFinder.setMaxAreaRadius(contourMaxAreaRadius);
-    trackingColorMode = TRACK_COLOR_RGB;
-    minZ = 0.21;
-    simplify = XML.getValue("settings:simplify", 0.5);
-    smooth = XML.getValue("settings:smooth", 2);
-
     file.open(ofToDataPath("compname.txt"), ofFile::ReadWrite, false);
     ofBuffer buff;
     if (file) {
@@ -74,17 +60,27 @@ void ofApp::update() {
     if (isReady) {
         oniGrabber.update();
         
-        /*
-        grayImage.setFromPixels(oniGrabber.depthSource.noAlphaPixels->getPixels(), settings.width, settings.height);
-        grayImage.mirror(false, mirror);
-        grayImage.flagImageChanged();
-        toOf(grayImage.getCvImage(), gray.getPixelsRef());
-        */
+        rgb.setFromPixels(oniGrabber.rgbSource.currentPixels->getPixels(), settings.width, settings.height, OF_IMAGE_COLOR);
+        imageToBuffer(rgb, videoBuffer, videoQuality);
 
-        colorImage.setFromPixels(oniGrabber.rgbSource.currentPixels->getPixels(), settings.width, settings.height);
-        colorImage.mirror(false, mirror);
-        colorImage.flagImageChanged();
-        toOf(colorImage.getCvImage(), color.getPixelsRef());
+        float pointsData[settings.width * settings.height * 3];
+
+        for (int x=0; x<settings.width; x++) {
+            for (int y=0; y<settings.height; y++) {
+                ofVec3f v;
+                v = oniGrabber.convertDepthToWorld(x, y);
+                if (v.z > minZ) {
+                    int loc = (x + y * settings.width) * 3;
+                    pointsData[loc] = v.x;
+                    pointsData[loc+1] = v.y;
+                    pointsData[loc+2] = v.z;          
+                }      
+            }
+        }
+
+        char const * pPoints = reinterpret_cast<char const *>(pointsData);
+        std::string pointsString(pPoints, pPoints + sizeof pointsData);
+        pointsBuffer.set(pointsString); 
     }
 }
 
@@ -93,56 +89,7 @@ void ofApp::draw() {
     ofSetColor(255,255,255);
     ofBackground(0,0,0);
 
-    if (isReady) {
-        //if (debug) {
-        //ofSetLineWidth(2);
-        //ofNoFill();
-        //}
-
-        int contourCounter = 0;
-        unsigned char * pixels = color.getPixels();
-        //unsigned char * pixelsGray = gray.getPixels();
-        int gw = color.getWidth();
-        //int gwGray = gray.getWidth();
-
-        for (int h=0; h<255; h += int(255/contourSlices)) {
-            contourFinder.setThreshold(h);
-            contourFinder.findContours(colorImage);
-            contourFinder.draw();            
-
-            int n = contourFinder.size();
-            for (int i = 0; i < n; i++) {
-                ofPolyline line = contourFinder.getPolyline(i);
-                line.simplify(simplify);
-                //line = line.getResampledBySpacing(1);
-                line = line.getSmoothed(smooth, 0.5);
-                vector<ofPoint> cvPoints = line.getVertices();
-                //vector<float> cvPointsZ;
-                vector<ofVec3f> cvCleanPoints;
-
-                int middle = int(cvPoints.size()/2);
-                int x = int(cvPoints[middle].x);
-                int y = int(cvPoints[middle].y);
-                int loc = (x + y * gw) * 3;
-                ofColor col = ofColor(pixels[loc], pixels[loc + 1], pixels[loc + 2]);
-                //cout << col;
-                
-                /*
-                for (int j=0; j<cvPoints.size(); j++) {
-                    int xg = int(cvPoints[j].x);
-                    int yg = int(cvPoints[j].y);
-                    ofColor colGray = pixelsGray[xg + yg * gwGray];
-                    cvPointsZ.push_back(colGray.r);
-                }
-                */
-
-                float colorData[3]; 
-                colorData[0] = col.r;
-                colorData[1] = col.g;
-                colorData[2] = col.b;
-                char const * pColor = reinterpret_cast<char const *>(colorData);
-                std::string colorString(pColor, pColor + sizeof colorData);
-                contourColorBuffer.set(colorString); 
+    if (isReady) {               
 
                 for (int j=0; j<cvPoints.size(); j++) {
                     ofVec3f v;
@@ -163,26 +110,7 @@ void ofApp::draw() {
 
                 sendOscContours(contourCounter);
                 contourCounter++;
-            }        
-        }
 
-        // ~ ~ ~ ~ ~
-
-        /*
-        if (settings.doDepth && drawDepth) {
-            grayImage.draw(0, 0);
-        }
-
-        if (settings.doColor && drawColor) {
-            ofTexture& color = oniGrabber.getRGBTextureReference();
-            color.draw(grayImage.getWidth(), 0);
-        }
-
-        if (settings.doIr && drawIr) {
-            ofTexture& ir = oniGrabber.getIRTextureReference();
-            ir.draw(grayImage.getWidth(), 0);
-        }
-        */
     }
 }
 
@@ -195,17 +123,14 @@ void ofApp::exit() {
     }
 }
 //--------------------------------------------------------------
-void ofApp::sendOscContours(int index) {
-    ofxOscMessage m;
-    m.setAddress("/contour");
-    m.addStringArg(compname);
-    //m.addStringArg(uniqueId(36));
+void ofApp::sendOscPoints() {
+    ofxOscMessage msg;
+    msg.setAddress("/points");
+    msg.addStringArg(compname);
+    msg.addBlobArg(videoBuffer);
+    msg.addBlobArg(pointsBuffer);
 
-    m.addIntArg(index);
-    m.addBlobArg(contourColorBuffer);
-    m.addBlobArg(contourPointsBuffer);
-
-    sender.sendMessage(m);
+    sender.sendMessage(msg);
 }
 
 float ofApp::rawDepthToMeters(int depthValue) {
@@ -229,4 +154,39 @@ string ofApp::uniqueId(int len) {
 
     cout << newstr << "\n";
     return newstr;
+}
+
+void ofApp::imageToBuffer(ofImage _img, ofBuffer& _buffer, int _quality) {
+    switch(_quality) {
+        case 5:
+            ofSaveImage(_img, _buffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_BEST);
+            break;
+        case 4:
+            ofSaveImage(_img, _buffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_HIGH);
+            break;
+        case 3:
+            ofSaveImage(_img, _buffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_MEDIUM);
+            break;
+        case 2:
+            ofSaveImage(_img, _buffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_LOW);
+            break;
+        case 1:
+            ofSaveImage(_img, _buffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_WORST);
+            break;
+    }
+}
+
+void ofApp::pixelsToBuffer(ofPixels _pix, ofBuffer& _buffer, int _quality) {
+    ofImage img;
+    img.setFromPixels(_pix);
+    imageToBuffer(img, _buffer, _quality);
+}
+
+void ofApp::fboToBuffer(ofFbo _fbo, ofBuffer& _buffer, int _quality) {
+    // jpegs have no alpha, so fbo must be initialized with GL_RGB, not GL_RGBA!
+    ofPixels pixels;
+    ofImage img;
+    _fbo.readToPixels(pixels);
+    img.setFromPixels(pixels);
+    imageToBuffer(img, _buffer, _quality);
 }
