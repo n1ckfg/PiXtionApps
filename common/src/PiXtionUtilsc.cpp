@@ -1,7 +1,4 @@
-#pragma once
-
-#include "ofMain.h"
-
+#include "PiXtionUtils.h"
 
 void PiXtionUtils::imageToBuffer(ofImage _img, ofBuffer& _buffer, int _quality) {
     switch(_quality) {
