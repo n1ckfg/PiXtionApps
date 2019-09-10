@@ -52,7 +52,6 @@ void ofApp::setup() {
         ofBufferToFile("compname.txt", buff);
     }
     cout << compname;
-
 }
 
 //--------------------------------------------------------------
@@ -63,6 +62,7 @@ void ofApp::update() {
         rgb.setFromPixels(oniGrabber.rgbSource.currentPixels->getPixels(), settings.width, settings.height, OF_IMAGE_COLOR);
         imageToBuffer(rgb, videoBuffer, videoQuality);
 
+        /*
         float pointsData[settings.width * settings.height * 3];
         int pointsDataCounter = 0;
 
@@ -81,6 +81,7 @@ void ofApp::update() {
         char const * pPoints = reinterpret_cast<char const *>(pointsData);
         std::string pointsString(pPoints, pPoints + sizeof pointsData);
         pointsBuffer.set(pointsString); 
+        */
     }
 }
 
@@ -104,7 +105,7 @@ void ofApp::sendOscPoints() {
     msg.setAddress("/points");
     msg.addStringArg(compname);
     msg.addBlobArg(videoBuffer);
-    msg.addBlobArg(pointsBuffer);
+    //msg.addBlobArg(pointsBuffer);
 
     sender.sendMessage(msg);
 }
