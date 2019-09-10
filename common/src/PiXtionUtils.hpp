@@ -19,6 +19,7 @@ namespace PiXtionUtils {
             buff.set(compname.c_str(), compname.size());
             ofBufferToFile("compname.txt", buff);
         }
+        
         return compname;
     }
 
