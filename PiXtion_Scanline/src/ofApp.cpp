@@ -50,10 +50,10 @@ void ofApp::update() {
     if (isReady) {
         oniGrabber.update();
         
-        colorImage.setFromPixels(oniGrabber.rgbSource.currentPixels->getPixels(), settings.width, settings.height);
-        colorImage.mirror(false, mirror);
-        colorImage.flagImageChanged();
-        toOf(colorImage.getCvImage(), color.getPixelsRef());
+        colorCv.setFromPixels(oniGrabber.rgbSource.currentPixels->getPixels(), settings.width, settings.height);
+        colorCv.mirror(false, mirror);
+        colorCv.flagImageChanged();
+        toOf(colorCv.getCvImage(), color.getPixelsRef());
 
         int contourCounter = 0;
         unsigned char * pixels = color.getPixelsRef();
