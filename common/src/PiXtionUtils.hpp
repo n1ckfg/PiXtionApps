@@ -23,25 +23,6 @@ namespace PiXtionUtils {
         return compname;
     }
 
-    void floatsToBuffer(float& _floats[], ofBuffer& _buffer) {
-        char const * points = reinterpret_cast<char const *>(_floats);
-        std::string pointsString(points, points + sizeof _floats);
-        _buffer.set(pointsString); 
-    }
-
-    void vec3sToBuffer(vector<ofVec3f> _points, ofBuffer& _buffer) {
-        float pointsData[_points.size() * 3]; 
-
-        for (int i=0; i<_points.size(); i++) {
-            int index = i * 3;
-            pointsData[index] = _points[i].x;
-            pointsData[index+1] = _points[i].y;
-            pointsData[index+2] = _points[i].z;
-        }
-
-        floatsToBuffer(pointsData, _buffer);
-    }
-
     void imageToBuffer(ofImage _img, ofBuffer& _buffer, int _quality) {
         switch(_quality) {
             case 5:

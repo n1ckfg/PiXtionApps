@@ -88,10 +88,9 @@ void ofApp::update() {
                 pointsData[index+2] = points[x].z;
             }
 
-            //char const * pPoints = reinterpret_cast<char const *>(pointsData);
-            //std::string pointsString(pPoints, pPoints + sizeof pointsData);
-            //pointsBuffer.set(pointsString); 
-            floatsToBuffer(pointsData, pointsBuffer);
+            char const * pPoints = reinterpret_cast<char const *>(pointsData);
+            std::string pointsString(pPoints, pPoints + sizeof pointsData);
+            pointsBuffer.set(pointsString); 
 
             sendOscScanline(contourCounter);
             contourCounter++;
