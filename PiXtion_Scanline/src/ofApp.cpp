@@ -70,9 +70,10 @@ void ofApp::update() {
             colorData[1] = col.g;
             colorData[2] = col.b;
             
-            char const * pColor = reinterpret_cast<char const *>(colorData);
-            std::string colorString(pColor, pColor + sizeof colorData);
-            colorBuffer.set(colorString); 
+            //char const * pColor = reinterpret_cast<char const *>(colorData);
+            //std::string colorString(pColor, pColor + sizeof colorData);
+            //colorBuffer.set(colorString); 
+            floatsToBuffer(colorData, colorString);
 
             for (int x=0; x<(int)settings.width; x++) {
                 ofVec3f v;
