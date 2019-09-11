@@ -24,14 +24,11 @@ namespace PiXtionUtils {
     }
 
     void floatsToBuffer(vector<float> floats, ofBuffer& buffer) {
-        /*
         std::string floatString;
-        for (int i=0; i<floats.size(); i++) {
+        for (uint i=0; i<floats.size(); i++) {
             floatString.append(std::to_string(floats[i]));
         }
-        */
-        char const * chars = reinterpret_cast<char const *>(floats.data);
-        std::string floatString(chars, chars + sizeof floats.data());
+        
         buffer.set(floatString); 
     }
 
