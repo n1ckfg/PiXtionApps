@@ -31,7 +31,7 @@ namespace PiXtionUtils {
         }
         */
         char const * chars = reinterpret_cast<char const *>(floats.data);
-        std::string floatString(chars, chars + sizeof floats.data);
+        std::string floatString(chars, chars + sizeof floats.data());
         buffer.set(floatString); 
     }
 
