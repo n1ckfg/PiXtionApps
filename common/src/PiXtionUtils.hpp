@@ -23,6 +23,12 @@ namespace PiXtionUtils {
         return compname;
     }
 
+    void floatsToBuffer(float floats[], ofBuffer& buffer) {
+        unsigned char * chars = reinterpret_cast<unsigned char *>(floats);
+        std::string charString(chars, chars + sizeof floats);
+        buffer.set(charString); 
+    }
+
     void imageToBuffer(ofImage _img, ofBuffer& _buffer, int _quality) {
         switch(_quality) {
             case 5:
