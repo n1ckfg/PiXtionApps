@@ -72,7 +72,7 @@ void ofApp::update() {
             //char const * pColor = reinterpret_cast<char const *>(colorData);
             //std::string colorString(pColor, pColor + sizeof colorData);
             //colorBuffer.set(colorString); 
-            floatsToBuffer(colorData*, colorBuffer);
+            floatsToBuffer(colorData, colorBuffer);
 
             for (int x=0; x<settings.width; x++) {
                 ofVec3f v;
