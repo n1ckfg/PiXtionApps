@@ -55,7 +55,7 @@ void ofApp::update() {
         toOf(colorCv.getCvImage(), color.getPixelsRef());
 
         int contourCounter = 0;
-        unsigned char * pixels = color.getPixelsRef();
+        unsigned char * pixels = color.getPixels();
 
         for (int y=0; y<settings.height; y ++) {
             vector<ofPoint> points;
