@@ -25,7 +25,7 @@ namespace PiXtionUtils {
 
     void floatsToBuffer(float floats[], ofBuffer& buffer) {
         char const * chars = reinterpret_cast<char const *>(floats);
-        std::string charString(chars, chars + sizeof floats);
+        std::string charString(floats, floats + sizeof floats);
         buffer.set(charString); 
     }
 
