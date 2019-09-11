@@ -25,6 +25,8 @@ void draw() {
   background(0);
   
   frame.draw();
+  image(rgb, 0, 0);
+  image(depth, 320, 0);
   
   surface.setTitle("" + frameRate);
 }

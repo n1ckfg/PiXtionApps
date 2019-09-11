@@ -6,7 +6,8 @@ PVector dot2 = new PVector(0,0);
 ArrayList<String> hostList;
 int numHosts = 2;
 
-byte[] rgbVideoBytes, depthVideoBytes;
+byte[] rgbVideoBytes, readPointsBytes;
+PImage rgb, depth;
 
 String ipNumber = "127.0.0.1";
 int sendPort = 9998;
@@ -22,6 +23,9 @@ void oscSetup() {
   oscP5 = new OscP5(this, op);
   myRemoteLocation = new NetAddress(ipNumber, sendPort);
   hostList = new ArrayList<String>();
+  
+  rgb = createImage(320, 240, RGB);
+  depth = createImage(320, 240, RGB);
 }
 
 // Receive message example
@@ -30,12 +34,14 @@ void oscEvent(OscMessage msg) {
   if (msg.checkAddrPattern("/points") && msg.checkTypetag("sbb")) {    
     String hostname = msg.get(0).stringValue();
     
-    byte[] rgbVideoBytes = msg.get(1).blobValue();
-    PImage rgb = fromJpeg(rgbVideoBytes);
+    rgbVideoBytes = msg.get(1).blobValue();
     
-    /*
-    byte[] readPointsBytes = msg.get(2).blobValue();
-   
+    rgb = fromJpeg(rgbVideoBytes);
+    
+    readPointsBytes = msg.get(2).blobValue();
+    
+    depth = fromJpeg(readPointsBytes);
+    
     ArrayList<PVector> points = new ArrayList<PVector>();
     for (int i = 0; i < readPointsBytes.length; i += 12) { //+=16) { 
       byte[] bytesX = { readPointsBytes[i], readPointsBytes[i+1], readPointsBytes[i+2], readPointsBytes[i+3] };
@@ -48,14 +54,12 @@ void oscEvent(OscMessage msg) {
       float z = asFloat(bytesZ);
       //float w = asFloat(bytesW);
       if (!Float.isNaN(x) && !Float.isNaN(y)) { // && !Float.isNaN(z)) {
-        PVector p = new PVector(-x, -y, -z);
+        PVector p = new PVector(x, y, z);
         points.add(p);
         //println(p.x + ", " + p.z + ", " + p.y);
       }
     }
     
     if (frame.firstRun) frame.init(rgb, points);
-    */
-    image(rgb, 0, 0);
   }
 }
