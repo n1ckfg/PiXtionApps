@@ -47,11 +47,11 @@ void ofApp::update() {
 		oniGrabber.update();
 
         depth.setFromPixels(oniGrabber.depthSource.noAlphaPixels->getPixels(), settings.width, settings.height, OF_IMAGE_GRAYSCALE);
-        PiXtionUtils::imageToBuffer(depth, depthVideoBuffer, depthVideoQuality);
+        imageToBuffer(depth, depthVideoBuffer, depthVideoQuality);
         
         if (settings.doColor) {
             rgb.setFromPixels(oniGrabber.rgbSource.currentPixels->getPixels(), settings.width, settings.height, OF_IMAGE_COLOR);
-            PiXtionUtils::imageToBuffer(rgb, rgbVideoBuffer, rgbVideoQuality);
+            imageToBuffer(rgb, rgbVideoBuffer, rgbVideoQuality);
         }
 
         sendOscVideo();
