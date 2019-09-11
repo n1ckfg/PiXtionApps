@@ -30,8 +30,11 @@ void ofApp::setup() {
 
     mirror = ofToBool(XML.getValue("settings:mirror", "false"));
 
-    depth.allocate(settings.width, settings.height, OF_IMAGE_GRAYSCALE);        
-    depthCv.allocate(settings.width, settings.height);        
+    int side = int(sqrt(settings.width * settings.height * 12));
+    cout << "image side is " << side << endl;
+    depth.allocate(side, side, OF_IMAGE_GRAYSCALE);        
+    depthCv.allocate(side, side);        
+
     rgb.allocate(settings.width, settings.height, OF_IMAGE_COLOR);        
 
     isReady = oniGrabber.setup(settings);
@@ -66,9 +69,7 @@ void ofApp::update() {
         }
 
         unsigned char * points = reinterpret_cast<unsigned char *>(pointsData);
-        int side = int(sqrt(settings.width * settings.height * 12));
-        cout << "image side is " << side << endl;
-        depthCv.setFromPixels(points, side, side, 1);
+        depthCv.setFromPixels(points, side, side);
         depthCv.flagImageChanged();
         toOf(depthCv.getCvImage(), depth.getPixelsRef());
         imageToBuffer(depth, depthVideoBuffer, depthVideoQuality); 
