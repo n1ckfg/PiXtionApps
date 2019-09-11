@@ -58,7 +58,7 @@ void ofApp::draw() {
 
     if (isReady) {
         int contourCounter = 0;
-        unsigned char * pixels = color.getPixels().getData();
+        unsigned char * pixels = color.getPixelsRef();
 
         for (int y=0; y<settings.height; y ++) {
             vector<ofPoint> points;
