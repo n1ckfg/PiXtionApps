@@ -43,6 +43,8 @@ void ofApp::setup() {
     sender.setup(host, port);
     
     minZ = 0.21;
+    simplify = XML.getValue("settings:simplify", 0.5);
+    smooth = XML.getValue("settings:smooth", 2);
 }
 
 //--------------------------------------------------------------
