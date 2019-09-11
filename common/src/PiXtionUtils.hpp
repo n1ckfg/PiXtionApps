@@ -34,9 +34,9 @@ namespace PiXtionUtils {
 
         for (int i=0; i<_points.size(); i++) {
             int index = i * 3;
-            pointsData[index] = points[i].x;
-            pointsData[index+1] = points[i].y;
-            pointsData[index+2] = points[i].z;
+            pointsData[index] = _points[i].x;
+            pointsData[index+1] = _points[i].y;
+            pointsData[index+2] = _points[i].z;
         }
 
         floatsToBuffer(pointsData, _buffer);
