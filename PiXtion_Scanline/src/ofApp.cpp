@@ -30,7 +30,6 @@ void ofApp::setup() {
 
     mirror = ofToBool(XML.getValue("settings:mirror", "false"));
 
-    gray.allocate(settings.width, settings.height, OF_IMAGE_GRAYSCALE);        
     color.allocate(settings.width, settings.height, OF_IMAGE_COLOR);        
     colorCv.allocate(settings.width, settings.height);
 
