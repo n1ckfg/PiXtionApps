@@ -31,6 +31,7 @@ void ofApp::setup() {
     mirror = ofToBool(XML.getValue("settings:mirror", "false"));
 
     depth.allocate(settings.width * 12, settings.height * 12, OF_IMAGE_COLOR);        
+    depthCv.allocate(settings.width * 12, settings.height * 12);        
     rgb.allocate(settings.width, settings.height, OF_IMAGE_COLOR);        
 
     isReady = oniGrabber.setup(settings);
@@ -67,7 +68,9 @@ void ofApp::update() {
         unsigned char * points = reinterpret_cast<unsigned char *>(pointsData);
         //ofPixels pixels;
         //pixels.setFromExternalPixels(points, settings.width * 12, settings.height * 12, 3);
-        depth.setFromPixels(points, settings.width * 12, settings.height * 12, OF_IMAGE_COLOR);
+        depthCv.setFromPixels(points, settings.width * 12, settings.height * 12);
+        depthCv.flagImageChanged();
+        toOf(depthCv.getCvImage(), depth.getPixelsRef());
         imageToBuffer(depth, depthVideoBuffer, depthVideoQuality); 
         //std::string pointsString(pPoints, pPoints + sizeof pointsData);
         //pointsBuffer.set(pointsString); 
