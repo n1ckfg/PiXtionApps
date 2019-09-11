@@ -35,7 +35,8 @@ void ofApp::setup() {
 
     isReady = oniGrabber.setup(settings);
 
-    videoQuality = XML.getValue("settings:videoQuality", 3);
+    depthVideoQuality = XML.getValue("settings:depth_video_quality", 3);
+    rgbVideoQuality = XML.getValue("settings:rgb_video_quality", 3);
     host = XML.getValue("settings:host", "127.0.0.1");
     port = XML.getValue("settings:port", 7110);
     compname = createCompName("RPi");

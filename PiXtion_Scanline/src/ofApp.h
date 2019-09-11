@@ -36,12 +36,10 @@ class ofApp : public ofBaseApp {
         string compname;
 		string host; // hostname;
 		int port; // default 7110;
-		int videoQuality; // 5 best to 1 worst, default 3 medium
-		bool videoColor;
-		ofBuffer videoBuffer;
+		int depthVideoQuality, rgbVideoQuality; // 5 best to 1 worst, default 3 medium
+		ofBuffer depthVideoBuffer, rgbVideoBuffer;
 		
-		ofBuffer colorBuffer;
-		ofBuffer pointsBuffer;
+		ofBuffer colorBuffer, pointsBuffer;
 		float minZ;
 
 		ofxOscSender sender;
