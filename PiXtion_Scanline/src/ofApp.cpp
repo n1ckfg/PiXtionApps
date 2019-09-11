@@ -70,7 +70,7 @@ void ofApp::update() {
             colorData[1] = col.g;
             colorData[2] = col.b;
             
-            unsigned char * pColor = reinterpret_cast<unsigned char *>(colorData);
+            char const * pColor = reinterpret_cast<char const *>(colorData);
             std::string colorString(pColor, pColor + sizeof colorData);
             colorBuffer.set(colorString); 
 
