@@ -23,7 +23,7 @@ namespace PiXtionUtils {
         return compname;
     }
 
-    void floatsToBuffer(float floats[], ofBuffer& buffer) {
+    void floatsToBuffer(vector<float> floats, ofBuffer& buffer) {
         std::string floatString;
         for (int i=0; i<floats.size(); i++) {
             floatString.append(std::to_string(floats[i]));

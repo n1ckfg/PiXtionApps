@@ -65,10 +65,10 @@ void ofApp::update() {
             int loc = (mx + y * settings.width) * 3;
             ofColor col = ofColor(pixels[loc], pixels[loc + 1], pixels[loc + 2]);
 
-            float colorData[3]; 
-            colorData[0] = col.r;
-            colorData[1] = col.g;
-            colorData[2] = col.b;
+            vector<float> colorData; 
+            colorData.push_back(col.r);
+            colorData.push_back(col.g);
+            colorData.push_back(col.b);
             //char const * pColor = reinterpret_cast<char const *>(colorData);
             //std::string colorString(pColor, pColor + sizeof colorData);
             //colorBuffer.set(colorString); 
