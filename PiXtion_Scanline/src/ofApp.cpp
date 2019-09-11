@@ -58,7 +58,7 @@ void ofApp::update() {
         int contourCounter = 0;
         unsigned char * pixels = color.getPixels();
 
-        for (uint y=0; y<settings.height; y ++) {
+        for (int y=0; y<(int)settings.height; y ++) {
             vector<ofPoint> points;
 
             int mx = int(settings.width/2);
@@ -74,7 +74,7 @@ void ofApp::update() {
             //colorBuffer.set(colorString); 
             floatsToBuffer(colorData, colorBuffer);
 
-            for (uint x=0; x<settings.width; x++) {
+            for (int x=0; x<(int)settings.width; x++) {
                 ofVec3f v;
                 v = oniGrabber.convertDepthToWorld(x, y);
                 if (v.z > minZ) points.push_back(v);
@@ -82,7 +82,7 @@ void ofApp::update() {
 
             float pointsData[points.size() * 3]; 
 
-            for (int x=0; x<points.size(); x++) {
+            for (int x=0; x<(int)points.size(); x++) {
                 int index = x * 3;
                 pointsData[index] = points[x].x;
                 pointsData[index+1] = points[x].y;
