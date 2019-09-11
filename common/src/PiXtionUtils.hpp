@@ -23,13 +23,13 @@ namespace PiXtionUtils {
         return compname;
     }
 
-    void floatsToBuffer(float _floats[]&, ofBuffer _buffer&) {
+    void floatsToBuffer(float _floats[], ofBuffer _buffer&) {
         char const * chars = reinterpret_cast<char const *>(_floats);
         std::string floatString(chars, chars + sizeof _floats);
         _buffer.set(floatString); 
     }
 
-    void imageToBuffer(ofImage _img&, ofBuffer _buffer&, int _quality) {
+    void imageToBuffer(ofImage _img, ofBuffer _buffer&, int _quality) {
         switch(_quality) {
             case 5:
                 ofSaveImage(_img, _buffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_BEST);
@@ -71,7 +71,7 @@ namespace PiXtionUtils {
     	string str = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
     	string newstr;
     	int pos;
-    	while(newstr.size() != len) {
+    	while((int)newstr.size() != len) {
     	   pos = ((rand() % (str.size() - 1)));
     	   newstr += str.substr(pos,1);
     	}
