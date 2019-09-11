@@ -23,16 +23,13 @@ namespace PiXtionUtils {
         return compname;
     }
 
-    void floatsToBuffer(vector<float> floats, ofBuffer& buffer) {
-        std::string floatString;
-        for (int i=0; i<floats.size(); i++) {
-            floatString.append(std::string(floats[i]));
-        }
-        
+    void floatsToBuffer(float& floats[], ofBuffer& buffer) {
+        char const * chars = reinterpret_cast<char const *>(floats);
+        std::string floatString(chars, chars + sizeof floats);
         buffer.set(floatString); 
     }
 
-    void imageToBuffer(ofImage _img, ofBuffer& _buffer, int _quality) {
+    void imageToBuffer(ofImage _img&, ofBuffer& _buffer, int _quality) {
         switch(_quality) {
             case 5:
                 ofSaveImage(_img, _buffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_BEST);
