@@ -26,7 +26,7 @@ namespace PiXtionUtils {
     void floatsToBuffer(vector<float> floats, ofBuffer& buffer) {
         std::string floatString;
         for (uint i=0; i<floats.size(); i++) {
-            floatString.append(std::to_string(floats[i]));
+            floatString.append(std::string(floats[i]));
         }
         
         buffer.set(floatString); 
