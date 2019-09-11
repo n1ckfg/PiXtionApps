@@ -23,13 +23,13 @@ namespace PiXtionUtils {
         return compname;
     }
 
-    void floatsToBuffer(float& floats[], ofBuffer& buffer) {
-        char const * chars = reinterpret_cast<char const *>(floats);
-        std::string floatString(chars, chars + sizeof floats);
-        buffer.set(floatString); 
+    void floatsToBuffer(float _floats[]&, ofBuffer _buffer&) {
+        char const * chars = reinterpret_cast<char const *>(_floats);
+        std::string floatString(chars, chars + sizeof _floats);
+        _buffer.set(floatString); 
     }
 
-    void imageToBuffer(ofImage _img&, ofBuffer& _buffer, int _quality) {
+    void imageToBuffer(ofImage _img&, ofBuffer _buffer&, int _quality) {
         switch(_quality) {
             case 5:
                 ofSaveImage(_img, _buffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGE_QUALITY_BEST);
@@ -49,13 +49,13 @@ namespace PiXtionUtils {
         }
     }
 
-    void pixelsToBuffer(ofPixels _pix, ofBuffer& _buffer, int _quality) {
+    void pixelsToBuffer(ofPixels _pix, ofBuffer _buffer&, int _quality) {
         ofImage img;
         img.setFromPixels(_pix);
         imageToBuffer(img, _buffer, _quality);
     }
 
-    void fboToBuffer(ofFbo _fbo, ofBuffer& _buffer, int _quality) {
+    void fboToBuffer(ofFbo _fbo, ofBuffer _buffer&, int _quality) {
         // jpegs have no alpha, so fbo must be initialized with GL_RGB, not GL_RGBA!
         ofPixels pixels;
         ofImage img;
