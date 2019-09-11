@@ -2,6 +2,8 @@
 #include "ofConstants.h"
 #include "../../common/src/PiXtionUtils.hpp"
 
+using namespace cv;
+using namespace ofxCv;
 using namespace PiXtionUtils;
 
 //--------------------------------------------------------------
@@ -30,6 +32,7 @@ void ofApp::setup() {
 
     gray.allocate(settings.width, settings.height, OF_IMAGE_GRAYSCALE);        
     color.allocate(settings.width, settings.height, OF_IMAGE_COLOR);        
+    colorCv.allocate(settings.width, settings.height);
 
     isReady = oniGrabber.setup(settings);
 
@@ -47,16 +50,11 @@ void ofApp::update() {
     if (isReady) {
         oniGrabber.update();
         
-        color.setFromPixels(oniGrabber.rgbSource.currentPixels->getPixels(), settings.width, settings.height, OF_IMAGE_COLOR);
-    }
-}
+        colorImage.setFromPixels(oniGrabber.rgbSource.currentPixels->getPixels(), settings.width, settings.height);
+        colorImage.mirror(false, mirror);
+        colorImage.flagImageChanged();
+        toOf(colorImage.getCvImage(), color.getPixelsRef());
 
-//--------------------------------------------------------------
-void ofApp::draw() {
-    ofSetColor(255,255,255);
-    ofBackground(0,0,0);
-
-    if (isReady) {
         int contourCounter = 0;
         unsigned char * pixels = color.getPixelsRef();
 
@@ -98,6 +96,11 @@ void ofApp::draw() {
             contourCounter++;
         }
     }
+}
+
+void ofApp::draw() {
+    //ofSetColor(255,255,255);
+    //ofBackground(0,0,0);
 }
 
 //--------------------------------------------------------------

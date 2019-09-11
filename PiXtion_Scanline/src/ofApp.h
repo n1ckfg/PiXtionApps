@@ -3,6 +3,8 @@
 #include "ofMain.h"
 #include "ofxOpenNI2Grabber.h"
 #include "ofxOpenNI2Recorder.h"
+#include "ofxOpenCv.h"
+#include "ofxCv.h"
 #include "ofxOsc.h"
 #include "ofxXmlSettings.h"
 
@@ -24,7 +26,7 @@ class ofApp : public ofBaseApp {
 		ofxOpenNI2Grabber oniGrabber;
 		ofxOpenNI2GrabberSettings settings;
 
-		ofImage gray;
+		ofxCvColorImage colorCv;
 		ofImage color;
 
         ofxXmlSettings XML;
