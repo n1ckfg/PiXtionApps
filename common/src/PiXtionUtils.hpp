@@ -23,8 +23,8 @@ namespace PiXtionUtils {
         return compname;
     }
 
-    void floatsToBuffer(float floats[], ofBuffer& buffer) {
-        unsigned char chars = reinterpret_cast<unsigned char>(floats);
+    void floatsToBuffer(float floats, ofBuffer& buffer) {
+        unsigned char * chars = reinterpret_cast<unsigned char *>(floats);
         std::string floatString(chars, chars + sizeof floats);
         buffer.set(floatString); 
     }
