@@ -30,7 +30,7 @@ void ofApp::setup() {
 
     mirror = ofToBool(XML.getValue("settings:mirror", "false"));
 
-    depth.allocate(settings.width, settings.heigh, OF_IMAGE_COLOR);        
+    depth.allocate(settings.width, settings.height, OF_IMAGE_GRAYSCALE);        
     depthCv.allocate(settings.width, settings.height);        
     rgb.allocate(settings.width, settings.height, OF_IMAGE_COLOR);        
 
@@ -66,7 +66,9 @@ void ofApp::update() {
         }
 
         unsigned char * points = reinterpret_cast<unsigned char *>(pointsData);
-        depthCv.setFromPixels(points, settings.width, settings.height);
+        int side = int(sqrt(settings.width * settings.height * 12));
+        cout << "image side is " << side << endl;
+        depthCv.setFromPixels(points, side, side, 1);
         depthCv.flagImageChanged();
         toOf(depthCv.getCvImage(), depth.getPixelsRef());
         imageToBuffer(depth, depthVideoBuffer, depthVideoQuality); 

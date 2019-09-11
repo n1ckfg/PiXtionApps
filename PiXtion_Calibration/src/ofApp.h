@@ -27,7 +27,7 @@ class ofApp : public ofBaseApp {
 		ofxOpenNI2GrabberSettings settings;
 
 		ofImage depth, rgb;
-		ofxCvColorImage depthCv;
+		ofxCvGrayscaleImage depthCv;
 
         ofxXmlSettings XML;
         string xmlStructure;
