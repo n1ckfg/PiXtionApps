@@ -59,7 +59,7 @@ void ofApp::update() {
         unsigned char * pixels = color.getPixels();
 
         for (int y=0; y<(int)settings.height; y ++) {
-            vector<ofPoint> points;
+            line.clear();
 
             int mx = int(settings.width/2);
             int loc = (mx + y * settings.width) * 3;
@@ -77,8 +77,12 @@ void ofApp::update() {
             for (int x=0; x<(int)settings.width; x++) {
                 ofVec3f v;
                 v = oniGrabber.convertDepthToWorld(x, y);
-                if (v.z > minZ) points.push_back(v);
+                if (v.z > minZ) line.addVertex(v);
             }
+
+            line.simplify(simplify);
+            line = line.getSmoothed(smooth, 0.5);
+            vector<ofPoint> points = line.getVertices();
 
             float pointsData[points.size() * 3]; 
 

@@ -41,6 +41,10 @@ class ofApp : public ofBaseApp {
 		
 		ofBuffer colorBuffer, pointsBuffer;
 		float minZ;
+		float simplify;
+		int smooth;
+		
+		ofPolyline line;
 
 		ofxOscSender sender;
 		void sendOscScanline(int index);
