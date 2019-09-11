@@ -23,7 +23,7 @@ namespace PiXtionUtils {
         return compname;
     }
 
-    void floatsToBuffer(float* floats[], ofBuffer& buffer) {
+    void floatsToBuffer(float floats[], ofBuffer& buffer) {
         char const * chars = reinterpret_cast<char const *>(floats);
         std::string floatString(chars, chars + sizeof floats);
         buffer.set(floatString); 
