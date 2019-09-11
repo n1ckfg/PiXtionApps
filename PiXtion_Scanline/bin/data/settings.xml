@@ -11,11 +11,6 @@
     <doDepth>true</doDepth>
     <doRawDepth>true</doRawDepth>
     <doIr>false</doIr>
-    <drawColor>true</drawColor>
-    <drawDepth>true</drawDepth>
-    <drawIr>false</drawIr>
     <mirror>false</mirror>
     <registered>true</registered>
-    <simplify>0.9</simplify>
-    <smooth>3</smooth>
 </settings>

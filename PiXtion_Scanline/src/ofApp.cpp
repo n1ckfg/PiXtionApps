@@ -2,8 +2,6 @@
 #include "ofConstants.h"
 #include "../../common/src/PiXtionUtils.hpp"
 
-using namespace cv;
-using namespace ofxCv;
 using namespace PiXtionUtils;
 
 //--------------------------------------------------------------
@@ -29,13 +27,8 @@ void ofApp::setup() {
     settings.oniFilePath = "UNDEFINED";
 
     mirror = ofToBool(XML.getValue("settings:mirror", "false"));
-    drawColor = ofToBool(XML.getValue("settings:drawColor", "true"));
-    drawDepth = ofToBool(XML.getValue("settings:drawDepth", "true"));
-    drawIr = ofToBool(XML.getValue("settings:drawIr", "false"));
 
-    grayImage.allocate(settings.width, settings.height);
     gray.allocate(settings.width, settings.height, OF_IMAGE_GRAYSCALE);        
-    colorImage.allocate(settings.width, settings.height);
     color.allocate(settings.width, settings.height, OF_IMAGE_COLOR);        
 
     isReady = oniGrabber.setup(settings);
@@ -46,16 +39,7 @@ void ofApp::setup() {
     compname = createCompName("RPi");
     sender.setup(host, port);
     
-    contourSlices = 10;
-    contourThreshold = 2.0;
-    contourMinAreaRadius = 1.0;
-    contourMaxAreaRadius = 250.0;
-    contourFinder.setMinAreaRadius(contourMinAreaRadius);
-    contourFinder.setMaxAreaRadius(contourMaxAreaRadius);
-    trackingColorMode = TRACK_COLOR_RGB;
     minZ = 0.21;
-    simplify = XML.getValue("settings:simplify", 0.5);
-    smooth = XML.getValue("settings:smooth", 2);
 }
 
 //--------------------------------------------------------------
@@ -63,10 +47,7 @@ void ofApp::update() {
     if (isReady) {
         oniGrabber.update();
         
-        colorImage.setFromPixels(oniGrabber.rgbSource.currentPixels->getPixels(), settings.width, settings.height);
-        colorImage.mirror(false, mirror);
-        colorImage.flagImageChanged();
-        toOf(colorImage.getCvImage(), color.getPixelsRef());
+        color.setFromPixels(oniGrabber.rgbSource.currentPixels->getPixels(), settings.width, settings.height, OF_IMAGE_COLOR);
     }
 }
 
@@ -92,7 +73,7 @@ void ofApp::draw() {
             colorData[2] = col.b;
             char const * pColor = reinterpret_cast<char const *>(colorData);
             std::string colorString(pColor, pColor + sizeof colorData);
-            contourColorBuffer.set(colorString); 
+            colorBuffer.set(colorString); 
 
             for (int x=0; x<settings.width; x++) {
                 ofVec3f v;
@@ -111,7 +92,7 @@ void ofApp::draw() {
 
             char const * pPoints = reinterpret_cast<char const *>(pointsData);
             std::string pointsString(pPoints, pPoints + sizeof pointsData);
-            contourPointsBuffer.set(pointsString); 
+            pointsBuffer.set(pointsString); 
 
             sendOscScanline(contourCounter);
             contourCounter++;
@@ -134,8 +115,8 @@ void ofApp::sendOscScanline(int index) {
     msg.addStringArg(compname);
 
     msg.addIntArg(index);
-    msg.addBlobArg(contourColorBuffer);
-    msg.addBlobArg(contourPointsBuffer);
+    msg.addBlobArg(colorBuffer);
+    msg.addBlobArg(pointsBuffer);
 
     sender.sendMessage(msg);
 }
