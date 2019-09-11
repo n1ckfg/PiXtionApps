@@ -29,7 +29,7 @@ namespace PiXtionUtils {
         buffer.set(floatString); 
     }
 
-    void imageToBuffer(ofImage& img, ofBuffer& buffer, int quality) {
+    void imageToBuffer(ofImage img, ofBuffer& buffer, int quality) {
         switch(quality) {
             case 5:
                 ofSaveImage(img, buffer, OF_IMAGE_FORMAT_JPEG, OF_IMAGEquality_BEST);
@@ -49,13 +49,13 @@ namespace PiXtionUtils {
         }
     }
 
-    void pixelsToBuffer(ofPixels& pixels, ofBuffer& buffer, int quality) {
+    void pixelsToBuffer(ofPixels pixels, ofBuffer& buffer, int quality) {
         ofImage img;
         img.setFromPixels(pixels);
         imageToBuffer(img, buffer, quality);
     }
 
-    void fboToBuffer(ofFbo& fbo, ofBuffer& buffer, int quality) {
+    void fboToBuffer(ofFbo fbo, ofBuffer& buffer, int quality) {
         // jpegs have no alpha, so fbo must be initialized with GL_RGB, not GL_RGBA!
         ofPixels pixels;
         ofImage img;
