@@ -28,7 +28,8 @@ class ofApp : public ofBaseApp {
 
 		ofImage depth, rgb;
 		ofxCvGrayscaleImage depthCv;
-
+		int depthSide;
+		
         ofxXmlSettings XML;
         string xmlStructure;
         string message;
