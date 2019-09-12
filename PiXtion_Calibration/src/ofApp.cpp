@@ -30,12 +30,10 @@ void ofApp::setup() {
 
     mirror = ofToBool(XML.getValue("settings:mirror", "false"));
 
-    depthSide = int(sqrt(settings.width * settings.height * 12));
-    cout << "image side is " << depthSide << endl;
-    depth.allocate(depthSide, depthSide, OF_IMAGE_GRAYSCALE);        
-    depthCv.allocate(depthSide, depthSide);        
+    depth.allocate(settings.width*4, 1, OF_IMAGE_COLOR);        
+    depthCv.allocate(settings.width*4, 1);        
 
-    rgb.allocate(settings.width, settings.height, OF_IMAGE_COLOR);        
+    rgb.allocate(settings.width*4, 1, OF_IMAGE_COLOR);        
 
     isReady = oniGrabber.setup(settings);
 
@@ -53,28 +51,56 @@ void ofApp::update() {
     if (isReady) {
         oniGrabber.update();
         
-        rgb.setFromPixels(oniGrabber.rgbSource.currentPixels->getPixels(), settings.width, settings.height, OF_IMAGE_COLOR);
-        imageToBuffer(rgb, rgbVideoBuffer, rgbVideoQuality);
+        colorCv.setFromPixels(oniGrabber.rgbSource.currentPixels->getPixels(), settings.width, settings.height);
+        colorCv.mirror(false, mirror);
+        colorCv.flagImageChanged();
+        toOf(colorCv.getCvImage(), color.getPixelsRef());
 
-        float pointsData[settings.width * settings.height * 3];
-        for (int x=0; x<settings.width; x++) {
-            for (int y=0; y<settings.height; y++) {
-                int loc = (x + y * settings.width) * 3;
-                ofVec3f v = ofVec3f(0,0,0);
-                v = oniGrabber.convertDepthToWorld(x, y);  
-                pointsData[loc] = v.x;
-                pointsData[loc+1] = v.y;
-                pointsData[loc+2] = v.z;
+        int contourCounter = 0;
+        unsigned char * pixels = color.getPixels();
+
+        for (int y=0; y<(int)settings.height; y ++) {
+            line.clear();
+
+            int mx = int(settings.width/2);
+            int loc = (mx + y * settings.width) * 3;
+            ofColor col = ofColor(pixels[loc], pixels[loc + 1], pixels[loc + 2]);
+
+            float colorData[3]; 
+            colorData[0] = col.r;
+            colorData[1] = col.g;
+            colorData[2] = col.b;
+            
+            char const * pColor = reinterpret_cast<char const *>(colorData);
+            std::string colorString(pColor, pColor + sizeof colorData);
+            colorBuffer.set(colorString); 
+
+            for (int x=0; x<(int)settings.width; x++) {
+                ofVec3f v;
+                v = oniGrabber.convertDepthToWorld(x, y);
+                if (v.z > minZ) line.addVertex(v);
             }
+
+            line.simplify(simplify);
+            line = line.getSmoothed(smooth, 0.5);
+            vector<ofPoint> points = line.getVertices();
+
+            float pointsData[points.size() * 3]; 
+
+            for (int x=0; x<(int)points.size(); x++) {
+                int index = x * 3;
+                pointsData[index] = points[x].x;
+                pointsData[index+1] = points[x].y;
+                pointsData[index+2] = points[x].z;
+            }
+
+            char const * pPoints = reinterpret_cast<char const *>(pointsData);
+            std::string pointsString(pPoints, pPoints + sizeof pointsData);
+            pointsBuffer.set(pointsString); 
+
+            sendOscPoints(contourCounter);
+            contourCounter++;
         }
-
-        unsigned char * points = reinterpret_cast<unsigned char *>(pointsData);
-        depthCv.setFromPixels(points, depthSide, depthSide);
-        depthCv.flagImageChanged();
-        toOf(depthCv.getCvImage(), depth.getPixelsRef());
-        imageToBuffer(depth, depthVideoBuffer, depthVideoQuality); 
-
-        sendOscPoints();
     }
 }
 
@@ -93,10 +119,11 @@ void ofApp::exit() {
     }
 }
 //--------------------------------------------------------------
-void ofApp::sendOscPoints() {
+void ofApp::sendOscPoints(int index) {
     ofxOscMessage msg;
     msg.setAddress("/points");
     msg.addStringArg(compname);
+    msg.addIntArg(index);
     msg.addBlobArg(rgbVideoBuffer);
     msg.addBlobArg(depthVideoBuffer);
 
