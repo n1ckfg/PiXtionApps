@@ -28,7 +28,6 @@ class ofApp : public ofBaseApp {
 
 		ofImage depth, rgb;
 		ofxCvGrayscaleImage depthCv;
-		int depthSide;
 		
         ofxXmlSettings XML;
         string xmlStructure;
@@ -44,6 +43,6 @@ class ofApp : public ofBaseApp {
 		float minZ;
 
 		ofxOscSender sender;
-		void sendOscPoints();
+		void sendOscPoints(int index);
 
 };
