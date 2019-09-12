@@ -68,9 +68,9 @@ void ofApp::update() {
            //ofColor col = ofColor(pixels[loc], pixels[loc + 1], pixels[loc + 2]);
 
             float colorData[3]; 
-            colorData[0] = pixels[loc] //col.r;
-            colorData[1] = pixels[loc+1] //col.g;
-            colorData[2] = pixels[loc+2] //col.b;
+            colorData[0] = pixels[loc]; //col.r;
+            colorData[1] = pixels[loc+1]; //col.g;
+            colorData[2] = pixels[loc+2]; //col.b;
             
             char const * pColor = reinterpret_cast<char const *>(colorData);
             std::string colorString(pColor, pColor + sizeof colorData);
