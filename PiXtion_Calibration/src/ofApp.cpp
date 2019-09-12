@@ -74,11 +74,11 @@ void ofApp::update() {
 
             char const * pPoints = reinterpret_cast<char const *>(pointsData);
             std::string pointsString(pPoints, pPoints + sizeof pointsData);
-            pointsBuffer.set(pointsString); 
+            depthVideoBuffer.set(pointsString); 
 
             char const * pColor = reinterpret_cast<char const *>(colorData);
             std::string colorString(pColor, pColor + sizeof colorData);
-            colorBuffer.set(colorString); 
+            rgbVideoBuffer.set(colorString); 
 
             sendOscPoints(contourCounter);
             contourCounter++;
