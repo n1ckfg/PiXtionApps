@@ -1,9 +1,9 @@
 class Frame {
 
-  ArrayList<Stroke> strokes;
+  ArrayList<StrokeMulticolor> strokes;
   int timestamp;
   
-  Frame(ArrayList<Stroke> _strokes) {
+  Frame(ArrayList<StrokeMulticolor> _strokes) {
     strokes = _strokes;
     timestamp = millis();
   }
