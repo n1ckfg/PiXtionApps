@@ -51,52 +51,34 @@ void ofApp::update() {
     if (isReady) {
         oniGrabber.update();
         
-        colorCv.setFromPixels(oniGrabber.rgbSource.currentPixels->getPixels(), settings.width, settings.height);
-        colorCv.mirror(false, mirror);
-        colorCv.flagImageChanged();
-        toOf(colorCv.getCvImage(), color.getPixelsRef());
-
         int contourCounter = 0;
-        unsigned char * pixels = color.getPixels();
+        rgb.setFromPixels(oniGrabber.rgbSource.currentPixels->getPixels(), settings.width, settings.height, OF_IMAGE_COLOR);
+        unsigned char * pixels = rgb.getPixels();
 
         for (int y=0; y<(int)settings.height; y ++) {
-            line.clear();
-
-            int mx = int(settings.width/2);
-            int loc = (mx + y * settings.width) * 3;
-            ofColor col = ofColor(pixels[loc], pixels[loc + 1], pixels[loc + 2]);
-
-            float colorData[3]; 
-            colorData[0] = col.r;
-            colorData[1] = col.g;
-            colorData[2] = col.b;
-            
-            char const * pColor = reinterpret_cast<char const *>(colorData);
-            std::string colorString(pColor, pColor + sizeof colorData);
-            colorBuffer.set(colorString); 
+            vector<float> pointsData;
+            vector<float> colorData;
 
             for (int x=0; x<(int)settings.width; x++) {
                 ofVec3f v;
                 v = oniGrabber.convertDepthToWorld(x, y);
-                if (v.z > minZ) line.addVertex(v);
-            }
+                pointsData.push_back(v.x);
+                pointsData.push_back(v.y);
+                pointsData.push_back(v.z);
 
-            line.simplify(simplify);
-            line = line.getSmoothed(smooth, 0.5);
-            vector<ofPoint> points = line.getVertices();
-
-            float pointsData[points.size() * 3]; 
-
-            for (int x=0; x<(int)points.size(); x++) {
-                int index = x * 3;
-                pointsData[index] = points[x].x;
-                pointsData[index+1] = points[x].y;
-                pointsData[index+2] = points[x].z;
+                int loc = (x + y * settings.width) * 3;
+                colorData.push_back(pixels[loc]); //col.r;
+                colorData.push_back(pixels[loc+1]); //col.g;
+                colorData.push_back(pixels[loc+2]); //col.b;
             }
 
             char const * pPoints = reinterpret_cast<char const *>(pointsData);
             std::string pointsString(pPoints, pPoints + sizeof pointsData);
             pointsBuffer.set(pointsString); 
+
+            char const * pColor = reinterpret_cast<char const *>(colorData);
+            std::string colorString(pColor, pColor + sizeof colorData);
+            colorBuffer.set(colorString); 
 
             sendOscPoints(contourCounter);
             contourCounter++;
