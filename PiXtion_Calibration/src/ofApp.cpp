@@ -52,12 +52,11 @@ void ofApp::update() {
         oniGrabber.update();
         
         int contourCounter = 0;
-        rgb.setFromPixels(oniGrabber.rgbSource.currentPixels->getPixels(), settings.width, settings.height, OF_IMAGE_COLOR);
-        unsigned char * pixels = rgb.getPixels();
 
         for (int y=0; y<(int)settings.height; y ++) {
             float pointsData[settings.width*3];
             float colorData[settings.width*3];
+            unsigned char * pixels = oniGrabber.rgbSource.currentPixels->getPixels();
 
             for (int x=0; x<(int)settings.width; x++) {
                 int index=x*3;
