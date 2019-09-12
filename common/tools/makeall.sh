@@ -1,13 +1,13 @@
 git pull
 cd ../../PiXtion_Basic
-make
+make clean && make
 cd ../../PiXtion_Calibration
-make
+make clean && make
 cd ../../PiXtion_Compression
-make
+make clean && make
 cd ../../PiXtion_Contour
-make
+make clean && make
 cd ../../PiXtion_Osc
-make
+make clean && make
 cd ../../PiXtion_Scanline
-make
+make clean && make
