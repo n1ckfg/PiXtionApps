@@ -56,20 +56,22 @@ void ofApp::update() {
         unsigned char * pixels = rgb.getPixels();
 
         for (int y=0; y<(int)settings.height; y ++) {
-            vector<float> pointsData;
-            vector<float> colorData;
+            float pointsData[settings.width*3];
+            unsigned char colorData[settings.width*3];
 
             for (int x=0; x<(int)settings.width; x++) {
+                int index=x*3;
+                int loc = (x + y * settings.width) * 3;
+
                 ofVec3f v;
                 v = oniGrabber.convertDepthToWorld(x, y);
-                pointsData.push_back(v.x);
-                pointsData.push_back(v.y);
-                pointsData.push_back(v.z);
+                pointsData[index] = v.x;
+                pointsData[index+1] = v.y;
+                pointsData[index+2] = v.z;
 
-                int loc = (x + y * settings.width) * 3;
-                colorData.push_back(pixels[loc]); //col.r;
-                colorData.push_back(pixels[loc+1]); //col.g;
-                colorData.push_back(pixels[loc+2]); //col.b;
+                colorData[index] = pixels[loc]; //col.r;
+                colorData[index+1] = pixels[loc+1]; //col.g;
+                colorData[index+2] = pixels[loc+2]; //col.b;
             }
 
             char const * pPoints = reinterpret_cast<char const *>(pointsData);
