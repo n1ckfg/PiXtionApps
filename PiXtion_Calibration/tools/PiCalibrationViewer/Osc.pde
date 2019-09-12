@@ -33,7 +33,7 @@ void oscEvent(OscMessage msg) {
     byte[] readPointsBytes = msg.get(3).blobValue();
    
     ArrayList colors = new ArrayList();
-    for (int i = 0; i < readColorBytes.length; i += 3) { 
+    for (int i = 0; i < readColorBytes.length; i += 12) { 
       byte[] bytesR = { readColorBytes[i], readColorBytes[i+1], readColorBytes[i+2], readColorBytes[i+3] };
       byte[] bytesG = { readColorBytes[i+4], readColorBytes[i+5], readColorBytes[i+6], readColorBytes[i+7] };
       byte[] bytesB = { readColorBytes[i+8], readColorBytes[i+9], readColorBytes[i+10], readColorBytes[i+11] };
