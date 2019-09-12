@@ -15,12 +15,12 @@ class StrokeMulticolor {
   
   void draw() {
     noFill();
-    strokeWeight(2);
+    strokeWeight(4);
     beginShape(POINTS);
     for (int i=0; i<points.size(); i++) {
       PVector p = points.get(i);
       color c = color((int) col.get(i));
-      stroke(c, 127);
+      stroke(c);
       vertex(p.x, p.y, p.z);
     }
     endShape();

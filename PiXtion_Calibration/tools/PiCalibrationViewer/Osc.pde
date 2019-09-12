@@ -34,10 +34,13 @@ void oscEvent(OscMessage msg) {
    
     ArrayList colors = new ArrayList();
     for (int i = 0; i < readColorBytes.length; i += 3) { 
-      int r = readColorBytes[i];
-      int g = readColorBytes[i+1];
-      int b = readColorBytes[i+2];
-  
+      byte[] bytesR = { readColorBytes[i], readColorBytes[i+1], readColorBytes[i+2], readColorBytes[i+3] };
+      byte[] bytesG = { readColorBytes[i+4], readColorBytes[i+5], readColorBytes[i+6], readColorBytes[i+7] };
+      byte[] bytesB = { readColorBytes[i+8], readColorBytes[i+9], readColorBytes[i+10], readColorBytes[i+11] };
+       
+      float r = asFloat(bytesR);
+      float g = asFloat(bytesG);
+      float b = asFloat(bytesB);
       color c = color(r, g, b);
       
       colors.add(c);

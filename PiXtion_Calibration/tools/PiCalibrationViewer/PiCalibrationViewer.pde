@@ -11,7 +11,7 @@ int markTime = 0;
 Frame frame;
 
 void setup() {
-  size(640, 480, P3D);
+  size(1280, 480, P3D);
   frameRate(60);
   cam =  new PeasyCam(this, width/2, height/2, 400, 50);
   strokesBuffer = new ArrayList<StrokeMulticolor>();

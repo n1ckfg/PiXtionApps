@@ -57,7 +57,7 @@ void ofApp::update() {
 
         for (int y=0; y<(int)settings.height; y ++) {
             float pointsData[settings.width*3];
-            unsigned char colorData[settings.width*3];
+            float colorData[settings.width*3];
 
             for (int x=0; x<(int)settings.width; x++) {
                 int index=x*3;
@@ -69,9 +69,10 @@ void ofApp::update() {
                 pointsData[index+1] = v.y;
                 pointsData[index+2] = v.z;
 
-                colorData[index] = pixels[loc]; //col.r;
-                colorData[index+1] = pixels[loc+1]; //col.g;
-                colorData[index+2] = pixels[loc+2]; //col.b;
+                ofColor col = ofColor(pixels[loc], pixels[loc+1], pixels[loc+2]);
+                colorData[index] = col.r;
+                colorData[index+1] = col.g;
+                colorData[index+2] = /col.b;
             }
 
             char const * pPoints = reinterpret_cast<char const *>(pointsData);
