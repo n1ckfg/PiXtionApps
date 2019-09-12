@@ -55,7 +55,7 @@ void ofApp::update() {
 
         for (int y=0; y<(int)settings.height; y ++) {
             float pointsData[settings.width*3];
-            unsigned char colorData[settings.width*3];
+            float colorData[settings.width*3];
             unsigned char * pixels = oniGrabber.rgbSource.currentPixels->getPixels();
 
             for (int x=0; x<(int)settings.width; x++) {
