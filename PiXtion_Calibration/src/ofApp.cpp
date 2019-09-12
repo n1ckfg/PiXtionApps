@@ -68,10 +68,10 @@ void ofApp::update() {
                 pointsData[index+1] = v.y;
                 pointsData[index+2] = v.z;
 
-                //ofColor col = ofColor(pixels[loc], pixels[loc+1], pixels[loc+2]);
-                colorData[index] = pixels[loc];//col.r;
-                colorData[index+1] = pixels[loc+1];//col.g;
-                colorData[index+2] = pixels[loc+2];//col.b;
+                ofColor col = ofColor(pixels[loc], pixels[loc+1], pixels[loc+2]);
+                colorData[index] = (int) col.r;
+                colorData[index+1] = (int) col.g;
+                colorData[index+2] = (int) col.b;
             }
 
             char const * pPoints = reinterpret_cast<char const *>(pointsData);
