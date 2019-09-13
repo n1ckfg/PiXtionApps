@@ -38,7 +38,7 @@ void oscEvent(OscMessage msg) {
     for (int i = 0; i < depth.pixels.length; i += 4) { 
       byte[] bytesX = { (byte) red(depth.pixels[i]), (byte) green(depth.pixels[i]), (byte) blue(depth.pixels[i]), (byte) red(depth.pixels[i+1]) };
       byte[] bytesY = { (byte) green(depth.pixels[i+1]), (byte) blue(depth.pixels[i+1]), (byte) red(depth.pixels[i+2]), (byte) green(depth.pixels[i+2]) };
-      byte[] bytesZ = { (byte) red(depth.pixels[i+2]), (byte) red(depth.pixels[i+3]), (byte) green(depth.pixels[i+3]), (byte) blue(depth.pixels[i+3]) };
+      byte[] bytesZ = { (byte) blue(depth.pixels[i+2]), (byte) red(depth.pixels[i+3]), (byte) green(depth.pixels[i+3]), (byte) blue(depth.pixels[i+3]) };
 
       float x = asFloat(bytesX);
       float y = asFloat(bytesY);
