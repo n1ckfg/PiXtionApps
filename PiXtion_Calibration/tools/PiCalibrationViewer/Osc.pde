@@ -3,8 +3,6 @@ import netP5.*;
 
 PVector dot1 = new PVector(0,0);
 PVector dot2 = new PVector(0,0);
-ArrayList<String> hostList;
-int numHosts = 2;
 
 String ipNumber = "127.0.0.1";
 int sendPort = 9998;
@@ -19,19 +17,16 @@ void oscSetup() {
   op.setDatagramSize(datagramSize);
   oscP5 = new OscP5(this, op);
   myRemoteLocation = new NetAddress(ipNumber, sendPort);
-  hostList = new ArrayList<String>();
 }
 
-// Receive message example
 void oscEvent(OscMessage msg) {
   println(msg);
   if (msg.checkAddrPattern("/points") && msg.checkTypetag("sibb")) {    
     String hostname = msg.get(0).stringValue();
-    //String uniqueId = msg.get(1).stringValue();
     int index = msg.get(1).intValue();
     byte[] readColorBytes = msg.get(2).blobValue();
     byte[] readPointsBytes = msg.get(3).blobValue();
-   
+      
     ArrayList colors = new ArrayList();
     for (int i = 0; i < readColorBytes.length; i += 12) { 
       byte[] bytesR = { readColorBytes[i], readColorBytes[i+1], readColorBytes[i+2], readColorBytes[i+3] };
@@ -61,43 +56,19 @@ void oscEvent(OscMessage msg) {
     }
     
     StrokeMulticolor newStroke = new StrokeMulticolor(index, colors, points);
-
-    boolean doReplace = false;
-    int replaceIndex = 0;
     
-    for (int i=0; i<strokesBuffer.size(); i++) {
-      StrokeMulticolor s = strokesBuffer.get(i);
-      if (s.index == index) {
-        replaceIndex = i;
-        doReplace = true;
-        break;
+    boolean addNewHost = true;
+    for (Host host : hosts) {
+      if (host.name.equals(hostname)) {
+        host.frame.addStroke(newStroke);
+        addNewHost = false;
       }
     }
-        
-    if (doReplace) {
-      strokesBuffer.set(replaceIndex, newStroke);
-    } else {
-      strokesBuffer.add(newStroke);
+    if (addNewHost) {
+      hosts.add(new Host(hostWidth, hostHeight, hostname));
+      Host host = hosts.get(hosts.size()-1);
+      host.frame.addStroke(newStroke);
     }
-  
-    int time = millis();
-    for (int i=0; i<strokesBuffer.size(); i++) {
-      StrokeMulticolor s = strokesBuffer.get(i);
-      if (time > s.timestamp + s.lifespan) {
-        strokesBuffer.remove(i);
-      }
-    }
-    
-    println(hostname + " " + " " + index);
-    
-    if (hostList.size() >= numHosts) {
-      if (hostname.equals(hostList.get(0))) {
-        //dot1 = new PVector(x * width, y * height);
-      } else {
-        //dot2 = new PVector(x * width, y * height);
-      }
-    } else {
-      hostList.add(hostname);
-    }
+    println("Sent line " + index + " to host " + hostname);
   }
 }
