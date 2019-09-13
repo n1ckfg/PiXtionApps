@@ -1,7 +1,7 @@
 PImage depth, rgb;
 
 void setup() {
-  size(640, 240, P2D);
+  size(1280, 480, P2D);
   depth = createImage(width/2, height, RGB);
   rgb = createImage(width/2, height, RGB);
   

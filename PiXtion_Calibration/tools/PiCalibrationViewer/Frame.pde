@@ -8,9 +8,9 @@ class Frame {
     timestamp = millis();
   }
   
-  void draw() {      
+  void draw(PGraphics gfx, boolean flat, int weight) {      
     for (int i=0; i<strokes.size(); i++) {
-      strokes.get(i).draw();
+      strokes.get(i).draw(gfx, flat, weight);
     }
   }
 }
