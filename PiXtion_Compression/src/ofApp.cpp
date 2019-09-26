@@ -75,6 +75,8 @@ void ofApp::update() {
                 colorData[index+2] = pixels[loc+2];
             }
 
+            vector<unsigned char> zippedFile = ofxZip::compress(pointsData);
+            
             unsigned char * pPoints = reinterpret_cast<unsigned char *>(pointsData);
             depthCv.setFromPixels(pPoints, depthLineWidth, 1);
             depthCv.flagImageChanged();
