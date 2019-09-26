@@ -80,7 +80,7 @@ void ofApp::update() {
             vector<unsigned char> zipPrepVec(pPoints, pPoints+n);
             vector<unsigned char> zippedFile = ofxZip::compress(zipPrepVec);
 
-            unsigned char bufferPrepArray = unsigned char[zippedFile.size()];
+            const char bufferPrepArray = const char[zippedFile.size()];
             std::copy(zippedFile.begin(), zippedFile.end(), bufferPrepArray);
 
             //depthCv.setFromPixels(pPoints, depthLineWidth, 1);
