@@ -80,15 +80,10 @@ void ofApp::update() {
             vector<unsigned char> zipPrepVec(pPoints, pPoints+n);
             vector<unsigned char> zippedFile = ofxZip::compress(zipPrepVec);
 
-            unsigned char bufferPrepArray1[zippedFile.size()];
-            std::copy(zippedFile.begin(), zippedFile.end(), bufferPrepArray1);
-            char const * bufferPrepArray2 = reinterpret_cast<char const *>(bufferPrepArray1);
-
-            //depthCv.setFromPixels(pPoints, depthLineWidth, 1);
-            //depthCv.flagImageChanged();
-            //toOf(depthCv.getCvImage(), depth.getPixelsRef());
-            //imageToBuffer(depth, depthVideoBuffer, depthVideoQuality);
-            depthVideoBuffer.set(bufferPrepArray2);
+            unsigned char bufferPrepArray[zippedFile.size()];
+            std::copy(zippedFile.begin(), zippedFile.end(), bufferPrepArray);
+            std::string bufferString(bufferPrepArray, bufferPrepArray + zippedFile.size());
+            depthVideoBuffer.set(bufferString);
 
             rgbCv.setFromPixels(colorData, settings.width, 1);
             rgbCv.flagImageChanged();
