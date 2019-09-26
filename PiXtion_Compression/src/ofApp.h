@@ -7,6 +7,7 @@
 #include "ofxCv.h"
 #include "ofxOsc.h"
 #include "ofxXmlSettings.h"
+#include "ofxZip.h"
 
 class ofApp : public ofBaseApp {
 

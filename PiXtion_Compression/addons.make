@@ -5,3 +5,4 @@ ofxXmlSettings
 ofxOpenCv
 ofxCv
 ofxOsc
+ofxZip
