@@ -75,13 +75,11 @@ void ofApp::update() {
                 colorData[index+2] = pixels[loc+2];
             }
 
-            unsigned char zipPrepArray[pointsData.size()*4];
-            std::copy(pointsData.begin(), pointsData.end(), zipPrepArray);
-            int n = sizeof(zipPrepArray) / sizeof(zipPrepArray[0]);
-            vector<unsigned char> zipPrepVec(zipPrepArray, zipPrepArray+n);
+            unsigned char * pPoints = reinterpret_cast<unsigned char *>(pointsData);
+            int n = sizeof(pPoints) / sizeof(pPoints[0]);
+            vector<unsigned char> zipPrepVec(pPoints, pPoints+n);
             vector<unsigned char> zippedFile = ofxZip::compress(zipPrepVec);
 
-            unsigned char * pPoints = reinterpret_cast<unsigned char *>(pointsData);
             depthCv.setFromPixels(pPoints, depthLineWidth, 1);
             depthCv.flagImageChanged();
             toOf(depthCv.getCvImage(), depth.getPixelsRef());
