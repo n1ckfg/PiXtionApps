@@ -1,5 +1,6 @@
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
@@ -7,6 +8,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 import java.util.zip.Inflater;
+import java.util.zip.Deflater;
 import java.util.Enumeration;
 
 // FILE METHODS
@@ -79,13 +81,37 @@ byte[] readZipFromMemory(byte[] input) { // ZLIB, NOT GZIP
   }
 }
 
-// https://blogs.sap.com/2012/12/11/zipping-byte-array-in-memory-java-snippet/
-byte[] writeZipToMemory(byte[] input) {
-  ByteArrayOutputStream bos = new ByteArrayOutputStream(); 
-  ZipOutputStream zipfile = new ZipOutputStream(bos);
-  ZipEntry zipentry = new ZipEntry("packedFileName");
-  
+// http://www.java2s.com/Tutorial/Java/0180__File/CompressaByteArray.htm
+byte[] writeZipToMemory(byte[] input) { // ZLIB, NOT GZIP
   try {
+    Deflater compressor = new Deflater();
+    compressor.setLevel(Deflater.BEST_COMPRESSION);
+  
+    compressor.setInput(input);
+    compressor.finish();
+  
+    ByteArrayOutputStream bos = new ByteArrayOutputStream(input.length);
+  
+    byte[] buf = new byte[1024];
+    while (!compressor.finished()) {
+      int count = compressor.deflate(buf);
+      bos.write(buf, 0, count);
+    }
+    bos.close();
+    return bos.toByteArray();
+  } catch (Exception e) {
+    e.printStackTrace();
+    return null;
+  }
+}
+
+// https://blogs.sap.com/2012/12/11/zipping-byte-array-in-memory-java-snippet/
+byte[] writeZipToMemoryAlt(byte[] input) {
+  try {
+    ByteArrayOutputStream bos = new ByteArrayOutputStream(); 
+    ZipOutputStream zipfile = new ZipOutputStream(bos);
+    ZipEntry zipentry = new ZipEntry("packedFileName");
+  
     zipfile.putNextEntry(zipentry);
     zipfile.write(input); // or .getBytes() for other data types
     zipfile.close();
