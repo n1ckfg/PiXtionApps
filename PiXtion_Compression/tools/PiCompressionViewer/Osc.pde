@@ -28,24 +28,27 @@ void oscEvent(OscMessage msg) {
   if (msg.checkAddrPattern("/points") && msg.checkTypetag("sibb")) {    
     String hostname = msg.get(0).stringValue();
     int index = msg.get(1).intValue();
-    byte[] readColorBytes = msg.get(2).blobValue();
-    byte[] readPointsBytes = msg.get(3).blobValue();
+    rgb = fromJpeg(msg.get(2).blobValue());
+    byte[] readPointsBytes = readZipFromMemory(msg.get(3).blobValue());
     
-    rgb = fromJpeg(readColorBytes);
-    depth = fromJpeg(readPointsBytes);
+    println("!!!" + readPointsBytes.length + "\n");
     
     ArrayList<PVector> points = new ArrayList<PVector>();
-    for (int i = 0; i < depth.pixels.length; i += 4) { 
-      byte[] bytesX = { (byte) red(depth.pixels[i]), (byte) green(depth.pixels[i]), (byte) blue(depth.pixels[i]), (byte) red(depth.pixels[i+1]) };
-      byte[] bytesY = { (byte) green(depth.pixels[i+1]), (byte) blue(depth.pixels[i+1]), (byte) red(depth.pixels[i+2]), (byte) green(depth.pixels[i+2]) };
-      byte[] bytesZ = { (byte) blue(depth.pixels[i+2]), (byte) red(depth.pixels[i+3]), (byte) green(depth.pixels[i+3]), (byte) blue(depth.pixels[i+3]) };
+    for (int i = 0; i < readPointsBytes.length; i += 12) { //+=16) { 
+      byte[] bytesX = { readPointsBytes[i], readPointsBytes[i+1], readPointsBytes[i+2], readPointsBytes[i+3] };
+      byte[] bytesY = { readPointsBytes[i+4], readPointsBytes[i+5], readPointsBytes[i+6], readPointsBytes[i+7] };
+      byte[] bytesZ = { readPointsBytes[i+8], readPointsBytes[i+9], readPointsBytes[i+10], readPointsBytes[i+11] };
+      //byte[] bytesW = { readPointsBytes[i+12], readPointsBytes[i+13], readPointsBytes[i+14], readPointsBytes[i+15] };
 
       float x = asFloat(bytesX);
       float y = asFloat(bytesY);
-      float z = asFloat(bytesZ);    
-      PVector p = new PVector(-x, -y, -z);
-      
-      points.add(p);
+      float z = asFloat(bytesZ);
+      //float w = asFloat(bytesW);
+      if (!Float.isNaN(x) && !Float.isNaN(y)) { // && !Float.isNaN(z)) {
+        PVector p = new PVector(-x, -y, -z);
+        points.add(p);
+        println(p.x + ", " + p.z + ", " + p.y);
+      }
     }
     
     StrokeMulticolor newStroke = new StrokeMulticolor(index, rgb.pixels, points);

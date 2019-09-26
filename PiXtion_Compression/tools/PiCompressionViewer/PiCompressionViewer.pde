@@ -9,7 +9,7 @@ boolean isDrawing = false;
 int fps = 60;
 int markTime = 0;
 Frame frame;
-PImage depth, rgb;
+PImage rgb;
  
 void setup() {
   size(1280, 480, P3D);
@@ -24,8 +24,6 @@ void setup() {
   float cameraZ = (height/2.0) / tan(fov/2.0);
   perspective(fov, float(width)/float(height), cameraZ/100.0, cameraZ*100.0);
 
-  depth = createImage(1280, 1, RGB);
-  depth.loadPixels();
   rgb = createImage(320, 1, RGB);
   rgb.loadPixels();
 }
