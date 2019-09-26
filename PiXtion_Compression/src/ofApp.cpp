@@ -82,14 +82,14 @@ void ofApp::update() {
 
             unsigned char bufferPrepArray1 = unsigned char[zippedFile.size()];
             std::copy(zippedFile.begin(), zippedFile.end(), bufferPrepArray1);
-            const char * bufferPrepArray2 = reinterpret_cast<const char *>(bufferPrepArray1);
-
+            char const * bufferPrepArray2 = reinterpret_cast<char const *>(bufferPrepArray1);
+            std::string bufferString(bufferPrepArray2, bufferPrepArray2 + sizeof bufferPrepArray1);
 
             //depthCv.setFromPixels(pPoints, depthLineWidth, 1);
             //depthCv.flagImageChanged();
             //toOf(depthCv.getCvImage(), depth.getPixelsRef());
             //imageToBuffer(depth, depthVideoBuffer, depthVideoQuality);
-            depthVideoBuffer.set(bufferPrepArray2, sizeof(bufferPrepArray2));
+            depthVideoBuffer.set(bufferString);
 
             rgbCv.setFromPixels(colorData, settings.width, 1);
             rgbCv.flagImageChanged();
