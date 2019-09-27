@@ -89,7 +89,7 @@ void ofApp::update() {
             std::string bufferString(bufferPrepArray, bufferPrepArray + nn);
             std::cout << "SIZE! " << sizeof(pointsData) << " " << zipPrepVec.size() << " " << zippedFile.size() << " " << sizeof(bufferPrepArray) << endl;
 
-            depthVideoBuffer.set(bufferString);
+            depthVideoBuffer.set(bufferPrepArray);
 
             rgbCv.setFromPixels(colorData, settings.width, 1);
             rgbCv.flagImageChanged();
