@@ -75,7 +75,7 @@ void ofApp::update() {
                 colorData[index+2] = pixels[loc+2];
             }
 
-            unsigned char * pPoints = reinterpret_cast<unsigned char *>(pointsData);
+            char const * pPoints = reinterpret_cast<char const *>(pointsData);
             int n = sizeof(pPoints) / sizeof(pPoints[0]);
             vector<unsigned char> zipPrepVec(pPoints, pPoints+n);
             vector<unsigned char> zippedFile = ofxZip::compress(zipPrepVec);
