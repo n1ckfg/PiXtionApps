@@ -76,7 +76,7 @@ void ofApp::update() {
             }
 
             char const * pPoints = reinterpret_cast<char const *>(pointsData);
-            int n = sizeof(pPoints) / sizeof(pPoints[0]);
+            int n = sizeof(pointsData) / sizeof(pointsData[0]);
             vector<unsigned char> zipPrepVec(pPoints, pPoints+n);
             vector<unsigned char> zippedFile = ofxZip::compress(zipPrepVec);
 
