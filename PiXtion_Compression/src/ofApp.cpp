@@ -80,6 +80,7 @@ void ofApp::update() {
             vector<unsigned char> zipPrepVec(pPoints, pPoints+n);
             vector<unsigned char> zippedFile = ofxZip::compress(zipPrepVec);
 
+            std::cout << "SIZE! " << zipPrepVec.size() << " " << zippedFile.size() << endl;
             unsigned char bufferPrepArray[zippedFile.size()];
             std::copy(zippedFile.begin(), zippedFile.end(), bufferPrepArray);
             std::string bufferString(bufferPrepArray, bufferPrepArray + zippedFile.size());
