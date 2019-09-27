@@ -75,20 +75,16 @@ void ofApp::update() {
                 colorData[index+2] = pixels[loc+2];
             }
 
-            char const * pPoints = reinterpret_cast<char const *>(pointsData);
-            
+            char const * charData1 = reinterpret_cast<char const *>(pointsData);      
             int n = sizeof(pointsData) / sizeof(pointsData[0]);
-            vector<unsigned char> zipPrepVec(pPoints, pPoints+n);
-            vector<unsigned char> zippedFile = ofxZip::compress(zipPrepVec);
+            vector<unsigned char> zipPrepVector(charData1, charData1 + n);
+            vector<unsigned char> zippedFile = ofxZip::compress(zipPrepVector);
 
-            unsigned char bufferPrepArray[zippedFile.size()];
-            std::copy(zippedFile.begin(), zippedFile.end(), bufferPrepArray);
+            unsigned char charData2[zippedFile.size()];
+            std::copy(zippedFile.begin(), zippedFile.end(), charData2);
+            char const * bufferArray = reinterpret_cast<char const *>(charData2);
 
-
-            char const * bufferFinalArray = reinterpret_cast<char const *>(bufferPrepArray);
-            std::cout << "SIZE! " << sizeof(bufferPrepArray) << sizeof(bufferFinalArray) << endl;
-
-            depthVideoBuffer.set(bufferFinalArray);
+            depthVideoBuffer.set(bufferArray);
 
             rgbCv.setFromPixels(colorData, settings.width, 1);
             rgbCv.flagImageChanged();
