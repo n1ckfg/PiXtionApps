@@ -19,7 +19,7 @@ void draw() {
   for (int i=0; i<hosts.size(); i++) {
     pushMatrix();
     translate(0, i * hostHeight);
-    hosts.get(i).draw();
+    hosts.get(i).run();
     popMatrix();
   }
 

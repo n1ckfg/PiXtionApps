@@ -1,7 +1,7 @@
 class Host {
 
   Frame frame;
-  PGraphics depthGfx, rgbGfx;
+  
   String name;
   int w, h;
   
@@ -9,32 +9,23 @@ class Host {
     w = _w;
     h = _h;
     name = _name;
+       
+    frame = new Frame(w, h);   
+  }
     
-    depthGfx = createGraphics(w, h, P3D);
-    rgbGfx = createGraphics(w, h, P2D);
-    
-    frame = new Frame();
-    
-    float fov = PI/3.0;
-    float cameraZ = (h/2.0) / tan(fov/2.0);
-    depthGfx.beginDraw();
-    depthGfx.perspective(fov, float(depthGfx.width)/float(depthGfx.height), cameraZ/100.0, cameraZ*100.0);
-    depthGfx.endDraw();
+  void update() {
+    frame.updateDepth();
+    frame.updateRgb();
   }
   
-  void draw() {
-    depthGfx.beginDraw();
-    depthGfx.background(0,0,50);    
-    frame.draw(depthGfx, false, 4);
-    depthGfx.endDraw();
-  
-    rgbGfx.beginDraw();
-    rgbGfx.background(50,0,0);
-    frame.draw(rgbGfx, true, 1);
-    rgbGfx.endDraw();
-    
-    image(rgbGfx, 0, 0);
-    image(depthGfx, w, 0);
+  void draw() {   
+    image(frame.rgb, 0, 0);
+    image(frame.depth, w, 0);
+  }
+ 
+  void run() {
+    update();
+    draw();
   }
   
 }
