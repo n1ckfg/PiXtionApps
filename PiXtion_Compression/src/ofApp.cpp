@@ -84,12 +84,11 @@ void ofApp::update() {
             unsigned char bufferPrepArray[zippedFile.size()];
             std::copy(zippedFile.begin(), zippedFile.end(), bufferPrepArray);
 
-            int nn = sizeof(bufferPrepArray) / sizeof(bufferPrepArray[0]);
 
-            std::string bufferString(bufferPrepArray, bufferPrepArray + nn);
-            std::cout << "SIZE! " << sizeof(pointsData) << " " << zipPrepVec.size() << " " << zippedFile.size() << " " << sizeof(bufferPrepArray) << endl;
+            char const * bufferFinalArray = reinterpret_cast<char const *>(bufferPrepArray);
+            std::cout << "SIZE! " << sizeof(bufferPrepArray) << sizeof(bufferFinalArray) << endl;
 
-            depthVideoBuffer.set(bufferPrepArray);
+            depthVideoBuffer.set(bufferFinalArray);
 
             rgbCv.setFromPixels(colorData, settings.width, 1);
             rgbCv.flagImageChanged();
