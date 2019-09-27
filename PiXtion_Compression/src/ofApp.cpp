@@ -87,7 +87,7 @@ void ofApp::update() {
             int nn = sizeof(bufferPrepArray) / sizeof(bufferPrepArray[0]);
 
             std::string bufferString(bufferPrepArray, bufferPrepArray + nn);
-            std::cout << "SIZE! " << sizeof(pointsData) << " " << zipPrepVec.size() << " " << zippedFile.size() << " " << sizeof(bufferString) << endl;
+            std::cout << "SIZE! " << sizeof(pointsData) << " " << zipPrepVec.size() << " " << zippedFile.size() << " " << sizeof(bufferPrepArray) << endl;
 
             depthVideoBuffer.set(bufferString);
 
