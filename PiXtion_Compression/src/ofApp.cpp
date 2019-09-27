@@ -76,14 +76,17 @@ void ofApp::update() {
             }
 
             char const * pPoints = reinterpret_cast<char const *>(pointsData);
+            
             int n = sizeof(pointsData) / sizeof(pointsData[0]);
             vector<unsigned char> zipPrepVec(pPoints, pPoints+n);
             vector<unsigned char> zippedFile = ofxZip::compress(zipPrepVec);
 
-            std::cout << "SIZE! " << sizeof(pointsData) << " " << sizeof(pointsData[0]) << " " << sizeof(pPoints) << " " << sizeof(zipPrepVec) << " " << zippedFile.size() << endl;
-            unsigned char bufferPrepArray[zippedFile.size()];
+            std::cout << "SIZE! " << sizeof(pointsData) << " " << sizeof(pointsData[0]) << " " << sizeof(pPoints) << " " << zipPrepVec.size() << " " << zippedFile.size() << endl;
+            unsigned char bufferPrepArray[zippedFile.size()*4];
             std::copy(zippedFile.begin(), zippedFile.end(), bufferPrepArray);
-            std::string bufferString(bufferPrepArray, bufferPrepArray + zippedFile.size());
+
+            std::string bufferString(bufferPrepArray, bufferPrepArray + zippedFile.size()*4);
+
             depthVideoBuffer.set(bufferString);
 
             rgbCv.setFromPixels(colorData, settings.width, 1);
