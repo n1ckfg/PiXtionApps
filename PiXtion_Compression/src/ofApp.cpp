@@ -81,11 +81,11 @@ void ofApp::update() {
             vector<unsigned char> zipPrepVec(pPoints, pPoints+n);
             vector<unsigned char> zippedFile = ofxZip::compress(zipPrepVec);
 
-            std::cout << "SIZE! " << sizeof(pointsData) << " " << sizeof(pointsData[0]) << " " << sizeof(pPoints) << " " << zipPrepVec.size() << " " << zippedFile.size() << endl;
             unsigned char bufferPrepArray[zippedFile.size()*4];
             std::copy(zippedFile.begin(), zippedFile.end(), bufferPrepArray);
 
             std::string bufferString(bufferPrepArray, bufferPrepArray + zippedFile.size()*4);
+            std::cout << "SIZE! " << sizeof(pointsData) << " " << zipPrepVec.size() << " " << zippedFile.size() << " " << sizeof(bufferString) << endl;
 
             depthVideoBuffer.set(bufferString);
 
