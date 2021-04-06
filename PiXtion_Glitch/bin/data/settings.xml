@@ -1,0 +1,23 @@
+<settings>
+    <width>640</width>
+    <height>480</height>
+    <fps>30</fps>
+    <!-- * -->
+    <host>BrazilV.local</host>
+    <port>7110</port>
+    <videoQuality>3</videoQuality>
+    <!-- * -->
+    <doColor>false</doColor>
+    <doDepth>true</doDepth>
+    <doRawDepth>false</doRawDepth>
+    <doIr>false</doIr>
+    <drawColor>true</drawColor>
+    <drawDepth>true</drawDepth>
+    <drawIr>false</drawIr>
+    <mirror>false</mirror>
+    <registered>true</registered>
+    <simplify>0.9</simplify>
+    <smooth>3</smooth>
+    <do_osc_contours>0</do_osc_contours>
+    <draw_contours>1</draw_contours>
+</settings>
