@@ -55,7 +55,7 @@ void ofApp::update() {
     if (isReady) {
         oniGrabber.update();
         
-        colorCv.setFromPixels(oniGrabber.rgbSource.currentPixels->getPixels(), settings.width, settings.height);
+        colorCv.setFromPixels(oniGrabber.depthSource.currentPixels->getPixels(), settings.width, settings.height);
         colorCv.mirror(false, mirror);
         colorCv.flagImageChanged();
         toOf(colorCv.getCvImage(), color.getPixelsRef());
@@ -94,7 +94,6 @@ void ofApp::update() {
 
             line.simplify(simplify);
             line = line.getSmoothed(smooth, 0.5);
-            line.draw();
 
             /*
             vector<ofPoint> points = line.getVertices();
@@ -122,6 +121,7 @@ void ofApp::update() {
 void ofApp::draw() {
     //ofSetColor(255,255,255);
     //ofBackground(0,0,0);
+    line.draw();
 }
 
 //--------------------------------------------------------------
