@@ -35,10 +35,6 @@ void ofApp::setup() {
 	doOscContours = ofToBool(XML.getValue("settings:do_osc_contours", "true"));
 	drawContours = ofToBool(XML.getValue("settings:draw_contours", "false"));
 	
-	if (drawContours) {
-		ofSetWindowShape(640, 480);
-	}
-
 	grayImage.allocate(settings.width, settings.height);
     gray.allocate(settings.width, settings.height, OF_IMAGE_GRAYSCALE);        
     colorImage.allocate(settings.width, settings.height);
@@ -53,7 +49,7 @@ void ofApp::setup() {
 	compname = createCompName("RPi");
     sender.setup(host, port);
     
-    contourSlices = 10;
+    contourSlices = 5;
     contourThreshold = 2.0;
     contourMinAreaRadius = 1.0;
     contourMaxAreaRadius = 250.0;
