@@ -64,7 +64,7 @@ void ofApp::update() {
         unsigned char * pixels = color.getPixels();
 
         for (int y=0; y<(int)settings.height; y ++) {
-            line.clear();
+            //line.clear();
 
             int mx = int(settings.width/2);
             int loc = (mx + y * settings.width) * 3;
@@ -94,6 +94,7 @@ void ofApp::update() {
 
             line.simplify(simplify);
             line = line.getSmoothed(smooth, 0.5);
+            line.draw();
 
             /*
             vector<ofPoint> points = line.getVertices();
@@ -121,7 +122,6 @@ void ofApp::update() {
 void ofApp::draw() {
     //ofSetColor(255,255,255);
     //ofBackground(0,0,0);
-    line.draw();
 }
 
 //--------------------------------------------------------------
