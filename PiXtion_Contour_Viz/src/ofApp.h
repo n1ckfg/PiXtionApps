@@ -30,6 +30,8 @@ class ofApp : public ofBaseApp {
 		ofxCvColorImage colorImage; // rgb cam image
 		ofImage gray;
 		ofImage color;
+		ofPixels pixels;
+		ofFbo fbo;
 
         ofxXmlSettings XML;
         string xmlStructure;

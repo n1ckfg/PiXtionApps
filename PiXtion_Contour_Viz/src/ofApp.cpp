@@ -33,10 +33,12 @@ void ofApp::setup() {
 	drawDepth = ofToBool(XML.getValue("settings:drawDepth", "true"));
 	drawIr = ofToBool(XML.getValue("settings:drawIr", "false"));
 
-	grayImage.allocate(settings.width, settings.height);
-    gray.allocate(settings.width, settings.height, OF_IMAGE_GRAYSCALE);        
-    colorImage.allocate(settings.width, settings.height);
-    color.allocate(settings.width, settings.height, OF_IMAGE_COLOR);        
+	grayImage.allocate(ofGetWidth(), ofGetHeight());
+    gray.allocate(ofGetWidth(), ofGetHeight(), OF_IMAGE_GRAYSCALE);        
+    colorImage.allocate(ofGetWidth(), ofGetHeight());
+    color.allocate(ofGetWidth(), ofGetHeight(), OF_IMAGE_COLOR);        
+    pixels.allocate(ofGetWidth(), ofGetHeight(), OF_IMAGE_COLOR);        
+    fbo.allocate(ofGetWidth(), ofGetHeight(), GL_RGBA);
 
 	isReady = oniGrabber.setup(settings);
 
@@ -63,7 +65,12 @@ void ofApp::update() {
 	if (isReady) {
 		oniGrabber.update();
 		
-        colorImage.setFromPixels(oniGrabber.getIRPixels(), settings.width, settings.height);
+        ofTexture& ir = oniGrabber.getIRTextureReference();
+        fbo.begin();
+        ir.draw(0, 0, fbo.getWidth(), fbo.getHeight());
+        fbo.end();
+        fbo.readToPixels(pixels);
+        colorImage.setFromPixels(pixels);
         colorImage.mirror(false, mirror);
         colorImage.flagImageChanged();
         toOf(colorImage.getCvImage(), color.getPixelsRef());
