@@ -70,10 +70,10 @@ void ofApp::update() {
         ir.draw(0, 0, fbo.getWidth(), fbo.getHeight());
         fbo.end();
         fbo.readToPixels(pixels);
-        colorImage.setFromPixels(pixels);
-        colorImage.mirror(false, mirror);
-        colorImage.flagImageChanged();
-        toOf(colorImage.getCvImage(), color.getPixelsRef());
+        grayImage.setFromPixels(pixels);
+        grayImage.mirror(false, mirror);
+        grayImage.flagImageChanged();
+        toOf(grayImage.getCvImage(), color.getPixelsRef());
 	}
 }
 
