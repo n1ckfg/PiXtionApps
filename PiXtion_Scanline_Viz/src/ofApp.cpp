@@ -86,8 +86,8 @@ void ofApp::update() {
                 ofVec3f v;
                 v = oniGrabber.convertDepthToWorld(x, y);
                 if (v.z > minZ) {
-                	v.x *= xScale;
-                	v.y *+ yScale;
+                	//v.x *= xScale;
+                	//v.y *+ yScale;
                 	line.addVertex(v);
                 }
             }
