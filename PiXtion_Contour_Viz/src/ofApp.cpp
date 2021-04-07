@@ -63,7 +63,7 @@ void ofApp::update() {
 	if (isReady) {
 		oniGrabber.update();
 		
-        colorImage.setFromPixels(oniGrabber.IRSource.currentPixels->getPixels(), settings.width, settings.height);
+        colorImage.setFromPixels(oniGrabber.getIRPixels(), settings.width, settings.height);
         colorImage.mirror(false, mirror);
         colorImage.flagImageChanged();
         toOf(colorImage.getCvImage(), color.getPixelsRef());
