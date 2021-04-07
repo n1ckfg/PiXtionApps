@@ -41,6 +41,7 @@ class ofApp : public ofBaseApp {
 		int videoQuality; // 5 best to 1 worst, default 3 medium
 		bool videoColor;
 		ofBuffer videoBuffer;
+		ofFbo fbo;
 		
 		ofBuffer contourColorBuffer;
 		ofBuffer contourPointsBuffer;

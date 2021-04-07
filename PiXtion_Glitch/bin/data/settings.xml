@@ -1,6 +1,6 @@
 <settings>
-    <width>640</width>
-    <height>480</height>
+    <width>320</width>
+    <height>240</height>
     <fps>30</fps>
     <!-- * -->
     <host>BrazilV.local</host>

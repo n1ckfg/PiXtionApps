@@ -42,7 +42,8 @@ void ofApp::setup() {
 	grayImage.allocate(settings.width, settings.height);
     gray.allocate(settings.width, settings.height, OF_IMAGE_GRAYSCALE);        
     colorImage.allocate(settings.width, settings.height);
-    color.allocate(settings.width, settings.height, OF_IMAGE_COLOR);        
+    color.allocate(settings.width, settings.height, OF_IMAGE_COLOR);   
+    fbo.allocate(settings.width, settings.height, GL_RGBA);     
 
 	isReady = oniGrabber.setup(settings);
 
@@ -78,6 +79,7 @@ void ofApp::update() {
 
 //--------------------------------------------------------------
 void ofApp::draw() {
+    fbo.begin();
     ofSetColor(255,255,255);
     ofBackground(0,0,0);
 
@@ -153,6 +155,9 @@ void ofApp::draw() {
 }
 }
 	}
+    fbo.end();
+
+    fbo.draw(0, 0, ofGetWidth(), ofGetHeight());
 }
 
 //--------------------------------------------------------------
