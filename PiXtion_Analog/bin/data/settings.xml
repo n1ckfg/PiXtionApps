@@ -1,0 +1,10 @@
+<settings>
+    <width>640</width>
+    <height>480</height>
+    <fps>30</fps>
+    <!-- * -->
+    <doColor>true</doColor>
+    <doDepth>true</doDepth>
+    <doIr>false</doIr>
+    <registered>true</registered>
+</settings>
