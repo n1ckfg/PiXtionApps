@@ -145,9 +145,15 @@ void ofApp::sendOscContours(int index) {
     msg.setAddress("/contour");
     msg.addStringArg(compname);
 
+    // for compatibility
+    msg.addStringArg("none");
+
     msg.addIntArg(index);
     msg.addBlobArg(contourColorBuffer);
     msg.addBlobArg(contourPointsBuffer);
+
+    // for compatibility
+    msg.addIntArg(0);
 
     sender.sendMessage(msg);
 }
