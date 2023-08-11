@@ -51,7 +51,7 @@ void ofApp::setup() {
    
     // the actual RPi hostname 
     ofBuffer hostNameFile = ofBufferFromFile("/etc/hostname");
-    hostName = cleanString(hostNameFile.getLines()[0]);
+    hostName = cleanString(hostNameFile.getText());
     
     timestamp = 0;
     contourSlices = 10;
