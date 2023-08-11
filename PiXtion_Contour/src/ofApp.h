@@ -31,6 +31,7 @@ class ofApp : public ofBaseApp {
 		ofImage gray;
 		ofImage color;
 
+		ofFile file;
         ofxXmlSettings XML;
         string xmlStructure;
         string message;
