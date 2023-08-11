@@ -45,26 +45,21 @@ void ofApp::setup() {
 	oscPort = XML.getValue("settings:port", 7110);
     sender.setup(oscHost, oscPort);
 
-    // ~ ~ ~   get a persistent name for this computer   ~ ~ ~
     // a randomly generated id
-    uniqueId = "RPi";
-    file.open(ofToDataPath("unique_id.txt"), ofFile::ReadWrite, false);
+    sessionId = "RPi_" + ofGetTimestampString("%y%m%d%H%M%S%i");
+    sessionId = cleanString(sessionId);
+   
+    // the actual RPi hostname    
+    file.open("/etc/hostname", ofFile::ReadWrite, false);
     ofBuffer buff;
     if (file) { // use existing file if it's there
         buff = file.readToBuffer();
-        uniqueId = buff.getText();
-    } else { // otherwise make a new one
-        uniqueId += "_" + ofGetTimestampString("%y%m%d%H%M%S%i");
-        uniqueId = cleanString(uniqueId);
-        buff.set(uniqueId.c_str(), uniqueId.size());
-        ofBufferToFile("unique_id.txt", buff);
-    }
-   
-    // the actual RPi hostname
-    //ofSystem("cp /etc/hostname " + ofToDataPath("DocumentRoot/js/"));
-    hostName = cleanString(ofSystem("cat /etc/hostname"));
-    //hostName.pop_back(); // last char is \n
+        hostName = cleanString(buff.getText());
+    } else {
+    	hostName = "none";
+    }  
     
+    timestamp = 0;
     contourSlices = 10;
     contourThreshold = 2.0;
     contourMinAreaRadius = 1.0;
@@ -162,14 +157,13 @@ void ofApp::exit() {
 void ofApp::sendOscContours(int index) {
     ofxOscMessage msg;
     msg.setAddress("/contour");
+    
     msg.addStringArg(hostName);
-    msg.addStringArg(uniqueId);
+    msg.addStringArg(sessionId);
     msg.addIntArg(index);
     msg.addBlobArg(contourColorBuffer);
     msg.addBlobArg(contourPointsBuffer);
-
-    // for compatibility
-    msg.addIntArg(0);
+    msg.addIntArg(timestamp);
 
     sender.sendMessage(msg);
 }
