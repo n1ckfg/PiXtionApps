@@ -35,9 +35,9 @@ class ofApp : public ofBaseApp {
         string xmlStructure;
         string message;
 
-        string compname;
-		string host; // hostname;
-		int port; // default 7110;
+		string uniqueId, hostName; 
+		string oscHost; // hostname;
+		int oscPort; // default 7110;
 		int videoQuality; // 5 best to 1 worst, default 3 medium
 		bool videoColor;
 		ofBuffer videoBuffer;

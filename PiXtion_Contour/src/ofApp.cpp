@@ -41,10 +41,29 @@ void ofApp::setup() {
 	isReady = oniGrabber.setup(settings);
 
     videoQuality = XML.getValue("settings:videoQuality", 3);
-	host = XML.getValue("settings:host", "127.0.0.1");
-	port = XML.getValue("settings:port", 7110);
-	compname = createCompName("RPi");
-    sender.setup(host, port);
+	oscHost = XML.getValue("settings:host", "127.0.0.1");
+	oscPort = XML.getValue("settings:port", 7110);
+    sender.setup(oscHost, oscPort);
+
+    // ~ ~ ~   get a persistent name for this computer   ~ ~ ~
+    // a randomly generated id
+    uniqueId = "RPi";
+    file.open(ofToDataPath("unique_id.txt"), ofFile::ReadWrite, false);
+    ofBuffer buff;
+    if (file) { // use existing file if it's there
+        buff = file.readToBuffer();
+        uniqueId = buff.getText();
+    } else { // otherwise make a new one
+        uniqueId += "_" + ofGetTimestampString("%y%m%d%H%M%S%i");
+        uniqueId = cleanString(uniqueId);
+        buff.set(uniqueId.c_str(), uniqueId.size());
+        ofBufferToFile("unique_id.txt", buff);
+    }
+   
+    // the actual RPi hostname
+    ofSystem("cp /etc/hostname " + ofToDataPath("DocumentRoot/js/"));
+    hostName = ofSystem("cat /etc/hostname");
+    hostName.pop_back(); // last char is \n
     
     contourSlices = 10;
     contourThreshold = 2.0;
@@ -143,11 +162,8 @@ void ofApp::exit() {
 void ofApp::sendOscContours(int index) {
     ofxOscMessage msg;
     msg.setAddress("/contour");
-    msg.addStringArg(compname);
-
-    // for compatibility
-    msg.addStringArg("none");
-
+    msg.addStringArg(hostName);
+    msg.addStringArg(uniqueId);
     msg.addIntArg(index);
     msg.addBlobArg(contourColorBuffer);
     msg.addBlobArg(contourPointsBuffer);
