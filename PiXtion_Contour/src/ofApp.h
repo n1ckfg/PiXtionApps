@@ -56,5 +56,6 @@ class ofApp : public ofBaseApp {
 
 		ofxOscSender sender;
 		void sendOscContours(int index);
+		string cleanString(string input);
 
 };

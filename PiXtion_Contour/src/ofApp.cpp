@@ -174,3 +174,8 @@ void ofApp::sendOscContours(int index) {
     sender.sendMessage(msg);
 }
 
+string ofApp::cleanString(string input) {
+    ofStringReplace(input, "\n", "");
+    ofStringReplace(input, "\r", ""); 
+    return input;   
+}
