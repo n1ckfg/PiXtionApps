@@ -61,7 +61,7 @@ void ofApp::setup() {
     }
    
     // the actual RPi hostname
-    ofSystem("cp /etc/hostname " + ofToDataPath("DocumentRoot/js/"));
+    //ofSystem("cp /etc/hostname " + ofToDataPath("DocumentRoot/js/"));
     hostName = cleanString(ofSystem("cat /etc/hostname"));
     //hostName.pop_back(); // last char is \n
     
