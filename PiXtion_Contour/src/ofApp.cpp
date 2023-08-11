@@ -49,15 +49,9 @@ void ofApp::setup() {
     sessionId = "RPi_" + ofGetTimestampString("%y%m%d%H%M%S%i");
     sessionId = cleanString(sessionId);
    
-    // the actual RPi hostname    
-    file.open("/etc/hostname", ofFile::ReadWrite, false);
-    ofBuffer buff;
-    if (file) { // use existing file if it's there
-        buff = file.readToBuffer();
-        hostName = cleanString(buff.getText());
-    } else {
-    	hostName = "none";
-    }  
+    // the actual RPi hostname 
+    ofBuffer hostNameFile = ofBufferFromFile("/etc/hostname");
+    hostName = cleanString(hostNameFile.getLines()[0]);
     
     timestamp = 0;
     contourSlices = 10;
