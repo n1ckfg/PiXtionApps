@@ -37,13 +37,13 @@ void ofApp::setup() {
 
     depthVideoQuality = XML.getValue("settings:depth_video_quality", 3);
     rgbVideoQuality = XML.getValue("settings:rgb_video_quality", 3);
-    host = XML.getValue("settings:host", "127.0.0.1");
-    port = XML.getValue("settings:port", 7110);
+    oscHost = XML.getValue("settings:host", "127.0.0.1");
+    oscPort = XML.getValue("settings:port", 7110);
     
     hostName = getHostName();
     sessionId = getSessionId();
     
-    sender.setup(host, port);
+    sender.setup(oscHost, oscPort);
     
     minZ = 0.21;
     simplify = XML.getValue("settings:simplify", 0.5);

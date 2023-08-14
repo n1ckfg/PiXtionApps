@@ -34,7 +34,8 @@ class ofApp : public ofBaseApp {
         string message;
 
 		string hostName, sessionId;
-		int port; // default 7110;
+		string oscHost;
+		int oscPort; // default 7110;
 		int depthVideoQuality, rgbVideoQuality; // 5 best to 1 worst, default 3 medium
 		ofBuffer depthVideoBuffer, rgbVideoBuffer;
 		
