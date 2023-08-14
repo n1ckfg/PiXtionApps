@@ -1,10 +1,10 @@
 #include "ofApp.h"
 #include "ofConstants.h"
-#include "../../common/src/PiXtionUtils.hpp"
+#include "../../../core/common/src/PinopticonUtils.hpp"
 
 using namespace cv;
 using namespace ofxCv;
-using namespace PiXtionUtils;
+using namespace PinopticonUtils;
 
 //--------------------------------------------------------------
 void ofApp::setup() {
@@ -45,13 +45,8 @@ void ofApp::setup() {
 	oscPort = XML.getValue("settings:port", 7110);
     sender.setup(oscHost, oscPort);
 
-    // a randomly generated id
-    sessionId = "RPi_" + ofGetTimestampString("%y%m%d%H%M%S%i");
-    sessionId = cleanString(sessionId);
-   
-    // the actual RPi hostname 
-    ofBuffer hostNameFile = ofBufferFromFile("/etc/hostname");
-    hostName = cleanString(hostNameFile.getText());
+    sessionId = getSessionId();   
+    hostName = getHostName();
     
     timestamp = 0;
     contourSlices = 10;
