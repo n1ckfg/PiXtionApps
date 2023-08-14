@@ -1,10 +1,10 @@
 #include "ofApp.h"
 #include "ofConstants.h"
-#include "../../common/src/PiXtionUtils.hpp"
+#include "../../../core/common/src/PinopticonUtils.hpp"
 
 using namespace cv;
 using namespace ofxCv;
-using namespace PiXtionUtils;
+using namespace PinopticonUtils;
 
 //--------------------------------------------------------------
 void ofApp::setup() {
@@ -39,7 +39,10 @@ void ofApp::setup() {
     rgbVideoQuality = XML.getValue("settings:rgb_video_quality", 3);
     host = XML.getValue("settings:host", "127.0.0.1");
     port = XML.getValue("settings:port", 7110);
-    compname = createCompName("RPi");
+    
+    hostName = getHostName();
+    sessionId = getSessionId();
+    
     sender.setup(host, port);
     
     minZ = 0.21;
@@ -121,12 +124,15 @@ void ofApp::exit() {
 //--------------------------------------------------------------
 void ofApp::sendOscScanline(int index) {
     ofxOscMessage msg;
-    msg.setAddress("/scanline");
-    msg.addStringArg(compname);
+    msg.setAddress("/contour");
+    msg.addStringArg(hostName);
+    msg.addStringArg(sessionId);
 
     msg.addIntArg(index);
     msg.addBlobArg(colorBuffer);
     msg.addBlobArg(pointsBuffer);
+
+    msg.addIntArg(0);
 
     sender.sendMessage(msg);
 }
