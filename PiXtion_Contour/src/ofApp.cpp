@@ -1,10 +1,10 @@
 #include "ofApp.h"
 #include "ofConstants.h"
-#include "../../../core/common/src/PinopticonUtils.hpp"
+#include "../../../core/common/src/Pinopticon.hpp"
 
 using namespace cv;
 using namespace ofxCv;
-using namespace PinopticonUtils;
+using namespace Pinopticon;
 
 //--------------------------------------------------------------
 void ofApp::setup() {
