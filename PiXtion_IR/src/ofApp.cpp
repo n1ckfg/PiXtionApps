@@ -1,5 +1,7 @@
 #include "ofApp.h"
 
+#include "../../../core/common/src/Pinopticon.hpp"
+
 //--------------------------------------------------------------
 void ofApp::setup() {
 	ofBackground(0, 0, 0, 128);

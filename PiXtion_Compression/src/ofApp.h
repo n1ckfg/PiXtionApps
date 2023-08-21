@@ -10,8 +10,6 @@
 #include "ofxXmlSettings.h"
 #include "ofxZip.h"
 
-#include "../../../core/common/src/Pinopticon.hpp"
-
 class ofApp : public ofBaseApp {
 
 	public:

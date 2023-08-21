@@ -9,8 +9,6 @@
 #include "ofxOsc.h"
 #include "ofxXmlSettings.h"
 
-#include "../../../core/common/src/Pinopticon.hpp"
-
 class ofApp : public ofBaseApp {
 
 	public:
