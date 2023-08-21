@@ -1,5 +1,5 @@
 #include "ofApp.h"
-#include "ofConstants.h"
+
 //--------------------------------------------------------------
 void ofApp::setup() {
 	ofBackground(0, 0, 0, 128);

@@ -1,6 +1,4 @@
 #include "ofApp.h"
-#include "ofConstants.h"
-#include "../../../core/common/src/Pinopticon.hpp"
 
 using namespace cv;
 using namespace ofxCv;

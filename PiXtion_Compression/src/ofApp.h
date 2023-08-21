@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include "ofConstants.h"
 #include "ofxOpenNI2Grabber.h"
 #include "ofxOpenNI2Recorder.h"
 #include "ofxOpenCv.h"
@@ -8,6 +9,8 @@
 #include "ofxOsc.h"
 #include "ofxXmlSettings.h"
 #include "ofxZip.h"
+
+#include "../../../core/common/src/Pinopticon.hpp"
 
 class ofApp : public ofBaseApp {
 
