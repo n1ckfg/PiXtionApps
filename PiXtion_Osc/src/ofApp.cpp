@@ -2,7 +2,7 @@
 
 #include "../../../core/common/src/Pinopticon.hpp"
 
-using namespace PiXtionUtils;
+using namespace Pinopticon;
 
 //--------------------------------------------------------------
 void ofApp::setup() {

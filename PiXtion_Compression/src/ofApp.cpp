@@ -4,7 +4,7 @@
 
 using namespace cv;
 using namespace ofxCv;
-using namespace PiXtionUtils;
+using namespace Pinopticon;
 
 //--------------------------------------------------------------
 void ofApp::setup() {
