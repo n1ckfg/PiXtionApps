@@ -3,7 +3,7 @@
     <height>240</height>
     <fps>30</fps>
     <!-- * -->
-    <host>BrazilV.local</host>
+    <host>Megalodon.local</host>
     <port>7110</port>
     <videoQuality>3</videoQuality>
     <!-- * -->
@@ -16,7 +16,7 @@
     <drawIr>false</drawIr>
     <mirror>false</mirror>
     <registered>true</registered>
-    <contour_slicesy>10</contour_slices>
+    <contour_slices>10</contour_slices>
     <simplify>0.9</simplify>
     <smooth>3</smooth>
 </settings>
