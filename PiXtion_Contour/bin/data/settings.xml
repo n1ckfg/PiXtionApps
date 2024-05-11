@@ -16,6 +16,7 @@
     <drawIr>false</drawIr>
     <mirror>false</mirror>
     <registered>true</registered>
+    <contour_slicesy>10</contour_slices>
     <simplify>0.9</simplify>
     <smooth>3</smooth>
 </settings>

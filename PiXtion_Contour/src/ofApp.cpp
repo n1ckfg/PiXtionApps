@@ -57,6 +57,7 @@ void ofApp::setup() {
     contourFinder.setMaxAreaRadius(contourMaxAreaRadius);
     trackingColorMode = TRACK_COLOR_RGB;
     minZ = 0.21;
+    contourSlices = XML.getValue("settings:contour_slices", 10);
     simplify = XML.getValue("settings:simplify", 0.5);
     smooth = XML.getValue("settings:smooth", 2);
 }
