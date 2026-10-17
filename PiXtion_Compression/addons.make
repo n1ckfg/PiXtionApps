@@ -6,3 +6,4 @@ ofxOpenCv
 ofxCv
 ofxOsc
 ofxZip
+ofxOpenNI2Grabber

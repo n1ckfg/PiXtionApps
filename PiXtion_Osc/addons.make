@@ -3,3 +3,4 @@
 
 ofxXmlSettings
 ofxOsc
+ofxOpenNI2Grabber

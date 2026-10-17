@@ -1,5 +1,7 @@
 ~ ~ ~   PiXtionApps   ~ ~ ~
 
+All apps need the ofxOpenNI2Grabber addon (https://github.com/n1ckfg/ofxOpenNI2Grabber) in openFrameworks/addons.
+
 1. PiXtion_Analog
 Draws depth and color maps onscreen at a fixed 720x480 layout, for analog video out.
 

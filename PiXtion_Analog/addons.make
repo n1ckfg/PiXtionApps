@@ -2,3 +2,4 @@
 # uncomment a line below to include the addon
 
 ofxXmlSettings
+ofxOpenNI2Grabber
