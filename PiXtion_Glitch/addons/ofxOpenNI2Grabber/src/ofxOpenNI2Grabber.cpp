@@ -81,7 +81,7 @@ bool ofxOpenNI2Grabber::setup(ofxOpenNI2GrabberSettings settings_)
 		
 	}
 	isReady = true;
-	startThread(false, false);
+	startThread();
 	return isReady;
 }
 
@@ -124,13 +124,13 @@ void ofxOpenNI2Grabber::draw()
 
 ofPixels & ofxOpenNI2Grabber::getDepthPixels()
 {
-	Poco::ScopedLock<ofMutex> lock(mutex);
+	std::unique_lock<std::mutex> lock(mutex);
 	return *depthSource.currentPixels;
 }
 
 ofShortPixels & ofxOpenNI2Grabber::getDepthRawPixels()
 {
-	Poco::ScopedLock<ofMutex> lock(mutex);
+	std::unique_lock<std::mutex> lock(mutex);
 	
 	if (!settings.doRawDepth)
 	{
@@ -142,13 +142,13 @@ ofShortPixels & ofxOpenNI2Grabber::getDepthRawPixels()
 
 ofPixels & ofxOpenNI2Grabber::getRGBPixels()
 {
-	Poco::ScopedLock<ofMutex> lock(mutex);
+	std::unique_lock<std::mutex> lock(mutex);
 	return *rgbSource.currentPixels;
 }
 
 ofPixels & ofxOpenNI2Grabber::getIRPixels()
 {
-	Poco::ScopedLock<ofMutex> lock(mutex);
+	std::unique_lock<std::mutex> lock(mutex);
 	return *irSource.currentPixels;
 }
 
@@ -173,12 +173,13 @@ bool ofxOpenNI2Grabber::close()
 	isReady = false;
 	//stopThread();
 	waitForThread(true);
-    OpenNI::shutdown();
+	// streams and device must be closed before shutdown, or the PS1080 driver deadlocks
 	if (depthSource.isOn) depthSource.close();
 	if (rgbSource.isOn) rgbSource.close();
 	if (irSource.isOn) irSource.close();
 	deviceController.close();
-	
+	OpenNI::shutdown();
+
 	
 	return isReady;
 	//

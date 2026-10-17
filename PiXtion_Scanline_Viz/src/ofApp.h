@@ -47,6 +47,7 @@ class ofApp : public ofBaseApp {
 		
 		ofPolyline line;
 		float xScale, yScale;
+		ofEasyCam cam;
 		
 		ofxOscSender sender;
 		void sendOscScanline(int index);

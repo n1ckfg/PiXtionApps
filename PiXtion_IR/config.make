@@ -49,6 +49,8 @@
 #   Note: Leave a leading space when adding list items with the += operator
 ################################################################################
 # PROJECT_EXTERNAL_SOURCE_PATHS = 
+# OF 0.12 only scans src/ by default, so add the local addon explicitly
+PROJECT_EXTERNAL_SOURCE_PATHS = $(PROJECT_ROOT)/addons/ofxOpenNI2Grabber/src
 
 ################################################################################
 # PROJECT EXCLUSIONS
@@ -89,11 +91,17 @@
 # incorporated directly into the final executable application binary.
 # TODO: should this be a default setting?
 ################################################################################
+ifeq ($(shell uname -m),aarch64)
+# 64-bit Pi OS: the bundled OpenNI2 libs are 32-bit only, so link the system
+# OpenNI2 instead (libopenni2-0, which includes the PS1080 driver for the Xtion)
+PROJECT_LDFLAGS=-l:libOpenNI2.so.0 -Wl,-rpath=./libs
+else
 OPENNI2_LIBS = $(PROJECT_ROOT)/addons/ofxOpenNI2Grabber/libs/openni2/libs/rpi
 OpenNI2_STATIC=$(OPENNI2_LIBS)/libOpenNI2.a
 XN_STATIC_LIB = $(OPENNI2_LIBS)/libXnLib.a
 
 PROJECT_LDFLAGS=-L$(OPENNI2_LIBS) $(OpenNI2_STATIC) $(XN_STATIC_LIB) -Wl,-rpath=./libs 
+endif
 
 ################################################################################
 # PROJECT DEFINES
@@ -121,7 +129,7 @@ PROJECT_LDFLAGS=-L$(OPENNI2_LIBS) $(OpenNI2_STATIC) $(XN_STATIC_LIB) -Wl,-rpath=
 #
 #   Note: Leave a leading space when adding list items with the += operator
 ################################################################################
-PROJECT_CFLAGS = -I $(PROJECT_DIR)addons/ofxOpenNI2Grabber/libs/openni2/include -I$(WIRING_PI_INCLUDE_DIR)
+PROJECT_CFLAGS = -I $(PROJECT_DIR)addons/ofxOpenNI2Grabber/libs/openni2/include
 
 ################################################################################
 # PROJECT OPTIMIZATION CFLAGS

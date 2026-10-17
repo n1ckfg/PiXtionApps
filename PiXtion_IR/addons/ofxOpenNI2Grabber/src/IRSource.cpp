@@ -30,6 +30,19 @@ bool IRSource::setup(DeviceController& deviceController)
 	if (status == STATUS_OK)
 	{
 		ofLogVerbose() << "Find IRSource videoStream PASS";
+		// set the mode before starting: changing it on a running stream
+		// leaves the PS1080 driver (Xtion) delivering no frames
+		if(!deviceController.settings.useOniFile && !deviceController.isKinect)
+		{
+			const VideoMode* requestedMode = deviceController.findMode(SENSOR_IR);
+			if (requestedMode != NULL)
+			{
+				videoStream.setVideoMode(*requestedMode);
+			}
+			else{
+				ofLogError() << "IRSource unsupported mode";
+			}
+		}
 		status = videoStream.start();
 		if (status == STATUS_OK)
 		{
@@ -47,17 +60,6 @@ bool IRSource::setup(DeviceController& deviceController)
 	}
 	if (videoStream.isValid())
 	{
-		if(!deviceController.settings.useOniFile && !deviceController.isKinect)
-		{
-			const VideoMode* requestedMode = deviceController.findMode(SENSOR_IR);
-			if (requestedMode != NULL) 
-			{
-				videoStream.setVideoMode(*requestedMode);
-			}
-			else{
-				ofLogError() << "IRSource unsupported mode";
-			}
-		}
 		allocateBuffers();
 		status = videoStream.addNewFrameListener(this);
 		if (status == STATUS_OK)
@@ -131,7 +133,8 @@ void IRSource::onNewFrame(VideoStream& stream)
 void IRSource::close()
 {
 	ofLogVerbose() << "IRSource close";
-	videoStream.stop();
+	// remove the listener before stopping, or stop() can deadlock with an in-flight onNewFrame
 	videoStream.removeNewFrameListener(this);
+	videoStream.stop();
 	videoStream.destroy();
 }

@@ -37,7 +37,7 @@ void ofApp::setup() {
 	
     host = XML.getValue("settings:host", "127.0.0.1");
 	port = XML.getValue("settings:port", 7110);
-	compname = createCompName("RPi");
+	compname = getHostName();
     sender.setup(host, port);
 }
 

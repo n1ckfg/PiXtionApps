@@ -12,6 +12,9 @@ void ofApp::setup() {
 	settings.height = XML.getValue("settings:height", 240);
 	settings.fps = XML.getValue("settings:fps", 30);;
 
+	// depth and color/IR are drawn side by side
+	ofSetWindowShape(settings.width * 2, settings.height);
+
 	settings.doDepth = ofToBool(XML.getValue("settings:doDepth", "true"));
 	settings.doColor = ofToBool(XML.getValue("settings:doColor", "true")) ;
 	settings.doIr = ofToBool(XML.getValue("settings:doIr", "false")) ;

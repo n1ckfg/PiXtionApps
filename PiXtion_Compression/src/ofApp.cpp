@@ -1,4 +1,5 @@
 #include "ofApp.h"
+#include <zlib.h>
 
 #include "../../../core/common/src/Pinopticon.hpp"
 
@@ -44,7 +45,7 @@ void ofApp::setup() {
     host = XML.getValue("settings:host", "127.0.0.1");
     port = XML.getValue("settings:port", 7110);
     
-    compname = createCompName("RPi");
+    compname = getHostName();
     sender.setup(host, port);      
 }
 
@@ -75,20 +76,22 @@ void ofApp::update() {
                 colorData[index+2] = pixels[loc+2];
             }
 
-            char const * charData1 = reinterpret_cast<char const *>(pointsData);      
-            int n = sizeof(pointsData) / sizeof(pointsData[0]);
-            vector<unsigned char> zipPrepVector(charData1, charData1 + n);
+            unsigned char const * charData1 = reinterpret_cast<unsigned char const *>(pointsData);
+            vector<unsigned char> zipPrepVector(charData1, charData1 + sizeof(pointsData));
             vector<unsigned char> zippedFile = ofxZip::compress(zipPrepVector);
 
-            unsigned char charData2[zippedFile.size()];
-            std::copy(zippedFile.begin(), zippedFile.end(), charData2);
-            char const * bufferArray = reinterpret_cast<char const *>(charData2);
-
-            depthVideoBuffer.set(bufferArray);
+            // ofxZip prepends a sizeof(uLongf) size header (8 bytes on 64-bit); strip it
+            // so the receiver gets a plain zlib stream for java.util.zip.Inflater
+            if (zippedFile.size() > sizeof(uLongf)) {
+                char const * bufferArray = reinterpret_cast<char const *>(zippedFile.data());
+                depthVideoBuffer.set(bufferArray + sizeof(uLongf), zippedFile.size() - sizeof(uLongf));
+            } else {
+                depthVideoBuffer.clear();
+            }
 
             rgbCv.setFromPixels(colorData, settings.width, 1);
             rgbCv.flagImageChanged();
-            toOf(rgbCv.getCvImage(), rgb.getPixelsRef());
+            toOf(rgbCv.getCvMat(), rgb.getPixels());
             imageToBuffer(rgb, rgbVideoBuffer, rgbVideoQuality);
 
             sendOscPoints(contourCounter);

@@ -70,7 +70,7 @@ void ofApp::update() {
         colorImage.setFromPixels(oniGrabber.rgbSource.currentPixels->getPixels(), settings.width, settings.height);
         colorImage.mirror(false, mirror);
         colorImage.flagImageChanged();
-        toOf(colorImage.getCvImage(), color.getPixelsRef());
+        toOf(colorImage.getCvMat(), color.getPixels());
 	}
 }
 
@@ -81,7 +81,7 @@ void ofApp::draw() {
 
 	if (isReady) {
         int contourCounter = 0;
-        unsigned char * pixels = color.getPixels();
+        unsigned char * pixels = color.getPixels().getData();
         int gw = color.getWidth();
 
         for (int h=0; h<255; h += int(255/contourSlices)) {
@@ -94,7 +94,7 @@ void ofApp::draw() {
                 ofPolyline line = contourFinder.getPolyline(i);
                 line.simplify(simplify);
                 line = line.getSmoothed(smooth, 0.5);
-                vector<ofPoint> cvPoints = line.getVertices();
+                vector<glm::vec3> cvPoints = line.getVertices();
                 vector<ofVec3f> cvCleanPoints;
 
                 int middle = int(cvPoints.size()/2);

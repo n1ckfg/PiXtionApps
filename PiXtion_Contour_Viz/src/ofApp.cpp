@@ -38,14 +38,15 @@ void ofApp::setup() {
     colorImage.allocate(ofGetWidth(), ofGetHeight());
     color.allocate(ofGetWidth(), ofGetHeight(), OF_IMAGE_COLOR);        
     pixels.allocate(ofGetWidth(), ofGetHeight(), OF_IMAGE_COLOR);        
-    fbo.allocate(ofGetWidth(), ofGetHeight(), GL_RGBA);
+    // RGB, so readToPixels gives the 3-channel pixels colorImage expects
+    fbo.allocate(ofGetWidth(), ofGetHeight(), GL_RGB);
 
 	isReady = oniGrabber.setup(settings);
 
     videoQuality = XML.getValue("settings:videoQuality", 3);
 	host = XML.getValue("settings:host", "127.0.0.1");
 	port = XML.getValue("settings:port", 7110);
-	compname = createCompName("RPi");
+	compname = getHostName();
     sender.setup(host, port);
     
     contourSlices = 10;
@@ -70,10 +71,10 @@ void ofApp::update() {
         ir.draw(0, 0, fbo.getWidth(), fbo.getHeight());
         fbo.end();
         fbo.readToPixels(pixels);
-        grayImage.setFromPixels(pixels);
-        grayImage.mirror(false, mirror);
-        grayImage.flagImageChanged();
-        toOf(grayImage.getCvImage(), color.getPixelsRef());
+        colorImage.setFromPixels(pixels);
+        colorImage.mirror(false, mirror);
+        colorImage.flagImageChanged();
+        toOf(colorImage.getCvMat(), color.getPixels());
 	}
 }
 
@@ -84,20 +85,20 @@ void ofApp::draw() {
 
 	if (isReady) {
         //int contourCounter = 0;
-        unsigned char * pixels = color.getPixels();
+        unsigned char * pixels = color.getPixels().getData();
         int gw = color.getWidth();
 
         for (int h=0; h<255; h += int(255/contourSlices)) {
             contourFinder.setThreshold(h);
             contourFinder.findContours(colorImage);
-            contourFinder.draw();            
+            //contourFinder.draw();            
 
             int n = contourFinder.size();
             for (int i = 0; i < n; i++) {
                 ofPolyline line = contourFinder.getPolyline(i);
                 line.simplify(simplify);
                 line = line.getSmoothed(smooth, 0.5);
-                vector<ofPoint> cvPoints = line.getVertices();
+                vector<glm::vec3> cvPoints = line.getVertices();
                 vector<ofVec3f> cvCleanPoints;
 
                 int middle = int(cvPoints.size()/2);

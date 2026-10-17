@@ -25,6 +25,16 @@ bool DepthSource::setup(DeviceController& deviceController)
 	if (status == STATUS_OK)
 	{
 		ofLogVerbose() << "Find DepthSource stream PASS";
+		// set the mode before starting: changing it on a running stream
+		// leaves the PS1080 driver (Xtion) delivering no frames
+		if(!deviceController.settings.useOniFile && !deviceController.isKinect)
+		{
+			const VideoMode* requestedMode = deviceController.findMode(SENSOR_DEPTH);
+			if (requestedMode != NULL)
+			{
+				videoStream.setVideoMode(*requestedMode);
+			}
+		}
 		status = videoStream.start();
 		if (status == STATUS_OK)
 		{
@@ -41,14 +51,6 @@ bool DepthSource::setup(DeviceController& deviceController)
 	}
 	if (videoStream.isValid())
 	{
-		if(!deviceController.settings.useOniFile && !deviceController.isKinect)
-		{
-			const VideoMode* requestedMode = deviceController.findMode(SENSOR_DEPTH);
-			if (requestedMode != NULL)
-			{
-				videoStream.setVideoMode(*requestedMode);
-			}
-		}
 		allocateBuffers();
 
 
@@ -202,7 +204,8 @@ void DepthSource::close()
 {
 	ofLogVerbose() << "DepthSource close";
 	isOn = false;
-	videoStream.stop();
+	// remove the listener before stopping, or stop() can deadlock with an in-flight onNewFrame
 	videoStream.removeNewFrameListener(this);
+	videoStream.stop();
 	videoStream.destroy();
 }

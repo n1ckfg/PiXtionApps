@@ -58,10 +58,10 @@ void ofApp::update() {
         colorCv.setFromPixels(oniGrabber.rgbSource.currentPixels->getPixels(), settings.width, settings.height);
         colorCv.mirror(false, mirror);
         colorCv.flagImageChanged();
-        toOf(colorCv.getCvImage(), color.getPixelsRef());
+        toOf(colorCv.getCvMat(), color.getPixels());
 
         int contourCounter = 0;
-        unsigned char * pixels = color.getPixels();
+        unsigned char * pixels = color.getPixels().getData();
 
         for (int y=0; y<(int)settings.height; y ++) {
             line.clear();
@@ -87,7 +87,7 @@ void ofApp::update() {
 
             line.simplify(simplify);
             line = line.getSmoothed(smooth, 0.5);
-            vector<ofPoint> points = line.getVertices();
+            vector<glm::vec3> points = line.getVertices();
 
             float pointsData[points.size() * 3]; 
 
